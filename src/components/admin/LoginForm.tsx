@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Icon } from "@/components/icons";
 
-export function LoginForm({ demoEmail, demoPassword }: { demoEmail?: string; demoPassword?: string }) {
+export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || "/admin";
@@ -36,12 +36,6 @@ export function LoginForm({ demoEmail, demoPassword }: { demoEmail?: string; dem
       setError("Network error. Please try again.");
       setLoading(false);
     }
-  };
-
-  const fillDemo = () => {
-    if (!demoEmail || !demoPassword) return;
-    setEmail(demoEmail);
-    setPassword(demoPassword);
   };
 
   return (
@@ -119,16 +113,6 @@ export function LoginForm({ demoEmail, demoPassword }: { demoEmail?: string; dem
         )}
       </button>
 
-      {demoEmail && demoPassword ? (
-        <button
-          type="button"
-          onClick={fillDemo}
-          className="neu-btn w-full !py-2.5 !text-[12px] text-navy-400"
-        >
-          <Icon.sparkles size={14} className="text-ceyteq-500" />
-          Use seeded demo credentials
-        </button>
-      ) : null}
     </form>
   );
 }

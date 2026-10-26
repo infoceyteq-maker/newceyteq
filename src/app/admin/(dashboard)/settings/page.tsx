@@ -116,8 +116,9 @@ export default async function SettingsPage() {
             Form templates
           </h2>
           <p className="mt-1 text-[12.5px] text-navy-400">
-            Templates are defined in <code className="font-mono text-[11.5px]">src/lib/templates.ts</code> and
-            seeded with <code className="font-mono text-[11.5px]">npm run db:seed</code>.
+            The production template lives in{" "}
+            <code className="font-mono text-[11.5px]">src/lib/templates.ts</code> and is provisioned by{" "}
+            <code className="font-mono text-[11.5px]">npm run db:seed</code>.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {TEMPLATES.map((template) => (
@@ -147,7 +148,7 @@ export default async function SettingsPage() {
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {[
               ["npm run dev", "Start the development server"],
-              ["npm run db:seed", "Seed admin + restaurant template"],
+              ["npm run db:seed", "Provision admin + onboarding form"],
               ["npm run db:stats", "Inspect the database contents"],
               ["npm run logo", "Regenerate the transparent logo assets"],
             ].map(([command, description]) => (

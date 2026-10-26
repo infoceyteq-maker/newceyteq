@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { ContactSection } from "@/components/site/ContactSection";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Icon } from "@/components/icons";
@@ -334,6 +335,9 @@ export default async function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* ------------------------------------------------------------- contact */}
+        <ContactSection />
 
         {/* ----------------------------------------------------------------- cta */}
         <section className="pb-16 sm:pb-20">

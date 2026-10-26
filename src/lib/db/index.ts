@@ -123,6 +123,16 @@ async function createNodePostgres(url: string): Promise<Queryable> {
 
 async function connect(): Promise<Queryable> {
   const url = process.env.DATABASE_URL?.trim() || "";
+
+  // The embedded database writes to the local filesystem, which is ephemeral on
+  // serverless platforms — never allow it to run a production deployment.
+  if (process.env.NODE_ENV === "production" && !isRemotePostgres(url)) {
+    throw new Error(
+      "DATABASE_URL must point at PostgreSQL (e.g. the Supabase pooler) in production. " +
+        "Apply db/schema.sql to that database before deploying.",
+    );
+  }
+
   const db = isRemotePostgres(url) ? await createNodePostgres(url) : await createPglite();
 
   // Idempotent — safe to run on every cold start.

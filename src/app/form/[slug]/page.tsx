@@ -7,6 +7,7 @@ import { Icon } from "@/components/icons";
 import { getSessionUser } from "@/lib/auth";
 import { formDTO } from "@/lib/forms";
 import { getFormBySlug } from "@/lib/services/forms-service";
+import { CONTACT, CONTACT_CHANNELS, SOCIAL_LINKS } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
@@ -126,13 +127,51 @@ export default async function PublicFormPage({ params }: PageProps) {
         <DynamicForm form={dto} preview={isPreview} />
       </main>
 
-      <footer className="relative z-10 border-t border-white/50 bg-white/25 px-4 py-6 backdrop-blur-sm sm:px-6">
-        <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-2 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
-          <p>© {new Date().getFullYear()} Ceyteq. Empowering Digital Evolution.</p>
-          <p className="flex items-center gap-1.5">
-            <Icon.shield size={13} />
-            Your data is processed under Ceyteq&apos;s privacy policy
-          </p>
+      <footer className="relative z-10 border-t border-white/50 bg-white/25 px-4 py-7 backdrop-blur-sm sm:px-6">
+        <div className="mx-auto max-w-4xl">
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            <a
+              href={CONTACT.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="neu-chip"
+            >
+              <Icon.whatsapp size={13} className="text-ceyteq-500" />
+              WhatsApp us
+            </a>
+            <a href={CONTACT.hotlineTel} className="neu-chip">
+              <Icon.phone size={13} className="text-ceyteq-500" />
+              {CONTACT_CHANNELS[0]?.value}
+            </a>
+            <a href={CONTACT.email} className="neu-chip">
+              <Icon.mail size={13} className="text-ceyteq-500" />
+              {CONTACT.emailAddress}
+            </a>
+            {SOCIAL_LINKS.map((social) => {
+              const Glyph = Icon[social.icon];
+              return (
+                <a
+                  key={social.id}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  title={social.label}
+                  className="neu-orb h-8 w-8 text-navy-400 transition-colors hover:text-ceyteq-500"
+                >
+                  <Glyph size={13} />
+                </a>
+              );
+            })}
+          </div>
+
+          <div className="mt-5 flex flex-col items-center justify-between gap-2 border-t border-white/60 pt-4 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
+            <p>© {new Date().getFullYear()} Ceyteq. Empowering Digital Evolution.</p>
+            <p className="flex items-center gap-1.5">
+              <Icon.shield size={13} />
+              Your answers are validated server-side and stored securely
+            </p>
+          </div>
         </div>
       </footer>
     </div>

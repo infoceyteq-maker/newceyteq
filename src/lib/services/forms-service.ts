@@ -17,6 +17,7 @@ import { formDTO } from "@/lib/forms";
 import type { FieldOption, FieldType, FormDTO } from "@/lib/types";
 import type { FormTemplate } from "@/lib/templates";
 import { isValidSlug, slugify } from "@/lib/utils";
+import { sanitizeIdentifier, sanitizeMultiline, sanitizeSingleLine } from "@/lib/sanitize";
 
 export type FormDefinitionInput = {
   title: string;
@@ -172,6 +173,40 @@ export async function createBlankForm(ownerId?: string) {
  * Full replace of a form definition inside one transaction so the builder can
  * reorder / rename / delete freely while the public form stays consistent.
  */
+const FIELD_TYPES = new Set([
+  "text",
+  "textarea",
+  "email",
+  "tel",
+  "url",
+  "number",
+  "select",
+  "radio",
+  "checkbox",
+  "color",
+  "color-multi",
+  "links",
+  "date",
+]);
+
+/** Only known config keys survive, each with a bounded JSON-safe value. */
+function sanitizeFieldConfig(config: unknown): Record<string, unknown> {
+  if (!config || typeof config !== "object" || Array.isArray(config)) return {};
+  const source = config as Record<string, unknown>;
+  const out: Record<string, unknown> = {};
+
+  if (source.width === "half" || source.width === "full") out.width = source.width;
+  for (const key of ["autoComplete", "pattern", "addLabel", "emptyHint"]) {
+    const value = source[key];
+    if (typeof value === "string") out[key] = sanitizeSingleLine(value, 120);
+  }
+  for (const key of ["min", "max", "maxLength", "minLength", "minSelections", "maxSelections", "rows"]) {
+    const value = source[key];
+    if (typeof value === "number" && Number.isFinite(value)) out[key] = value;
+  }
+  return out;
+}
+
 export async function saveFormDefinition(
   formId: string,
   input: FormDefinitionInput,
@@ -182,20 +217,36 @@ export async function saveFormDefinition(
 
   const cleanedSections: SectionInput[] = input.sections
     .map((section) => ({
-      title: section.title.trim() || "Untitled section",
-      description: section.description ?? "",
-      icon: section.icon ?? "spark",
-      fields: section.fields
-        .filter((field) => field.label.trim().length > 0)
+      title: sanitizeSingleLine(section.title, 160) || "Untitled section",
+      description: sanitizeMultiline(section.description, 600),
+      icon: sanitizeIdentifier(section.icon, 32) || "spark",
+      fields: (Array.isArray(section.fields) ? section.fields : [])
+        .filter(
+          (field) =>
+            field &&
+            typeof field.label === "string" &&
+            sanitizeSingleLine(field.label, 200).length > 0 &&
+            FIELD_TYPES.has(field.type),
+        )
+        .slice(0, 60)
         .map((field, fieldIndex) => ({
           key: fieldKey(field.key, field.label, fieldIndex),
-          label: field.label.trim(),
+          label: sanitizeSingleLine(field.label, 200),
           type: field.type,
-          placeholder: field.placeholder?.trim() ?? "",
-          helpText: field.helpText?.trim() ?? "",
-          required: field.required ?? false,
-          options: field.options ?? [],
-          config: (field.config ?? {}) as Record<string, unknown>,
+          placeholder: sanitizeSingleLine(field.placeholder, 240),
+          helpText: sanitizeMultiline(field.helpText, 400),
+          required: field.required === true,
+          options: (Array.isArray(field.options) ? field.options : [])
+            .slice(0, 40)
+            .map((option) => ({
+              value: sanitizeIdentifier(option?.value, 60),
+              label: sanitizeSingleLine(option?.label, 120),
+              // Swatches must stay valid CSS hex values (used by color-multi).
+              swatch: /^#[0-9a-f]{3,8}$/i.test(option?.swatch ?? "") ? option.swatch : undefined,
+              hint: option?.hint ? sanitizeIdentifier(option.hint, 40) : undefined,
+            }))
+            .filter((option) => option.value && option.label),
+          config: sanitizeFieldConfig(field.config),
         })),
     }))
     .filter((section) => section.fields.length > 0);
@@ -215,7 +266,7 @@ export async function saveFormDefinition(
     }
   }
 
-  const requestedSlug = input.slug.trim().toLowerCase();
+  const requestedSlug = sanitizeIdentifier(input.slug, 80).toLowerCase();
   if (!isValidSlug(requestedSlug)) {
     throw new Error("Slug must be lowercase letters, numbers and single dashes.");
   }
@@ -224,13 +275,13 @@ export async function saveFormDefinition(
 
   return replaceFormDefinition(formId, {
     slug,
-    title: input.title.trim() || "Untitled form",
-    description: input.description?.trim() ?? "",
-    accent: input.accent || "#0072CE",
-    submitLabel: input.submitLabel?.trim() || "Submit",
-    successTitle: input.successTitle?.trim() || "Submission received",
+    title: sanitizeSingleLine(input.title, 140) || "Untitled form",
+    description: sanitizeMultiline(input.description, 600),
+    accent: /^#[0-9a-f]{6}$/i.test(input.accent ?? "") ? input.accent : "#0072CE",
+    submitLabel: sanitizeSingleLine(input.submitLabel, 60) || "Submit",
+    successTitle: sanitizeSingleLine(input.successTitle, 120) || "Submission received",
     successMessage:
-      input.successMessage?.trim() ||
+      sanitizeMultiline(input.successMessage, 600) ||
       "Thank you. Our team will review your details and get back to you shortly.",
     status: status ?? input.status,
     sections: cleanedSections,

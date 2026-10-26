@@ -297,6 +297,29 @@ export const Icon = {
       <path d="M4.2 9.4 7.6 6.8A7.4 7.4 0 0 1 12 5.6a7.4 7.4 0 0 1 4.4 1.2l3.4 2.6" />
     </svg>
   ),
+  linkedin: (p: IconProps) => (
+    <svg {...base(p)}>
+      <rect x="3.6" y="3.6" width="16.8" height="16.8" rx="3.2" />
+      <path d="M7.6 10.4v6M7.6 7.7v.1M11.4 16.4v-3.2a2.1 2.1 0 0 1 4.2 0v3.2" />
+    </svg>
+  ),
+  pinterest: (p: IconProps) => (
+    <svg {...base(p)}>
+      <circle cx="12" cy="12" r="8.6" />
+      <path d="M9.9 19.4c.5-1.6 1.2-4.2 1.5-5.4M10.6 12.6c-.4-.8-.5-1.6-.3-2.4a3 3 0 0 1 5.7.8c0 2.1-1.4 3.8-3 3.6-.9-.1-1.4-.8-1.2-1.7" />
+    </svg>
+  ),
+  youtube: (p: IconProps) => (
+    <svg {...base(p)}>
+      <rect x="2.8" y="5.6" width="18.4" height="12.8" rx="4" />
+      <path d="m10.4 9.4 4.6 2.6-4.6 2.6V9.4Z" />
+    </svg>
+  ),
+  x: (p: IconProps) => (
+    <svg {...base(p)}>
+      <path d="M4.4 4.2h3.8l4.1 5.6 4.8-5.6h2.5l-6.1 7.1 6.5 8.5h-3.8l-4.5-6-5.1 6H4.1l6.5-7.6L4.4 4.2Z" />
+    </svg>
+  ),
   whatsapp: (p: IconProps) => (
     <svg {...base(p)}>
       <path d="M20.4 11.7a8.3 8.3 0 0 1-12.3 7.3L3.6 20.4l1.3-4.4a8.3 8.3 0 1 1 15.5-4.3Z" />
@@ -341,8 +364,13 @@ export const PLATFORM_ICONS: Record<string, IconName> = {
   "google-maps": "map",
   facebook: "facebook",
   instagram: "instagram",
+  linkedin: "linkedin",
+  pinterest: "pinterest",
   tiktok: "tiktok",
+  youtube: "youtube",
+  x: "x",
   tripadvisor: "tripadvisor",
   website: "globe",
+  whatsapp: "whatsapp",
   maps: "map",
 };

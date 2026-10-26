@@ -1,4 +1,5 @@
 import { requireApiAdmin } from "@/lib/auth";
+import { guardAdminWrite, jsonError, jsonOk, readJson } from "@/lib/http";
 import {
   deleteForm,
   getFormById,
@@ -16,45 +17,54 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
   const { id } = await context.params;
   const form = await getFormById(id);
-  if (!form) return Response.json({ error: "Form not found." }, { status: 404 });
-  return Response.json({ form: toPlainForm(form) });
+  if (!form) return jsonError("Form not found.", 404);
+  return jsonOk({ form: toPlainForm(form) });
 }
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
-  const { response } = await requireApiAdmin();
+  const { user, response } = await requireApiAdmin();
   if (response) return response;
+
+  const limited = await guardAdminWrite(user.id);
+  if (limited) return limited;
 
   const { id } = await context.params;
 
-  let body: { definition?: FormDefinitionInput; status?: "draft" | "published" | "archived" };
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return Response.json({ error: "Invalid JSON payload." }, { status: 400 });
-  }
+  const parsed = await readJson<{
+    definition?: FormDefinitionInput;
+    status?: "draft" | "published" | "archived";
+  }>(request);
+  if (!parsed.ok) return parsed.response;
+  const body = parsed.data;
 
-  if (!body.definition) {
-    return Response.json({ error: "A form definition is required." }, { status: 400 });
+  if (!body.definition || !Array.isArray(body.definition.sections)) {
+    return jsonError("A form definition is required.", 400);
+  }
+  if (body.status && !["draft", "published", "archived"].includes(body.status)) {
+    return jsonError("Unknown status.", 400);
   }
 
   try {
     const form = await saveFormDefinition(id, body.definition, body.status);
-    return Response.json({ ok: true, slug: form.slug, status: form.status, updatedAt: form.updatedAt });
+    return jsonOk({ ok: true, slug: form.slug, status: form.status, updatedAt: form.updatedAt });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save this form.";
-    return Response.json({ error: message }, { status: 400 });
+    return jsonError(message, 400);
   }
 }
 
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
-  const { response } = await requireApiAdmin();
+  const { user, response } = await requireApiAdmin();
   if (response) return response;
+
+  const limited = await guardAdminWrite(user.id);
+  if (limited) return limited;
 
   const { id } = await context.params;
   try {
     await deleteForm(id);
-    return Response.json({ ok: true });
+    return jsonOk({ ok: true });
   } catch {
-    return Response.json({ error: "Form could not be deleted." }, { status: 400 });
+    return jsonError("Form could not be deleted.", 400);
   }
 }

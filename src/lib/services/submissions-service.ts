@@ -18,29 +18,13 @@ import { countForms } from "@/lib/repos/forms";
 import type { FormDTO } from "@/lib/types";
 import type { FormWithSections } from "@/lib/repos/forms";
 import { makeReference } from "@/lib/utils";
+import { RATE_LIMITS, consumeRateLimit } from "@/lib/rate-limit";
+import { escapeSpreadsheetFormula, sanitizeUserAgent } from "@/lib/sanitize";
 
 export function hashIp(ip: string | null) {
   if (!ip) return null;
   const salt = process.env.AUTH_SECRET || "ceyteq-ip-salt";
   return createHash("sha256").update(`${salt}:${ip}`).digest("hex").slice(0, 32);
-}
-
-/** Naive in-memory throttle — swap for Upstash/Redis in a multi-instance deploy. */
-const recent = new Map<string, number[]>();
-const WINDOW_MS = 60_000;
-const MAX_PER_WINDOW = 6;
-
-export function checkRateLimit(key: string) {
-  const now = Date.now();
-  const hits = (recent.get(key) ?? []).filter((timestamp) => now - timestamp < WINDOW_MS);
-  if (hits.length >= MAX_PER_WINDOW) {
-    recent.set(key, hits);
-    return false;
-  }
-  hits.push(now);
-  recent.set(key, hits);
-  if (recent.size > 5000) recent.clear();
-  return true;
 }
 
 export type SubmitInput = {
@@ -56,7 +40,13 @@ export type SubmitInput = {
 
 export type SubmitResult =
   | { ok: true; reference: string; submissionId: string }
-  | { ok: false; status: number; error: string; fieldErrors?: Record<string, string> };
+  | {
+      ok: false;
+      status: number;
+      error: string;
+      fieldErrors?: Record<string, string>;
+      retryAfter?: number;
+    };
 
 export async function submitForm(form: FormWithSections, input: SubmitInput): Promise<SubmitResult> {
   const dto: FormDTO = toDTO({ ...form, createdAt: new Date(form.createdAt), updatedAt: new Date(form.updatedAt) });
@@ -77,9 +67,23 @@ export async function submitForm(form: FormWithSections, input: SubmitInput): Pr
     };
   }
 
-  const limitKey = `${form.id}:${input.ip ?? "unknown"}`;
-  if (!checkRateLimit(limitKey)) {
-    return { ok: false, status: 429, error: "Too many submissions. Please wait a minute." };
+  // Rate limiting — per IP + form (burst) and per IP (sustained).
+  const identity = hashIp(input.ip ?? null) ?? "no-ip";
+  const [burst, sustained] = await Promise.all([
+    consumeRateLimit(`rl:submit:${form.id}:${identity}`, RATE_LIMITS.submissionShort),
+    consumeRateLimit(`rl:submit-ip:${identity}`, RATE_LIMITS.submissionLong),
+  ]);
+
+  if (!burst.ok || !sustained.ok) {
+    const retryAfter = Math.max(burst.retryAfter, sustained.retryAfter, 30);
+    return {
+      ok: false,
+      status: 429,
+      error: `Too many submissions from this connection. Please try again in ${Math.ceil(
+        retryAfter / 60,
+      )} minute(s), or contact us on WhatsApp.`,
+      retryAfter,
+    };
   }
 
   const result = validateSubmission(dto, input.data);
@@ -103,7 +107,7 @@ export async function submitForm(form: FormWithSections, input: SubmitInput): Pr
     reference,
     data: result.data,
     ipHash: hashIp(input.ip ?? null),
-    userAgent: input.userAgent?.slice(0, 400) ?? null,
+    userAgent: sanitizeUserAgent(input.userAgent ?? null),
   });
 
   if (!submission) {
@@ -236,7 +240,9 @@ export function toCsv(rows: Array<Record<string, unknown>>, columns: Array<{ key
       : typeof value === "object"
         ? JSON.stringify(value)
         : String(value);
-    return `"${text.replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
+    // Neutralise CSV/Excel formula injection before quoting.
+    const safe = escapeSpreadsheetFormula(text);
+    return `"${safe.replace(/"/g, '""').replace(/\r?\n/g, " ")}"`;
   };
 
   const header = columns.map((column) => escape(column.label)).join(",");

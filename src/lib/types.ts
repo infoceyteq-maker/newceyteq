@@ -130,10 +130,14 @@ export const DEFAULT_PALETTE: FieldOption[] = [
 
 /** Default platform list offered by the social/maps links field. */
 export const DEFAULT_PLATFORMS: FieldOption[] = [
-  { value: "google-maps", label: "Google Maps", hint: "maps" },
+  { value: "google-maps", label: "Google Maps", hint: "map" },
   { value: "facebook", label: "Facebook", hint: "facebook" },
   { value: "instagram", label: "Instagram", hint: "instagram" },
   { value: "tiktok", label: "TikTok", hint: "tiktok" },
+  { value: "youtube", label: "YouTube", hint: "youtube" },
+  { value: "linkedin", label: "LinkedIn", hint: "linkedin" },
+  { value: "pinterest", label: "Pinterest", hint: "pinterest" },
+  { value: "x", label: "X (Twitter)", hint: "x" },
   { value: "tripadvisor", label: "TripAdvisor", hint: "tripadvisor" },
   { value: "website", label: "Website", hint: "globe" },
 ];

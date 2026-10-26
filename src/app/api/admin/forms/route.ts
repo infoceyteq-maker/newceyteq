@@ -4,7 +4,8 @@ import {
   createFormFromTemplate,
   listForms,
 } from "@/lib/services/forms-service";
-import { PARTNER_TEMPLATE, RESTAURANT_TEMPLATE } from "@/lib/templates";
+import { RESTAURANT_TEMPLATE } from "@/lib/templates";
+import { guardAdminWrite, jsonError, jsonOk, readJson } from "@/lib/http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,27 +13,24 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const { response } = await requireApiAdmin();
   if (response) return response;
-  return Response.json({ forms: await listForms() });
+  return jsonOk({ forms: await listForms() });
 }
 
 export async function POST(request: Request) {
   const { user, response } = await requireApiAdmin();
   if (response) return response;
 
-  let body: { template?: string } = {};
-  try {
-    body = (await request.json()) as { template?: string };
-  } catch {
-    body = {};
-  }
+  const limited = await guardAdminWrite(user.id);
+  if (limited) return limited;
 
-  const template = body.template ?? "blank";
+  const parsed = await readJson<{ template?: string }>(request);
+  if (!parsed.ok) return parsed.response;
+
+  const template = parsed.data.template === "restaurant" ? "restaurant" : "blank";
   const form =
     template === "restaurant"
       ? await createFormFromTemplate(RESTAURANT_TEMPLATE, user.id)
-      : template === "partner"
-        ? await createFormFromTemplate(PARTNER_TEMPLATE, user.id)
-        : await createBlankForm(user.id);
+      : await createBlankForm(user.id);
 
-  return Response.json({ id: form.id, slug: form.slug }, { status: 201 });
+  return jsonOk({ id: form.id, slug: form.slug }, 201);
 }

@@ -6,13 +6,17 @@ import { useEffect, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { Icon } from "@/components/icons";
 import { cn } from "@/lib/utils";
+import { CONTACT, SITE } from "@/lib/site-config";
 
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/#platform", label: "Platform" },
   { href: "/#how", label: "How it works" },
   { href: "/#forms", label: "Forms" },
+  { href: "/#contact", label: "Contact" },
 ];
+
+const ONBOARDING_HREF = `/form/${SITE.onboardingSlug}`;
 
 export function SiteHeader({ authenticated = false }: { authenticated?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -56,13 +60,32 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={CONTACT.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with Ceyteq on WhatsApp"
+            title="Chat with Ceyteq on WhatsApp"
+            className="neu-orb hidden h-11 w-11 text-navy-400 transition-all hover:-translate-y-0.5 hover:text-ceyteq-500 md:grid"
+          >
+            <Icon.whatsapp size={17} />
+          </a>
+          <a
+            href={CONTACT.hotlineTel}
+            aria-label="Call the Ceyteq hotline"
+            title="Ceyteq hotline"
+            className="neu-btn hidden h-11 items-center gap-2 !px-4 !py-0 text-[13px] font-semibold text-navy-500 xl:inline-flex"
+          >
+            <Icon.phone size={15} className="text-ceyteq-500" />
+            {" "}Hotline
+          </a>
           <Link
             href={authenticated ? "/admin" : "/admin/login"}
             className="hidden rounded-pill px-4 py-2.5 text-[13px] font-semibold text-navy-500 transition-colors hover:text-ceyteq-500 sm:inline-flex"
           >
             {authenticated ? "Dashboard" : "Admin login"}
           </Link>
-          <Link href="/form/restaurant-onboarding" className="neu-btn-primary neu-btn hidden !px-5 !py-2.5 !text-[13px] sm:inline-flex">
+          <Link href={ONBOARDING_HREF} className="neu-btn-primary neu-btn hidden !px-5 !py-2.5 !text-[13px] sm:inline-flex">
             Start onboarding
             <Icon.arrowRight size={15} />
           </Link>
@@ -92,16 +115,28 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
                 </Link>
               ))}
               <div className="neu-divider my-1" />
+              <a
+                href={CONTACT.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
+              >
+                <Icon.whatsapp size={16} className="text-ceyteq-500" /> WhatsApp us
+              </a>
+              <a
+                href={CONTACT.hotlineTel}
+                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
+              >
+                <Icon.phone size={16} className="text-ceyteq-500" /> Hotline
+              </a>
+              <div className="neu-divider my-1" />
               <Link
                 href={authenticated ? "/admin" : "/admin/login"}
                 className="rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
               >
                 {authenticated ? "Dashboard" : "Admin login"}
               </Link>
-              <Link
-                href="/form/restaurant-onboarding"
-                className="neu-btn-primary neu-btn mt-1 !py-3"
-              >
+              <Link href={ONBOARDING_HREF} className="neu-btn-primary neu-btn mt-1 !py-3">
                 Start onboarding
                 <Icon.arrowRight size={15} />
               </Link>

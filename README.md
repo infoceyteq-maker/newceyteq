@@ -18,26 +18,45 @@ colour tokens — no reference screenshots or placeholder images ship in the UI)
 | **Admin dashboard** | Overview with 7-day submission chart, form list with publish/duplicate/delete, submission inbox with filters + CSV export, settings with live database info. |
 | **Form builder** | Create / reorder / rename sections and fields, pick field types, edit options, required rules, layouts, success copy and slug — saved atomically. |
 | **Restaurant onboarding** | The full five-section form from the brief: Restaurant Details, Owner Details, dynamic Social & Maps links, 10-colour theme picker (max 5), Special Notes. |
-| **Security** | scrypt password hashing, HMAC-signed HttpOnly session cookie, server-side Zod validation generated from the form schema, honeypot + timing + per-IP throttling. |
+| **Security** | scrypt password hashing, HMAC-signed HttpOnly session cookie, server-side Zod validation generated from the form schema, sanitisation of every input, origin/CSRF checks, CSP + HSTS headers, honeypot + timing + distributed rate limiting. |
+| **Contact & social** | All seven official Ceyteq profiles plus hotline, WhatsApp, mobile and email are rendered as real links in the header, contact section and footer — defined once in `src/lib/site-config.ts`. |
 | **Database** | One PostgreSQL dialect: embedded **PGlite** in development, **Supabase / managed PostgreSQL** in production. Zero code changes between the two. |
+
+---
+
+## Official links
+
+All contact points are declared in **`src/lib/site-config.ts`** and rendered as real `href`s in the
+header, contact section, form confirmation screen and footer.
+
+| Channel | Destination |
+| --- | --- |
+| Facebook | <https://www.facebook.com/share/1KM2kZvaCC/> |
+| Instagram | <https://www.instagram.com/ceyteq/> |
+| LinkedIn | <https://www.linkedin.com/in/ceylon-technology> |
+| Pinterest | <https://www.pinterest.com/infoceyteq/> |
+| TikTok | <https://www.tiktok.com/@ceyteq?lang=en-GB> |
+| YouTube | <https://youtube.com/@ceylontechnology-ceyteq> |
+| X | <https://x.com/CeylonTech22598> |
+| Hotline | [+94 78 860 7143](tel:+94788607143) |
+| WhatsApp | <https://wa.me/94788607143> |
+| Mobile | [+94 76 860 7143](tel:+94768607143) |
+| Email | <mailto:info.ceyteq@gmail.com> |
 
 ---
 
 ## Quick start
 
 ```bash
-cp .env.example .env     # optional — sensible development defaults are built in
+cp .env.example .env     # then fill AUTH_SECRET and ADMIN_PASSWORD
 npm install
-npm run db:seed          # creates the admin user, both templates and demo submissions
+npm run db:seed          # creates the admin user + the onboarding form, nothing else
 npm run dev              # http://localhost:3000
 ```
 
-Open the dashboard at **/admin** and sign in with the credentials from `.env`:
-
-```
-email:    admin@ceyteq.com
-password: Ceyteq@2026
-```
+Open the dashboard at **/admin** and sign in with the credentials you put in `.env`
+(`ADMIN_EMAIL` / `ADMIN_PASSWORD`). There is no built-in demo account: if you leave
+`ADMIN_PASSWORD` blank, `db:seed` generates a strong password and prints it once.
 
 The public onboarding form is live at **/form/restaurant-onboarding**.
 
@@ -54,7 +73,7 @@ The public onboarding form is live at **/form/restaurant-onboarding**.
 | `npm run dev` | Start the dev server |
 | `npm run build` / `npm start` | Production build / serve |
 | `npm run typecheck` | TypeScript, no emit |
-| `npm run db:seed` | Idempotent seed: admin + templates + demo submissions |
+| `npm run db:seed` | Idempotent provision: admin account + onboarding form (no sample data) |
 | `npm run db:reset` | Delete the local PGlite data folder and reseed |
 | `npm run db:stats` | Print forms, statuses and submission counts |
 | `npm run db:schema` | Regenerate `db/schema.sql` from `src/lib/db/schema.ts` |
@@ -107,8 +126,13 @@ admin_users   ──< forms ──< form_sections ──< form_fields
 
 ```
 src/lib/types.ts          FieldType, options/config contracts, default palette & platforms
+src/lib/site-config.ts    official social profiles + contact channels (single source of truth)
+src/lib/sanitize.ts       input sanitisers (text, email, tel, URL, identifiers, CSV cells)
+src/lib/rate-limit.ts     Upstash Redis / in-memory sliding-window limiter
+src/lib/env.ts            validated environment + secure-configuration guard
+src/lib/http.ts           shared JSON parsing, error shapes and admin write guard
 src/lib/forms.ts          Prisma-free DTO mappers + Zod validation generated per field
-src/lib/templates.ts      Restaurant onboarding & partner application templates
+src/lib/templates.ts      The production restaurant onboarding definition
 src/lib/repos/*.ts        Typed SQL repositories (forms, submissions, users)
 src/lib/services/*.ts     Business logic used by pages and route handlers
 ```
@@ -133,6 +157,7 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 | `POST` | `/api/admin/forms/:id/duplicate` | admin | Duplicate a form |
 | `PATCH/DELETE` | `/api/admin/submissions/:id` | admin | Status, notes, delete |
 | `GET` | `/api/admin/submissions/export` | admin | CSV download |
+| `GET` | `/api/health` | public | Liveness/readiness probe (driver, row counts, no secrets) |
 
 ---
 
@@ -150,8 +175,8 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
   variant. Run `npm run logo` to regenerate.
 * **Type** — Sora (display) + Manrope (UI), self-hosted via `@fontsource-variable` (no external
   font CDN).
-* **Motion** — floating cards, blinking assistant eyes, pulse rings and fade-ups, all disabled
-  under `prefers-reduced-motion`.
+* **Motion** — restrained: pressed/raised hover transitions, pulse rings on confirmation and
+  fade-ups on load, all disabled under `prefers-reduced-motion`.
 
 ---
 
@@ -173,17 +198,58 @@ src/components/
   site/                        header, footer
   ui/                          logo, copy button, neumorphic select
 src/lib/                       types, validation, auth, db, repos, services
+src/middleware.ts              security headers, CSP, CORS + CSRF origin checks
+src/instrumentation.ts         boot-time configuration validation
+vercel.json                    Vercel project config (region, function limits, headers)
 ```
 
 ---
 
-## Production checklist
+## Security model
 
-- [ ] Set `AUTH_SECRET` to a long random string.
-- [ ] Change `ADMIN_PASSWORD` before the first `db:seed`, or rotate it afterwards.
-- [ ] Point `DATABASE_URL` at Supabase and apply `db/schema.sql`.
-- [ ] Set `NEXT_PUBLIC_SITE_URL` to the canonical origin (used for shareable links, OG tags).
-- [ ] `npm run build && npm start` (deploys cleanly to Vercel; the PGlite folder is not used in
-      production because `DATABASE_URL` is remote).
-- [ ] Swap the in-memory rate limiter in `src/lib/services/submissions-service.ts` for Upstash
-      Redis if you run multiple instances.
+| Layer | Control |
+| --- | --- |
+| Input | Every submitted value is sanitised (`src/lib/sanitize.ts`) **before** Zod validation: control characters stripped, lengths bounded, emails/phones normalised, URLs restricted to `http(s)` with no credentials, dotless hosts or `javascript:`/`data:` schemes. |
+| Uploads / body size | JSON bodies capped at 64 KB for public submissions and 512 KB for admin writes; non-object payloads rejected. |
+| Abuse | Honeypot field, minimum completion time, burst (5/min) + sustained (30/h) limits per IP and per form. Admin write actions are limited to 60/min per user. |
+| Auth | scrypt hashes, HMAC-SHA256 session tokens, HttpOnly + SameSite=Lax cookie, `Secure` in production, 7-day TTL, identical error for unknown email and wrong password. |
+| Transport / browser | CSP, HSTS (production), `X-Frame-Options` equivalent via `frame-ancestors`, `nosniff`, strict referrer policy, restrictive `Permissions-Policy`; `poweredByHeader` disabled. |
+| API surface | Mutating API calls require JSON content type and a same-origin (or explicitly allowed) `Origin`; unknown methods return 405; all API responses are `no-store`. |
+| Data | Admin notes and CSV cells are sanitised, CSV values are formula-injection escaped, IP addresses are stored only as salted SHA-256 hashes. |
+| Secrets | Database and auth secrets are server-only environment variables — never `NEXT_PUBLIC_*`. `assertSecureConfiguration()` refuses to run in production with a missing/placeholder `AUTH_SECRET` or a non-Postgres `DATABASE_URL`. |
+
+---
+
+## Deploy to Vercel
+
+1. **Create the database** — Supabase project → *Database → Connection pooling* → copy the pooled
+   URI. Run `db/schema.sql` in the Supabase SQL editor (or `psql "$DATABASE_URL" -f db/schema.sql`).
+2. **Environment variables** (Project → Settings → Environment Variables, *Production* scope):
+
+   | Variable | Required | Notes |
+   | --- | --- | --- |
+   | `DATABASE_URL` | yes | Pooled Postgres URI with `?sslmode=require` |
+   | `AUTH_SECRET` | yes | `openssl rand -base64 48` — 32+ characters |
+   | `NEXT_PUBLIC_SITE_URL` | yes | e.g. `https://race.ceyteq.com` |
+   | `ADMIN_EMAIL` | yes | Bootstrap administrator |
+   | `ADMIN_PASSWORD` | first deploy | Strong password; remove after the first sign-in |
+   | `UPSTASH_REDIS_REST_URL` / `_TOKEN` | recommended | Shared rate limiting across invocations |
+   | `ALLOWED_ORIGINS` | optional | Extra origins allowed to POST to `/api/*` |
+
+   Keep PGlite off in production — the app throws on boot if `DATABASE_URL` is not PostgreSQL.
+3. **Provision** — run `npm run db:seed` once against production env vars (locally with the
+   production `DATABASE_URL`, or from a one-off job) to create the admin and the onboarding form.
+4. **Promote the domain** and add it to `NEXT_PUBLIC_SITE_URL`; the sitemap and OG tags follow it.
+5. **Smoke test** — `/api/health` returns `status: "ok"`, `/form/restaurant-onboarding` renders,
+   a test submission returns `201`, then delete it from `/admin/submissions`.
+
+### Production checklist
+
+- [ ] `AUTH_SECRET` set to 32+ random characters (not a placeholder).
+- [ ] `DATABASE_URL` points at PostgreSQL with `sslmode=require`; `db/schema.sql` applied.
+- [ ] `NEXT_PUBLIC_SITE_URL` set to the canonical HTTPS origin.
+- [ ] `ADMIN_PASSWORD` rotated after the first sign-in (or removed from the env).
+- [ ] Upstash Redis credentials set so rate limits are shared across instances.
+- [ ] `npm run typecheck` and `npm run build` both clean.
+- [ ] Database starts empty of demo data (`npm run db:stats` → `0 submissions`).
+- [ ] `/api/health` green and `/robots.txt` disallows `/admin`.

@@ -10,6 +10,13 @@ import type {
   SubmissionData,
 } from "@/lib/types";
 import { isValidSlug, slugify } from "@/lib/utils";
+import {
+  sanitizeEmail,
+  sanitizeMultiline,
+  sanitizePhone,
+  sanitizeSingleLine,
+  sanitizeUrl,
+} from "@/lib/sanitize";
 
 type PrismaField = {
   id: string;
@@ -153,36 +160,46 @@ export const formInclude = {
 /* ----------------------------- normalisation ----------------------------- */
 
 export function normaliseUrl(input: string) {
-  const value = input.trim();
-  if (!value) return "";
-  if (/^https?:\/\//i.test(value)) return value;
-  return `https://${value.replace(/^\/+/, "")}`;
+  return sanitizeUrl(input);
 }
+
+const SAFE_LINK = /^https?:\/\/[^\s/]+\.[^\s]{2,}$/i;
 
 const urlSchema = z
   .string()
   .trim()
   .max(2048)
-  .transform((value) => normaliseUrl(value))
-  .refine((value) => /^https?:\/\/[^\s.]+\.[^\s]{2,}$/i.test(value), {
+  // Sanitising before validation blocks `javascript:`, `data:` and credential URLs.
+  .transform((value) => sanitizeUrl(value))
+  .refine((value) => SAFE_LINK.test(value), {
     message: "Enter a valid link, e.g. https://maps.google.com/…",
   });
 
-const emailSchema = z.string().trim().max(254).email("Enter a valid email address.");
+const emailSchema = z
+  .string()
+  .trim()
+  .max(254)
+  .transform((value) => sanitizeEmail(value))
+  .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value), {
+    message: "Enter a valid email address.",
+  });
 
 const phoneSchema = z
   .string()
   .trim()
-  .min(6, "Enter a valid phone number.")
-  .max(32)
-  .refine((value) => /^[+()\d][\d\s()\-.]{4,}$/.test(value), {
-    message: "Use digits, spaces, +, - or brackets only.",
+  .transform((value) => sanitizePhone(value))
+  .refine((value) => /^[+()\d][\d\s()\-.]{4,}$/.test(value) && value.replace(/\D/g, "").length >= 6, {
+    message: "Enter a valid phone number (digits, spaces, +, - or brackets).",
   });
 
 function textSchema(field: FormFieldDTO) {
-  const max = field.config.maxLength ?? (field.type === "textarea" ? 4000 : 500);
-  const base = z.string().trim().max(max, `Keep this under ${max} characters.`);
-  return field.required ? base.min(1, `${field.label} is required.`) : base;
+  const isLong = field.type === "textarea";
+  const max = Math.min(field.config.maxLength ?? (isLong ? 4000 : 500), isLong ? 10_000 : 1000);
+  const base = z
+    .string()
+    .transform((value) => (isLong ? sanitizeMultiline(value, max) : sanitizeSingleLine(value, max)))
+    .refine((value) => value.length <= max, { message: `Keep this under ${max} characters.` });
+  return field.required ? base.refine((value) => value.length > 0, { message: `${field.label} is required.` }) : base;
 }
 
 function colourSchema(field: FormFieldDTO) {
@@ -191,8 +208,11 @@ function colourSchema(field: FormFieldDTO) {
   const min = field.config.minSelections ?? (field.required ? 1 : 0);
 
   return z
-    .array(z.string().trim())
-    .max(max, `Select at most ${max} colours.`)
+    .array(z.string().transform((value) => sanitizeSingleLine(value, 64)))
+    .max(20)
+    .refine((values) => values.length <= max, {
+      message: `Select at most ${max} colours.`,
+    })
     .transform((values) => Array.from(new Set(values.filter((value) => allowed.has(value)))))
     .refine((values) => values.length >= min, {
       message:
@@ -209,8 +229,8 @@ function linksSchema(field: FormFieldDTO) {
   const allowedPlatforms = new Set(field.options.map((option) => option.value));
 
   const row = z.object({
-    platform: z.string().trim().max(64),
-    url: z.string().trim().max(2048),
+    platform: z.string().transform((value) => sanitizeSingleLine(value, 64)),
+    url: z.string().transform((value) => sanitizeUrl(value)),
   });
 
   return z
@@ -239,7 +259,7 @@ function linksSchema(field: FormFieldDTO) {
             message: `Row ${index + 1}: choose a platform from the list.`,
           });
         }
-        if (!/^https?:\/\/[^\s.]+\.[^\s]{2,}$/i.test(item.url)) {
+        if (!SAFE_LINK.test(item.url)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: `Row ${index + 1}: enter a valid link.`,
@@ -265,7 +285,7 @@ function schemaForField(field: FormFieldDTO) {
         : z.union([z.literal(""), urlSchema]).transform((value) => value || "");
     case "select": {
       const allowed = field.options.map((option) => option.value);
-      const base = z.string().trim().max(200);
+      const base = z.string().transform((value) => sanitizeSingleLine(value, 200));
       return base.refine(
         (value) => (value === "" && !field.required) || allowed.includes(value),
         { message: "Choose one of the available options." },

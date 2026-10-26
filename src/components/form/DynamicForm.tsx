@@ -5,6 +5,10 @@ import { Icon } from "@/components/icons";
 import { FieldRenderer } from "@/components/form/fields";
 import { cn } from "@/lib/utils";
 import type { FormDTO, SubmissionValue } from "@/lib/types";
+import { CONTACT, CONTACT_CHANNELS } from "@/lib/site-config";
+
+const HOTLINE_DISPLAY =
+  CONTACT_CHANNELS.find((channel) => channel.id === "hotline")?.value ?? "+94 78 860 7143";
 
 type Props = {
   form: FormDTO;
@@ -211,7 +215,36 @@ export function DynamicForm({ form, preview = false }: Props) {
                 </span>
               </div>
             ) : null}
+            <p className="mx-auto mt-4 max-w-md text-[12.5px] font-semibold text-navy-300">
+              Need to add something? Reach us directly —{" "}
+              <a href={CONTACT.hotlineTel} className="text-ceyteq-600 hover:underline">
+                {HOTLINE_DISPLAY}
+              </a>{" "}
+              or{" "}
+              <a
+                href={CONTACT.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ceyteq-600 hover:underline"
+              >
+                WhatsApp
+              </a>
+              .
+            </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href={CONTACT.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="neu-btn w-full sm:w-auto"
+              >
+                <Icon.whatsapp size={16} className="text-ceyteq-500" />
+                Chat on WhatsApp
+              </a>
+              <a href={CONTACT.hotlineTel} className="neu-btn w-full sm:w-auto">
+                <Icon.phone size={16} className="text-ceyteq-500" />
+                {HOTLINE_DISPLAY}
+              </a>
               <button
                 type="button"
                 onClick={() => {
@@ -219,14 +252,10 @@ export function DynamicForm({ form, preview = false }: Props) {
                   setReference(null);
                   startedAt.current = Date.now();
                 }}
-                className="neu-btn w-full sm:w-auto"
+                className="neu-btn w-full !bg-none !shadow-neu sm:w-auto"
               >
                 Submit another response
               </button>
-              <a href="/" className="neu-btn w-full !bg-none !shadow-neu sm:w-auto">
-                Back to Ceyteq
-                <Icon.arrowRight size={16} />
-              </a>
             </div>
           </div>
         </div>

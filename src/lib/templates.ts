@@ -1,6 +1,15 @@
 import type { FieldConfig, FieldOption, FieldType } from "./types";
 import { DEFAULT_PALETTE, DEFAULT_PLATFORMS } from "./types";
 
+/**
+ * The production onboarding form definition.
+ *
+ * This is the real Ceyteq Digital Race onboarding schema — it is created once by
+ * `npm run db:seed` (or from the dashboard) and is afterwards fully editable in
+ * the form builder. It intentionally contains no sample data: every field label,
+ * placeholder and helper line is production copy.
+ */
+
 export type TemplateField = {
   key: string;
   label: string;
@@ -31,44 +40,44 @@ export type FormTemplate = {
   sections: TemplateSection[];
 };
 
-export const RESTAURANT_TEMPLATE: FormTemplate = {
+export const ONBOARDING_TEMPLATE: FormTemplate = {
   name: "Restaurant Onboarding",
   slug: "restaurant-onboarding",
   title: "Restaurant Onboarding",
   description:
-    "Tell us about your venue so the Ceyteq team can launch your digital storefront, brand theme and map listing.",
+    "Register your restaurant with Ceyteq. We use these details to build your brand theme, digital storefront, map listing and social profile.",
   status: "published",
   submitLabel: "Submit Onboarding Details",
-  successTitle: "Welcome to the Digital Race",
+  successTitle: "Onboarding details received",
   successMessage:
-    "Your restaurant profile is in. The Ceyteq team will review your details, build your brand theme and contact you on WhatsApp within two working days.",
+    "Thank you. The Ceyteq team will review your details and contact you on WhatsApp about the next steps. Keep your reference number for any follow-up.",
   sections: [
     {
       title: "Restaurant Details",
-      description: "The public-facing information customers will see.",
+      description: "The information customers will see on your listings and storefront.",
       icon: "store",
       fields: [
         {
           key: "restaurant_name",
           label: "Restaurant Name",
           type: "text",
-          placeholder: "e.g. The Lagoon Kitchen",
+          placeholder: "Registered trading name",
           required: true,
-          config: { width: "half", autoComplete: "organization" },
+          config: { width: "half", autoComplete: "organization", maxLength: 120 },
         },
         {
           key: "location_name",
           label: "Location Name",
           type: "text",
-          placeholder: "e.g. Marine Drive Branch",
+          placeholder: "Branch or outlet name",
           required: true,
-          config: { width: "half" },
+          config: { width: "half", maxLength: 120 },
         },
         {
           key: "address",
           label: "Address",
           type: "textarea",
-          placeholder: "No. 24, Marine Drive, Colombo 03",
+          placeholder: "Street address, city and postal code",
           required: true,
           config: { maxLength: 400 },
         },
@@ -76,15 +85,16 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           key: "nearby_city",
           label: "Nearby City",
           type: "text",
-          placeholder: "e.g. Colombo",
+          placeholder: "Nearest city or town",
           required: true,
-          config: { width: "half" },
+          config: { width: "half", maxLength: 80 },
         },
         {
           key: "phone_number",
           label: "Phone Number",
           type: "tel",
-          placeholder: "+94 11 234 5678",
+          placeholder: "+94 XX XXX XXXX",
+          helpText: "The number customers should call for orders or enquiries.",
           required: true,
           config: { width: "half", autoComplete: "tel" },
         },
@@ -92,7 +102,8 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           key: "whatsapp_number",
           label: "WhatsApp Number",
           type: "tel",
-          placeholder: "+94 77 123 4567",
+          placeholder: "+94 XX XXX XXXX",
+          helpText: "Include the country code so the chat link works worldwide.",
           required: true,
           config: { width: "half" },
         },
@@ -100,7 +111,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           key: "restaurant_email",
           label: "Restaurant Email Address",
           type: "email",
-          placeholder: "hello@lagoonkitchen.lk",
+          placeholder: "orders@yourdomain.com",
           required: true,
           config: { width: "half", autoComplete: "email" },
         },
@@ -108,7 +119,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
     },
     {
       title: "Owner Details",
-      description: "Who we speak to about the account.",
+      description: "We use these details for your account and agreement.",
       icon: "user",
       fields: [
         {
@@ -117,13 +128,13 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           type: "text",
           placeholder: "Full name",
           required: true,
-          config: { width: "half", autoComplete: "name" },
+          config: { width: "half", autoComplete: "name", maxLength: 120 },
         },
         {
           key: "owner_email",
           label: "Owner Email Address",
           type: "email",
-          placeholder: "owner@example.com",
+          placeholder: "name@yourdomain.com",
           required: true,
           config: { width: "half", autoComplete: "email" },
         },
@@ -131,7 +142,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           key: "owner_phone",
           label: "Owner Phone Number",
           type: "tel",
-          placeholder: "+94 71 234 5678",
+          placeholder: "+94 XX XXX XXXX",
           required: true,
           config: { width: "half" },
         },
@@ -139,7 +150,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           key: "owner_whatsapp",
           label: "Owner WhatsApp Number",
           type: "tel",
-          placeholder: "+94 71 234 5678",
+          placeholder: "+94 XX XXX XXXX",
           required: true,
           config: { width: "half" },
         },
@@ -147,7 +158,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
     },
     {
       title: "Social Media & Maps",
-      description: "Add every profile we should link from your storefront.",
+      description: "Add each profile we should link from your storefront.",
       icon: "link",
       fields: [
         {
@@ -155,11 +166,11 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           label: "Social Media & Maps Links",
           type: "links",
           required: true,
-          helpText: "Pick a platform, paste the full link, then add as many as you like.",
+          helpText: "Choose the platform, paste the full link, then add as many as you need.",
           options: DEFAULT_PLATFORMS,
           config: {
             addLabel: "+ Add Another Link",
-            emptyHint: "Google Maps, Facebook, Instagram, TikTok or TripAdvisor",
+            emptyHint: "Google Maps, Facebook, Instagram, TikTok, TripAdvisor and more",
           },
         },
       ],
@@ -174,7 +185,8 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
           label: "Preferred Brand Colours",
           type: "color-multi",
           required: true,
-          helpText: "Select up to 5. We use these for your storefront, receipts and social templates.",
+          helpText:
+            "Select up to 5. Each colour can be customised during the brand review session.",
           options: DEFAULT_PALETTE,
           config: { maxSelections: 5, minSelections: 1 },
         },
@@ -182,15 +194,15 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
     },
     {
       title: "Special Notes",
-      description: "Anything else we should know before we build?",
+      description: "Anything else we should know before we build your digital presence.",
       icon: "notes",
       fields: [
         {
           key: "special_notes",
           label: "Special Notes",
           type: "textarea",
-          placeholder: "Menu highlights, opening hours, delivery partners, accessibility needs…",
-          helpText: "Optional — but the more we know, the faster we launch.",
+          placeholder: "Opening hours, delivery partners, menu highlights, accessibility needs…",
+          helpText: "Optional, but the more we know the faster your launch.",
           config: { maxLength: 2000 },
         },
       ],
@@ -198,45 +210,7 @@ export const RESTAURANT_TEMPLATE: FormTemplate = {
   ],
 };
 
-export const PARTNER_TEMPLATE: FormTemplate = {
-  name: "Delivery Partner Application",
-  slug: "delivery-partner-application",
-  title: "Delivery Partner Application",
-  description: "Join the Ceyteq delivery network. We review every application within 48 hours.",
-  status: "draft",
-  submitLabel: "Submit Application",
-  successTitle: "Application received",
-  successMessage: "Thanks for applying. Our operations team will call you within 48 hours.",
-  sections: [
-    {
-      title: "Applicant Details",
-      icon: "user",
-      fields: [
-        { key: "full_name", label: "Full Name", type: "text", required: true, config: { width: "half" } },
-        { key: "email", label: "Email Address", type: "email", required: true, config: { width: "half" } },
-        { key: "phone", label: "Phone Number", type: "tel", required: true, config: { width: "half" } },
-        {
-          key: "city",
-          label: "Operating City",
-          type: "select",
-          required: true,
-          config: { width: "half" },
-          options: [
-            { value: "colombo", label: "Colombo" },
-            { value: "kandy", label: "Kandy" },
-            { value: "galle", label: "Galle" },
-            { value: "jaffna", label: "Jaffna" },
-          ],
-        },
-        {
-          key: "vehicle",
-          label: "Notes",
-          type: "textarea",
-          placeholder: "Vehicle type, availability, experience…",
-        },
-      ],
-    },
-  ],
-};
+/** Kept as a single-item list so the dashboard can enumerate starter forms. */
+export const TEMPLATES: FormTemplate[] = [ONBOARDING_TEMPLATE];
 
-export const TEMPLATES: FormTemplate[] = [RESTAURANT_TEMPLATE, PARTNER_TEMPLATE];
+export const RESTAURANT_TEMPLATE = ONBOARDING_TEMPLATE;

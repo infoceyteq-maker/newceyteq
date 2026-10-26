@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "db:seed": "tsx scripts/seed.ts",
+    "db:seed": "NODE_OPTIONS=--conditions=react-server tsx scripts/seed.ts",
     "db:reset": "node -e \"require('node:fs').rmSync('.data',{recursive:true,force:true})\" && npm run db:seed",
-    "db:stats": "tsx scripts/db-stats.ts",
-    "db:schema": "tsx scripts/export-schema.ts",
+    "db:stats": "NODE_OPTIONS=--conditions=react-server tsx scripts/db-stats.ts",
+    "db:schema": "NODE_OPTIONS=--conditions=react-server tsx scripts/export-schema.ts",
     "logo": "node scripts/prepare-logo.mjs",
     "lint": "tsc --noEmit"
   },
@@ -22,6 +22,7 @@
     "pg": "^8.23.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "server-only": "^0.0.1",
     "sharp": "^0.34.4",
     "zod": "^3.25.76"
   },

@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { LoginForm } from "@/components/admin/LoginForm";
 import { Logo } from "@/components/ui/Logo";
 import { Icon } from "@/components/icons";
-import { bootstrapCredentials, getSessionUser } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +17,6 @@ export const metadata: Metadata = {
 export default async function LoginPage() {
   const user = await getSessionUser();
   if (user) redirect("/admin");
-
-  const showDemo = process.env.NODE_ENV !== "production" || process.env.SHOW_DEMO_CREDENTIALS === "true";
-  const demo = bootstrapCredentials();
 
   return (
     <div className="relative grid min-h-dvh place-items-center px-4 py-10">
@@ -40,10 +37,7 @@ export default async function LoginPage() {
           </p>
 
           <Suspense fallback={<div className="mt-8 h-64 animate-pulse rounded-2xl bg-white/40" />}>
-            <LoginForm
-              demoEmail={showDemo ? demo.email : undefined}
-              demoPassword={showDemo ? demo.password : undefined}
-            />
+            <LoginForm />
           </Suspense>
 
           <div className="mt-7 flex items-center justify-between text-[11.5px] font-semibold text-navy-300">

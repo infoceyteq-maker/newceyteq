@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { findUserById } from "@/lib/repos/users";
 import { hashPassword, verifyPassword } from "@/lib/password";
+import { bootstrapAdmin, getEnv, isProduction } from "@/lib/env";
 
 export { hashPassword, verifyPassword };
 
@@ -13,8 +14,22 @@ const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 export type SessionUser = { id: string; email: string; name: string; role: string };
 
+const DEV_FALLBACK_SECRET = "ceyteq-digital-race-dev-secret-change-me";
+
+/**
+ * Session signing key. Production refuses to sign with a missing, short or
+ * placeholder secret rather than degrading to a known value.
+ */
 function secret() {
-  return process.env.AUTH_SECRET || "ceyteq-digital-race-dev-secret-change-me";
+  const configured = getEnv().AUTH_SECRET;
+  if (configured && configured.length >= 32) return configured;
+
+  if (isProduction()) {
+    throw new Error(
+      "AUTH_SECRET must be set to at least 32 characters in production (openssl rand -base64 48).",
+    );
+  }
+  return DEV_FALLBACK_SECRET;
 }
 
 /* -------------------------------- sessions -------------------------------- */
@@ -94,11 +109,7 @@ export function sessionCookieOptions() {
   };
 }
 
-/** Bootstrap credentials come from env so no secrets live in the repository. */
+/** Bootstrap credentials come from the environment only — no defaults in code. */
 export function bootstrapCredentials() {
-  return {
-    email: (process.env.ADMIN_EMAIL || "admin@ceyteq.com").toLowerCase(),
-    password: process.env.ADMIN_PASSWORD || "Ceyteq@2026",
-    name: process.env.ADMIN_NAME || "Ceyteq Admin",
-  };
+  return bootstrapAdmin();
 }
