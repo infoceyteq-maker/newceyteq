@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { findUserById } from "@/lib/repos/users";
@@ -10,6 +10,13 @@ import { bootstrapAdmin, getEnv, isProduction } from "@/lib/env";
 export { hashPassword, verifyPassword };
 
 export const SESSION_COOKIE = "ceyteq_session";
+
+/**
+ * Subject id used for the single-administrator environment login
+ * (`ADMIN_PASSWORD`). It is not a database row, so no session ever depends on
+ * an admin users table.
+ */
+export const ENV_ADMIN_ID = "env-admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 export type SessionUser = { id: string; email: string; name: string; role: string };
@@ -30,6 +37,45 @@ function secret() {
     );
   }
   return DEV_FALLBACK_SECRET;
+}
+
+/* --------------------------- env master admin ----------------------------- */
+
+type EnvAdminCredentials = { email: string | null; password: string; name: string };
+
+/**
+ * Credentials for the single-administrator login. Returns `null` when
+ * `ADMIN_PASSWORD` is not configured, in which case only database accounts can
+ * sign in.
+ */
+export function envAdminCredentials(): EnvAdminCredentials | null {
+  const env = getEnv();
+  if (!env.ADMIN_PASSWORD) return null;
+  return {
+    email: env.ADMIN_EMAIL?.toLowerCase() ?? null,
+    password: env.ADMIN_PASSWORD,
+    name: env.ADMIN_NAME ?? "Ceyteq Administrator",
+  };
+}
+
+/** Constant-time check of the submitted password against `ADMIN_PASSWORD`. */
+export function verifyEnvAdminPassword(password: string) {
+  const credentials = envAdminCredentials();
+  if (!credentials) return false;
+  const submitted = createHash("sha256").update(password).digest();
+  const expected = createHash("sha256").update(credentials.password).digest();
+  return timingSafeEqual(submitted, expected);
+}
+
+/** The synthetic session user for the environment master admin. */
+export function envAdminUser(): SessionUser {
+  const credentials = envAdminCredentials();
+  return {
+    id: ENV_ADMIN_ID,
+    email: credentials?.email ?? "admin@ceyteq.com",
+    name: credentials?.name ?? "Ceyteq Administrator",
+    role: "owner",
+  };
 }
 
 /* -------------------------------- sessions -------------------------------- */
@@ -74,6 +120,11 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   const store = await cookies();
   const userId = readSessionToken(store.get(SESSION_COOKIE)?.value);
   if (!userId) return null;
+
+  /* Environment master admin: removing ADMIN_PASSWORD invalidates the session. */
+  if (userId === ENV_ADMIN_ID) {
+    return envAdminCredentials() ? envAdminUser() : null;
+  }
 
   const user = await findUserById(userId);
   if (!user) return null;

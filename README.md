@@ -171,22 +171,24 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 
 ## Design system
 
-* **Palette** — a neutral **light ash** neumorphic canvas (no blue tint in the page itself). Every
-  value is defined once as a CSS variable in `src/app/globals.css` and mirrored as a Tailwind token in
+* **Palette** — a **matte ash** neumorphic canvas (`#CBD5E1`, the "deep ash" reference) across the
+  whole app: public site, login, public forms, admin shell and every modal/drawer. Blue is reserved for
+  buttons, highlights and the dark panels — never for a page background. Every value is defined once
+  as a CSS variable in `src/app/globals.css` and mirrored as a Tailwind token in
   `tailwind.config.ts`, so the whole system can be re-tuned from those two blocks:
 
   | Token | Value | Role |
   | --- | --- | --- |
-  | `--bg` | `#E4E4E6` | page base (subtle gradient up to `#EAEAEC`) |
-  | `--surface` | `#E8E8EA` | cards, navbar, badges, inputs, secondary buttons |
+  | `--bg` | `#CBD5E1` | page base (subtle gradient to `#D1D5DB`) |
+  | `--surface` | `#D5DCE5` | cards, navbar, badges, inputs, secondary buttons |
   | `--shadow-light` | `#FFFFFF` | top-left highlight |
-  | `--shadow-dark` | `#C5C5CA` | bottom-right drop |
+  | `--shadow-dark` | `#C5C5CA` | bottom-right drop (paired with a faint navy contact shadow) |
   | `--navy` | `#0F1B3D` | dark panels, headings (`#1E2A52` for sub-headings) |
   | `--blue-dark` | `#1E3FA8` | primary button gradient start |
   | `--blue` | `#2F6BFF` | royal blue, primary gradient end, highlight text |
   | `--radium` | `#3DA5FF` | glow blue / gradient highlight end |
   | `--radium-light` | `#6CC4FF` | light accent |
-  | `--text-body` | `#5A6070` | body copy (5.1:1 on the surface) |
+  | `--text-body` | `#39465F` | body copy (6.3:1 on the surface) |
 
 * **True soft-3D neumorphism** — no hard borders anywhere; depth comes only from paired shadows with a
   single top-left light source. Radii are 24–32px, pills fully rounded.
@@ -250,6 +252,21 @@ systems one at a time.
 * **API** — `POST /api/admin/leads` creates a lead from the console (admin-only, sanitised with the same
   schema as the public endpoint, rate limited by the shared admin-write budget).
 
+## Realtime (Supabase)
+
+* **Storage & fetching** — all reads and writes go through the server using `DATABASE_URL` (the
+  Supabase pooled connection). No service key ever reaches the browser.
+* **Live refresh** — `ceyteq_signals` is a PII-free change feed (`entity`, `action`, `created_at`)
+  written by Postgres triggers on `forms`, `submissions` and `leads`. The dashboard subscribes to its
+  INSERTs with `@supabase/supabase-js` (`src/components/admin/LiveSignal.tsx`) and simply re-renders
+  the server components — the signal carries no client, lead or submission content.
+* **Setup** — run `supabase/realtime.sql` once in the Supabase SQL editor. It enables RLS on every
+  table (no policies = no anon access), grants `anon` read-only access to the signal table only and
+  adds it to the `supabase_realtime` publication. Set `NEXT_PUBLIC_SUPABASE_URL` and
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY` to activate it.
+* **Graceful fallback** — without those variables the sidebar shows *Manual refresh* and the same
+  button refreshes the page on demand; nothing else changes.
+
 ## Project structure
 
 ```
@@ -285,7 +302,7 @@ vercel.json                    Vercel project config (region, function limits, h
 | Input | Every submitted value is sanitised (`src/lib/sanitize.ts`) **before** Zod validation: control characters stripped, lengths bounded, emails/phones normalised, URLs restricted to `http(s)` with no credentials, dotless hosts or `javascript:`/`data:` schemes. |
 | Uploads / body size | JSON bodies capped at 64 KB for public submissions and 512 KB for admin writes; non-object payloads rejected. |
 | Abuse | Honeypot field, minimum completion time, burst (5/min) + sustained (30/h) limits per IP and per form; enquiries 4 per 5 min and 20 per hour per IP. Admin write actions are limited to 60/min per user. |
-| Auth | scrypt hashes, HMAC-SHA256 session tokens, HttpOnly + SameSite=Lax cookie, `Secure` in production, 7-day TTL, identical error for unknown email and wrong password. |
+| Auth | **Single administrator**: the password in the server-only `ADMIN_PASSWORD` variable is compared in constant time (SHA-256 + `timingSafeEqual`) and never leaves the server. A hashed database account works as a fallback (scrypt). HMAC-SHA256 session tokens, HttpOnly + SameSite=Lax cookie, `Secure` in production, 7-day TTL, identical error for every failed attempt, 5-per-5-minutes + 20-per-hour login rate limits. Removing `ADMIN_PASSWORD` instantly invalidates master sessions. |
 | Transport / browser | CSP, HSTS (production), `X-Frame-Options` equivalent via `frame-ancestors`, `nosniff`, strict referrer policy, restrictive `Permissions-Policy`; `poweredByHeader` disabled. |
 | API surface | Mutating API calls require JSON content type and a same-origin (or explicitly allowed) `Origin`; unknown methods return 405; all API responses are `no-store`. |
 | Data | Admin notes and CSV cells are sanitised, CSV values are formula-injection escaped, IP addresses are stored only as salted SHA-256 hashes. |
@@ -296,7 +313,8 @@ vercel.json                    Vercel project config (region, function limits, h
 ## Deploy to Vercel
 
 1. **Create the database** — Supabase project → *Database → Connection pooling* → copy the pooled
-   URI. Run `db/schema.sql` in the Supabase SQL editor (or `psql "$DATABASE_URL" -f db/schema.sql`).
+   URI. Run `db/schema.sql` in the Supabase SQL editor (or `psql "$DATABASE_URL" -f db/schema.sql`),
+   then `supabase/realtime.sql` to lock down RLS and enable the live signal feed.
 2. **Environment variables** (Project → Settings → Environment Variables, *Production* scope):
 
    | Variable | Required | Notes |
@@ -304,8 +322,9 @@ vercel.json                    Vercel project config (region, function limits, h
    | `DATABASE_URL` | yes | Pooled Postgres URI with `?sslmode=require` |
    | `AUTH_SECRET` | yes | `openssl rand -base64 48` — 32+ characters |
    | `NEXT_PUBLIC_SITE_URL` | yes | e.g. `https://race.ceyteq.com` |
-   | `ADMIN_EMAIL` | yes | Bootstrap administrator |
-   | `ADMIN_PASSWORD` | first deploy | Strong password; remove after the first sign-in |
+   | `ADMIN_PASSWORD` | yes | **The single admin password** used on `/admin/login` — server-only secret |
+   | `ADMIN_EMAIL` / `ADMIN_NAME` | optional | Display identity for the master login and the seeded account |
+   | `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | optional | Enables live dashboard refresh (see *Realtime* below) |
    | `UPSTASH_REDIS_REST_URL` / `_TOKEN` | recommended | Shared rate limiting across invocations |
    | `ALLOWED_ORIGINS` | optional | Extra origins allowed to POST to `/api/*` |
 
@@ -321,7 +340,7 @@ vercel.json                    Vercel project config (region, function limits, h
 - [ ] `AUTH_SECRET` set to 32+ random characters (not a placeholder).
 - [ ] `DATABASE_URL` points at PostgreSQL with `sslmode=require`; `db/schema.sql` applied.
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the canonical HTTPS origin.
-- [ ] `ADMIN_PASSWORD` rotated after the first sign-in (or removed from the env).
+- [ ] `ADMIN_PASSWORD` set to a long random value (`openssl rand -base64 32`) and rotated periodically.
 - [ ] Upstash Redis credentials set so rate limits are shared across instances.
 - [ ] `npm run typecheck` and `npm run build` both clean.
 - [ ] Database starts empty of demo data (`npm run db:stats` → `0 submissions`).

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Logo, LogoMark } from "@/components/ui/Logo";
+import { LiveSignal } from "@/components/admin/LiveSignal";
 import { Icon } from "@/components/icons";
 import {
   ADMIN_MODULES,
@@ -180,6 +181,9 @@ export function AdminShell({
           </div>
         )}
       </div>
+
+      {/* Realtime signal (Supabase) */}
+      <LiveSignal compact={rail} />
 
       {/* Modules */}
       <nav className="no-scrollbar flex-1 space-y-1.5 overflow-y-auto pb-1">

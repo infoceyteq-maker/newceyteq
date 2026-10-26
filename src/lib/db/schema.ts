@@ -103,4 +103,41 @@ create table if not exists leads (
 create index if not exists leads_status_idx on leads (status);
 create index if not exists leads_channel_idx on leads (channel);
 create index if not exists leads_created_idx on leads (created_at desc);
+
+/* ------------------------------------------------------------------------- */
+/*  Realtime change signals                                                  */
+/*                                                                            */
+/*  A PII-free feed the browser may subscribe to. The dashboard only uses it  */
+/*  as a "something changed, refresh now" ping — never as a data source, so   */
+/*  no lead, client or submission content ever leaves the server.             */
+/* ------------------------------------------------------------------------- */
+create table if not exists ceyteq_signals (
+  id         bigserial primary key,
+  entity     text not null,
+  action     text not null default 'change',
+  created_at timestamptz not null default now()
+);
+create index if not exists ceyteq_signals_created_idx on ceyteq_signals (created_at desc);
+
+create or replace function ceyteq_emit_signal() returns trigger language plpgsql as $$
+begin
+  insert into ceyteq_signals (entity, action) values (tg_table_name, lower(tg_op));
+  return null;
+end;
+$$;
+
+drop trigger if exists ceyteq_signal_forms on forms;
+create trigger ceyteq_signal_forms
+  after insert or update or delete on forms
+  for each row execute function ceyteq_emit_signal();
+
+drop trigger if exists ceyteq_signal_submissions on submissions;
+create trigger ceyteq_signal_submissions
+  after insert or update or delete on submissions
+  for each row execute function ceyteq_emit_signal();
+
+drop trigger if exists ceyteq_signal_leads on leads;
+create trigger ceyteq_signal_leads
+  after insert or update or delete on leads
+  for each row execute function ceyteq_emit_signal();
 `;

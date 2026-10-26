@@ -13,7 +13,11 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Ceyteq Digital Race error:", error);
+    /* Surface the digest in development; production errors are reported by
+       Next.js/Vercel instead of the browser console. */
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Ceyteq Digital Race error:", error);
+    }
   }, [error]);
 
   return (

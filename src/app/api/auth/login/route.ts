@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import {
+  ENV_ADMIN_ID,
   SESSION_COOKIE,
   createSessionToken,
+  envAdminCredentials,
+  envAdminUser,
   hashPassword,
   sessionCookieOptions,
+  verifyEnvAdminPassword,
   verifyPassword,
 } from "@/lib/auth";
 import { countUsers, createUser, findUserByEmail, touchLastLogin } from "@/lib/repos/users";
@@ -33,10 +37,11 @@ export async function POST(request: Request) {
 
   const email = sanitizeEmail(body.email);
   const password = typeof body.password === "string" ? body.password : "";
+  const envAdmin = envAdminCredentials();
 
-  if (!email || !password) {
+  if (!password || (!email && !envAdmin)) {
     return NextResponse.json(
-      { error: "Email and password are required." },
+      { error: "Enter the administrator password to continue." },
       { status: 400, headers: NO_STORE },
     );
   }
@@ -55,7 +60,18 @@ export async function POST(request: Request) {
     );
   }
 
-  let user = await findUserByEmail(email);
+  /* ---- Single-administrator login: the password in ADMIN_PASSWORD. ---- */
+  if (envAdmin && verifyEnvAdminPassword(password)) {
+    const admin = envAdminUser();
+    const response = NextResponse.json(
+      { ok: true, user: { id: admin.id, name: admin.name, email: admin.email, role: admin.role } },
+      { headers: { ...NO_STORE, ...rateLimitHeaders(burst) } },
+    );
+    response.cookies.set(SESSION_COOKIE, createSessionToken(ENV_ADMIN_ID), sessionCookieOptions());
+    return response;
+  }
+
+  let user = email ? await findUserByEmail(email) : null;
 
   /**
    * One-time bootstrap: only when the workspace has zero administrators and the
@@ -77,11 +93,13 @@ export async function POST(request: Request) {
         passwordHash: await hashPassword(bootstrap.password),
         role: "owner",
       });
-      console.warn("[auth] bootstrap administrator created for %s", bootstrap.email);
+      if (process.env.NODE_ENV !== "production") {
+        console.info("[auth] bootstrap administrator created for %s", bootstrap.email);
+      }
     }
   }
 
-  if (!user || !(await verifyPassword(password, user.passwordHash))) {
+  if (!email || !user || !(await verifyPassword(password, user.passwordHash))) {
     // Identical response for unknown accounts and wrong passwords.
     return NextResponse.json(
       { error: "Those credentials do not match our records." },

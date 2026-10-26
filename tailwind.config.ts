@@ -5,15 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Neutral ash canvas + surfaces (no blue tint). */
+        /* Matte ash canvas (#CBD5E1) + extruded surfaces. */
         ash: {
-          50: "#F4F4F6",
-          100: "#EFEFF1",
-          200: "#E8E8EA" /* surface */,
-          300: "#E4E4E6" /* page base */,
-          400: "#DCDCE0",
+          50: "#EEF2F7",
+          100: "#E4EAF1",
+          200: "#D5DCE5" /* surface */,
+          300: "#CBD5E1" /* page base */,
+          400: "#B8C4D4",
           500: "#C5C5CA" /* shadow-dark */,
-          600: "#A9A9B0",
+          600: "#9AA7B8",
         },
         /* Royal-blue accent family, taken from the logo's radium blue. */
         ceyteq: {
@@ -41,10 +41,10 @@ const config: Config = {
         navy: {
           50: "#EEF0F6",
           100: "#DCE0EB",
-          200: "#8C93A6",
-          300: "#5F6678",
-          400: "#5A6070" /* body text */,
-          500: "#3B4468",
+          200: "#7A879C" /* decorative labels */,
+          300: "#4C5A73" /* small labels · 4.9:1 on the canvas */,
+          400: "#39465F" /* body text · 6.3:1 */,
+          500: "#24314F",
           600: "#1E2A52" /* headline alt */,
           700: "#0F1B3D" /* navy */,
           800: "#14121F" /* navy deep */,

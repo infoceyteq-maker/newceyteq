@@ -64,6 +64,13 @@ const envSchema = z.object({
 
   NEXT_PUBLIC_SITE_URL: optionalUrl,
 
+  /**
+   * Supabase project URL + anon (publishable) key. Only used in the browser to
+   * subscribe to the PII-free `ceyteq_signals` change feed — never for reads.
+   */
+  NEXT_PUBLIC_SUPABASE_URL: optionalUrl,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: optionalString,
+
   /** Optional comma separated extra origins allowed to call the public API. */
   ALLOWED_ORIGINS: optionalString,
 

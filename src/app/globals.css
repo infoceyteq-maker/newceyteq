@@ -11,8 +11,8 @@
 /*  Every colour lives here as a CSS variable, so the whole system can be     */
 /*  re-tuned from this one block (and mirrored in tailwind.config.ts).        */
 /*                                                                            */
-/*    --bg            #E4E4E6  page base           (→ #EAEAEC gradient)      */
-/*    --surface       #E8E8EA  cards, navbar, inputs                          */
+/*    --bg            #CBD5E1  matte ash page base  (→ #D1D5DB gradient)     */
+/*    --surface       #D5DCE5  cards, navbar, inputs                          */
 /*    --shadow-light  #FFFFFF  top-left highlight                             */
 /*    --shadow-dark   #C5C5CA  bottom-right drop                              */
 /*    --navy          #0F1B3D  dark panels + headings                         */
@@ -23,11 +23,11 @@
 /* ------------------------------------------------------------------------- */
 @layer base {
   :root {
-    --bg: #e4e4e6;
-    --bg-gradient-top: #eaeaec;
-    --surface: #e8e8ea;
-    --surface-high: #eeeef0;
-    --surface-low: #e1e1e4;
+    --bg: #cbd5e1;
+    --bg-gradient-top: #d1d5db;
+    --surface: #d5dce5;
+    --surface-high: #dfe5ed;
+    --surface-low: #c6d1df;
 
     --shadow-light: #ffffff;
     --shadow-dark: #c5c5ca;
@@ -39,9 +39,9 @@
     --radium: #3da5ff;
     --radium-light: #6cc4ff;
 
-    --text: #1e2a52;
-    --text-body: #5a6070;
-    --text-muted: #7b8194;
+    --text: #0f1b3d;
+    --text-body: #39465f;
+    --text-muted: #4c5a73;
 
     /* Raised + pressed recipes reused by every surface. */
     --raise: 12px 12px 28px var(--shadow-dark), -12px -12px 28px var(--shadow-light);
@@ -54,7 +54,10 @@
     /* Soft highlight edge that makes a pill read as a physical button. */
     --edge: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 rgba(197, 197, 202, 0.35);
     /* Top-left light sweep used on every raised card. */
-    --card-sheen: linear-gradient(145deg, #efeff1 0%, #e8e8ea 55%, #e2e2e5 100%);
+    --card-sheen: linear-gradient(145deg, #eef2f7 0%, #e0e6ee 52%, #ccd6e2 100%);
+    /* Faint navy contact shadow that keeps the extrusion readable on a
+       mid-grey canvas (the #C5C5CA drop alone is very close in value). */
+    --ambient: 0 8px 20px rgba(15, 27, 61, 0.12);
     --glow: 0 8px 24px rgba(47, 107, 255, 0.35);
     --glow-radium: 0 0 18px rgba(61, 165, 255, 0.35);
   }
@@ -128,7 +131,7 @@
   }
 
   select option {
-    background: #e8e8ea;
+    background: #d5dce5;
     color: #0f1b3d;
   }
 }
@@ -148,32 +151,32 @@
 
   .neu {
     border-radius: 28px;
-    box-shadow: var(--raise);
+    box-shadow: var(--raise), var(--ambient);
   }
 
   .neu-raised {
     border-radius: 32px;
-    box-shadow: var(--raise);
+    box-shadow: var(--raise), var(--ambient);
   }
 
   /* Deeper extrusion for hero panels and module cards. */
   .neu-3d {
     border-radius: 32px;
-    box-shadow: var(--raise-lg);
+    box-shadow: var(--raise-lg), var(--ambient);
   }
 
   /* A card nested inside another card: flatter radius, softer light. */
   .neu-inset-card {
     background-color: var(--surface);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e6e6e9 100%);
+    background-image: linear-gradient(145deg, #e9eef4 0%, #d9e0e9 100%);
     border-radius: 22px;
-    box-shadow: var(--raise-sm);
+    box-shadow: var(--raise-sm), var(--ambient);
   }
 
   /* Sunken well for stat blocks, table bodies and code panes. */
   .neu-well {
     background-color: var(--surface-low);
-    background-image: linear-gradient(145deg, #dddde1 0%, #e9e9ec 100%);
+    background-image: linear-gradient(145deg, #c2cddb 0%, #dbe2ea 100%);
     border-radius: 20px;
     box-shadow: var(--well);
   }
@@ -181,7 +184,7 @@
   /* -------------------- pressed / sunken surfaces ------------------------- */
   .neu-sunken {
     background-color: var(--surface-low);
-    background-image: linear-gradient(145deg, #e2e2e5 0%, #e9e9ec 100%);
+    background-image: linear-gradient(145deg, #c4cfdd 0%, #dce3eb 100%);
     border: 0;
     box-shadow: var(--press);
   }
@@ -239,7 +242,7 @@
     @apply w-full rounded-2xl px-4 py-3.5 text-[15px] font-medium outline-none transition-all duration-250;
     color: var(--text);
     background-color: var(--surface-low);
-    background-image: linear-gradient(145deg, #e2e2e5 0%, #ebebee 100%);
+    background-image: linear-gradient(145deg, #c3cedc 0%, #dde4ec 100%);
     border: 0;
     box-shadow: var(--press);
   }
@@ -270,10 +273,10 @@
   .neu-btn {
     @apply inline-flex select-none items-center justify-center gap-2 rounded-pill px-6 py-3 text-[14px] font-semibold transition-all duration-250;
     background-color: var(--surface);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e4e4e7 100%);
+    background-image: linear-gradient(145deg, #eef2f7 0%, #d3dbe5 100%);
     color: var(--text);
     border: 0;
-    box-shadow: var(--raise), var(--edge);
+    box-shadow: var(--raise), var(--ambient), var(--edge);
     transition: transform 250ms ease, box-shadow 250ms ease, color 250ms ease;
   }
 
@@ -299,7 +302,7 @@
     background-image: linear-gradient(150deg, #1e3fa8 0%, #2f6bff 100%);
     color: #fff;
     border: 0;
-    box-shadow: var(--raise), 0 8px 24px rgba(47, 107, 255, 0.35),
+    box-shadow: var(--raise), var(--ambient), 0 8px 24px rgba(47, 107, 255, 0.35),
       inset 0 1px 0 rgba(255, 255, 255, 0.35);
   }
 
@@ -322,7 +325,7 @@
     background-image: linear-gradient(150deg, #1a2447 0%, #0f1b3d 100%);
     color: #fff;
     border: 0;
-    box-shadow: var(--raise), 0 0 0 1px rgba(61, 165, 255, 0.28),
+    box-shadow: var(--raise), var(--ambient), 0 0 0 1px rgba(61, 165, 255, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.18);
   }
 
@@ -371,18 +374,18 @@
   }
   .neu-btn-ghost:hover {
     color: var(--blue);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e5e5e8 100%);
-    box-shadow: var(--raise);
+    background-image: linear-gradient(145deg, #edf1f7 0%, #d6dee8 100%);
+    box-shadow: var(--raise-sm), var(--ambient);
   }
 
   /* --------------------------- pills & chips ------------------------------ */
   .neu-chip {
     @apply inline-flex items-center gap-1.5 rounded-pill px-3.5 py-2 text-[12px] font-semibold tracking-wide transition-all duration-250;
     background-color: var(--surface);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e5e5e8 100%);
+    background-image: linear-gradient(145deg, #edf1f7 0%, #d4dce6 100%);
     color: var(--text);
     border: 0;
-    box-shadow: var(--raise-sm), var(--edge);
+    box-shadow: var(--raise-sm), var(--ambient), var(--edge);
     transition: transform 250ms ease, box-shadow 250ms ease, color 250ms ease;
   }
 
@@ -420,9 +423,9 @@
   .neu-orb {
     @apply grid place-items-center rounded-[22px];
     background-color: var(--surface);
-    background-image: linear-gradient(145deg, #eeeef1 0%, #e3e3e6 100%);
+    background-image: linear-gradient(145deg, #eef2f8 0%, #d5dde7 100%);
     border: 0;
-    box-shadow: var(--raise-sm), var(--edge);
+    box-shadow: var(--raise-sm), var(--ambient), var(--edge);
   }
 
   .neu-orb[data-active="true"] {
@@ -458,9 +461,9 @@
   .neu-check {
     @apply relative flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all duration-250;
     background-color: var(--surface);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e5e5e8 100%);
+    background-image: linear-gradient(145deg, #eef2f8 0%, #d5dde7 100%);
     border: 0;
-    box-shadow: var(--raise);
+    box-shadow: var(--raise), var(--ambient);
   }
 
   .neu-check:hover:not([data-checked="true"]):not(:disabled) {
@@ -469,7 +472,7 @@
   }
 
   .neu-check[data-checked="true"] {
-    background-image: linear-gradient(145deg, #e2e2e5 0%, #ebebee 100%);
+    background-image: linear-gradient(145deg, #c6d1df 0%, #dfe6ee 100%);
     box-shadow: var(--press), 0 0 0 2px rgba(61, 165, 255, 0.4);
   }
 
@@ -502,13 +505,13 @@
   }
   .nav-link:hover {
     color: var(--navy);
-    background-image: linear-gradient(145deg, #ededf0 0%, #e5e5e8 100%);
-    box-shadow: var(--raise-sm), var(--edge);
+    background-image: linear-gradient(145deg, #edf1f7 0%, #d6dee8 100%);
+    box-shadow: var(--raise-sm), var(--ambient), var(--edge);
   }
   /* Active partition: pressed into the panel with a glowing radium edge bar. */
   .nav-link[data-active="true"] {
     color: var(--navy);
-    background-image: linear-gradient(145deg, #dedee2 0%, #e9e9ec 100%);
+    background-image: linear-gradient(145deg, #bfcad9 0%, #d9e0e9 100%);
     box-shadow: var(--press);
   }
   .nav-link[data-active="true"]::before {
@@ -575,7 +578,7 @@
     text-shadow: 0 0 12px rgba(61, 165, 255, 0.6);
   }
   .ring-neon {
-    box-shadow: 0 0 0 2px #e8e8ea, 0 0 0 4px rgba(61, 165, 255, 0.6),
+    box-shadow: 0 0 0 2px #d5dce5, 0 0 0 4px rgba(61, 165, 255, 0.6),
       0 0 16px rgba(61, 165, 255, 0.3);
   }
   /* Radium ambient glow for dark panels and active controls. */

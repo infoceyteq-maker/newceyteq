@@ -42,17 +42,16 @@ export function LoginForm() {
     <form onSubmit={submit} className="mt-7 space-y-4" noValidate>
       <div>
         <label htmlFor="email" className="label">
-          Email address
+          Email address <span className="normal-case tracking-normal text-navy-300">(optional)</span>
         </label>
         <div className="relative">
           <input
             id="email"
             type="email"
             autoComplete="username"
-            required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="admin@ceyteq.com"
+            placeholder="admin@ceyteq.com (optional)"
             className="neu-input pl-11"
           />
           <Icon.mail
@@ -98,6 +97,12 @@ export function LoginForm() {
           {error}
         </div>
       ) : null}
+
+      <p className="text-[11.5px] font-semibold leading-relaxed text-navy-300">
+        There is a single administrator. Enter the password from{" "}
+        <code className="rounded-md bg-ash-100 px-1.5 py-0.5 text-[11px] text-navy-500">ADMIN_PASSWORD</code>{" "}
+        — the email is only needed for named database accounts.
+      </p>
 
       <button type="submit" disabled={loading} className="neu-btn-dark neu-btn w-full !py-3.5">
         {loading ? (
