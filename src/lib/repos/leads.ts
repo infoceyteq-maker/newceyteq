@@ -29,12 +29,15 @@ export async function createLead(input: {
   channel: string;
   source: string;
   message: string;
+  /** Optional overrides used by the admin "Add lead" action. */
+  status?: string;
+  notes?: string;
   ipHash?: string | null;
   userAgent?: string | null;
 }) {
   return one<LeadRecord>(
-    `insert into leads (id, name, email, phone, company, channel, source, message, ip_hash, user_agent)
-     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    `insert into leads (id, name, email, phone, company, channel, source, message, status, notes, ip_hash, user_agent)
+     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
      returning ${LEAD_COLUMNS}`,
     [
       newId("lead"),
@@ -45,6 +48,8 @@ export async function createLead(input: {
       input.channel,
       input.source,
       input.message,
+      input.status ?? "new",
+      input.notes ?? "",
       input.ipHash ?? null,
       input.userAgent ?? null,
     ],

@@ -60,19 +60,24 @@ const config: Config = {
         "neu-lg": "36px",
         pill: "999px",
       },
+      transitionDuration: {
+        250: "250ms",
+      },
       boxShadow: {
-        /* Raised: white highlight top-left, ash-drop bottom-right. */
-        neu: "8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF",
+        /* Raised: white highlight top-left, ash drop bottom-right (spec depth). */
+        neu: "12px 12px 28px #C5C5CA, -12px -12px 28px #FFFFFF",
         "neu-sm": "6px 6px 14px #C5C5CA, -6px -6px 14px #FFFFFF",
-        "neu-md": "8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF",
-        "neu-lg": "14px 14px 30px #C5C5CA, -12px -12px 28px #FFFFFF",
+        "neu-md": "12px 12px 28px #C5C5CA, -12px -12px 28px #FFFFFF",
+        "neu-lg": "16px 16px 38px #C5C5CA, -16px -16px 36px #FFFFFF",
+        "neu-hover": "14px 16px 32px #C5C5CA, -14px -14px 32px #FFFFFF",
         /* Pressed / inset. */
         "neu-inset": "inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF",
         "neu-inset-sm": "inset 4px 4px 9px #C5C5CA, inset -4px -4px 9px #FFFFFF",
+        "neu-well": "inset 8px 8px 18px #C5C5CA, inset -8px -8px 18px #FFFFFF",
         "neu-pressed": "inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF",
         /* Dark navy panel with a radium outline + inner glow. */
         "navy-neu":
-          "10px 10px 24px rgba(197,197,202,0.55), -10px -10px 24px #FFFFFF, 0 0 0 1px rgba(61,165,255,0.35), inset 0 0 28px rgba(61,165,255,0.12)",
+          "12px 12px 28px rgba(197,197,202,0.6), -12px -12px 28px #FFFFFF, 0 0 0 1px rgba(61,165,255,0.35), inset 0 0 28px rgba(61,165,255,0.12)",
         /* Blue accent glows. */
         glow: "0 8px 24px rgba(47,107,255,0.35)",
         "glow-lg": "0 12px 32px rgba(47,107,255,0.45)",
@@ -91,8 +96,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "neon-pulse": {
-          "0%, 100%": { opacity: "1", boxShadow: "0 0 0 0 rgba(0,210,255,0.5)" },
-          "50%": { opacity: "0.85", boxShadow: "0 0 14px 2px rgba(0,210,255,0.5)" },
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 0 0 rgba(61,165,255,0.5)" },
+          "50%": { opacity: "0.85", boxShadow: "0 0 14px 2px rgba(61,165,255,0.5)" },
         },
         "float-soft": {
           "0%, 100%": { transform: "translateY(0)" },

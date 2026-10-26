@@ -57,8 +57,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-dvh overflow-x-hidden">{children}</body>
+    <html lang="en" className="min-h-screen bg-ash-300">
+      <body className="min-h-screen overflow-x-hidden bg-ash-300">{children}</body>
     </html>
   );
 }

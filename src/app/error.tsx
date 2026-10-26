@@ -17,7 +17,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <div className="grid min-h-dvh place-items-center px-4 py-16">
+    <div className="grid min-h-screen place-items-center bg-ash-300 px-4 py-16">
       <div className="w-full max-w-lg">
         <div className="mb-8 flex justify-center">
           <Logo height={44} />

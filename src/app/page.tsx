@@ -37,7 +37,7 @@ export default async function HomePage() {
     featured?.sections.reduce((total, section) => total + section.fields.length, 0) ?? 18;
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen bg-ash-300">
       <SiteHeader authenticated={!!user} />
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -320,7 +320,7 @@ export default async function HomePage() {
               <div key={item.step} className="relative">
                 <div className="neu-raised h-full rounded-neu-lg p-6">
                   <div className="flex items-center justify-between">
-                    <span className="font-display text-[34px] font-light leading-none text-navy-200">
+                    <span className="font-display text-[34px] font-light leading-none text-navy-100">
                       {item.step}
                     </span>
                     <span className="neu-orb h-10 w-10 text-ceyteq-500">

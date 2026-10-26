@@ -162,6 +162,7 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 | `PATCH/DELETE` | `/api/admin/submissions/:id` | admin | Status, notes, delete |
 | `GET` | `/api/admin/submissions/export` | admin | CSV download |
 | `POST` | `/api/leads` | public | Website enquiry → leads pipeline |
+| `POST` | `/api/admin/leads` | admin | Add a lead from the control centre |
 | `PATCH/DELETE` | `/api/admin/leads/:id` | admin | Update lead status / delete |
 | `GET` | `/api/admin/leads/export` | admin | Leads CSV download |
 | `GET` | `/api/health` | public | Liveness/readiness probe (driver, row counts, no secrets) |
@@ -192,15 +193,20 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 
   | Layer | Value |
   | --- | --- |
-  | Raised (cards, navbar, pills) | `8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF` |
+  | Raised (cards, navbar, pills) | `12px 12px 28px #C5C5CA, -12px -12px 28px #FFFFFF` |
   | Pressed / inset (badges, inputs, active tabs) | `inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF` |
+  | Sunken well (stats, tables) | `inset 8px 8px 18px #C5C5CA, inset -8px -8px 18px #FFFFFF` |
+  | Card light sweep | `linear-gradient(145deg, #EFEFF1, #E8E8EA, #E2E2E5)` |
   | Primary CTA glow | `0 8px 24px rgba(47,107,255,0.35)` |
   | Radium halo (dark panels, dots) | `0 0 18px rgba(61,165,255,0.35)` |
 
-  Hover lifts surfaces by `translateY(-2px)` with a stronger shadow, active states collapse into the
-  inset recipe, and all transitions run 200–300ms. Primitives live in `src/app/globals.css`
-  (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-input`, `.neu-btn*`, `.neu-orb`,
-  `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by every page.
+  Hover lifts surfaces by `translateY(-3px)` with a stronger shadow, active states collapse into the
+  inset recipe, and all transitions run 250ms. Cards nest inside cards (`.neu-inset-card`) and metrics
+  sit in sunken wells (`.neu-well`). Primitives live in `src/app/globals.css`
+  (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-well`, `.neu-inset-card`, `.neu-input`,
+  `.neu-btn*`, `.neu-orb`, `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by every page.
+* **Ash everywhere** — `html`, `body` and every layout wrapper are `min-h-screen` with
+  `background-color: #E4E4E6`, so dialogs, drawers and short pages never show a white or blue gap.
 
 * **Blue accents** — primary buttons use the `#1E3FA8 → #2F6BFF` gradient with white text and the soft
   glow above; the hero headline highlight ("every restaurant") uses the `#2F6BFF → #3DA5FF` gradient.
@@ -221,6 +227,28 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
   fade-ups on load, all disabled under `prefers-reduced-motion`.
 
 ---
+
+## Control centre (Super Master Admin)
+
+After login the operator lands in an organised control centre built for adding the company's other
+systems one at a time.
+
+* **Single source of truth** — every destination lives in `src/lib/admin-modules.ts`:
+  `{ key, label, icon, href, status: "live" | "soon", children[] }`. The grouped sidebar, the mobile
+  drawer/bottom bar, the dashboard module tiles and the "More systems" slot list all render from it.
+  Adding a system = one registry entry + one folder under `src/app/admin/(dashboard)/`.
+* **Navigation** — Overview · Leads & Forms (live: Restaurant Clients, Leads & Inquiries, Form
+  Generator, Responses) · Web Studio (coming soon) · Websites (coming soon) · More Systems · Settings.
+  Active items show the pressed/inset shadow with a glowing radium edge bar. The signed-in account is
+  always presented as **Super Master Admin** with a sign-out button in the sidebar footer. The sidebar
+  collapses to an icon rail on desktop (state persisted in `localStorage`); mobile gets a drawer plus a
+  floating bottom bar.
+* **Leads & Forms hub** (`/admin/leads-forms`) — raised cards for total forms, new leads, today's
+  submissions and conversion (won ÷ leads), plus quick actions: create form, copy the public form link
+  and add a lead. The leads page adds a status pipeline board, per-channel source glyphs, search,
+  filters and CSV export.
+* **API** — `POST /api/admin/leads` creates a lead from the console (admin-only, sanitised with the same
+  schema as the public endpoint, rate limited by the shared admin-write budget).
 
 ## Project structure
 

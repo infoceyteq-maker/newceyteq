@@ -222,6 +222,14 @@ export async function dashboardStats() {
   return { formCount, publishedCount, submissionCount, newCount, buckets };
 }
 
+/** Submissions received since local midnight — used by the module hub. */
+export async function todaySubmissionCount() {
+  const dates = await recentSubmissionDates();
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  return dates.filter((date) => date >= start).length;
+}
+
 export async function submissionCounts() {
   return submissionStatusCounts();
 }

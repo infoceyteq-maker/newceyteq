@@ -51,7 +51,7 @@ export default async function PublicFormPage({ params }: PageProps) {
   );
 
   return (
-    <div className="relative min-h-dvh">
+    <div className="relative min-h-screen bg-ash-300">
       <div className="glow-blob -left-24 top-10 h-72 w-72 bg-ash-50" />
       <div className="glow-blob right-0 top-1/3 h-80 w-80 bg-ash-100" />
 

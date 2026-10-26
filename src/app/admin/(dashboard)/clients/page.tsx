@@ -13,7 +13,7 @@ type SearchParams = Promise<{ status?: string; q?: string }>;
 const STATUS_STYLES: Record<string, string> = {
   new: "bg-ceyteq-100/90 text-ceyteq-700",
   reviewed: "bg-emerald-100/85 text-emerald-700",
-  archived: "bg-slate-200/80 text-slate-600",
+  archived: "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
 };
 
 export default async function ClientsPage({ searchParams }: { searchParams: SearchParams }) {

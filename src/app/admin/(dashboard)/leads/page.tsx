@@ -11,7 +11,8 @@ import {
   leadChannelLabel,
   leadSourceLabel,
 } from "@/lib/leads";
-import { formatDateTime, relativeTime } from "@/lib/utils";
+import { AddLeadButton } from "@/components/admin/AddLeadButton";
+import { cn, formatDateTime, relativeTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Leads & Inquiries" };
@@ -20,14 +21,15 @@ type SearchParams = Promise<{ status?: string; source?: string; channel?: string
 
 const STATUS_STYLES: Record<string, string> = {
   new: "bg-ceyteq-100/90 text-ceyteq-700",
-  contacted: "bg-sky-100/85 text-sky-700",
+  contacted: "bg-ash-100 text-navy-500 shadow-neu-inset-sm",
   qualified: "bg-emerald-100/85 text-emerald-700",
   won: "bg-emerald-200/80 text-emerald-800",
-  archived: "bg-slate-200/80 text-slate-600",
+  archived: "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
 };
 
 export default async function LeadsPage({ searchParams }: { searchParams: SearchParams }) {
   const { status, source, channel, q } = await searchParams;
+  const activeChannel = channel;
 
   const [leads, stats] = await Promise.all([
     listLeads({ status, source, channel, query: q, take: 300 }),
@@ -63,13 +65,16 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
               website form — tracked from first contact to won.
             </p>
           </div>
-          <a
-            href={`/api/admin/leads/export${exportQuery.toString() ? `?${exportQuery.toString()}` : ""}`}
-            className="neu-btn !px-4 !py-2.5 !text-[12.5px]"
-          >
-            <Icon.download size={15} className="text-ceyteq-500" />
-            Export CSV
-          </a>
+          <div className="flex flex-wrap gap-2.5">
+            <AddLeadButton label="Add lead" variant="primary" />
+            <a
+              href={`/api/admin/leads/export${exportQuery.toString() ? `?${exportQuery.toString()}` : ""}`}
+              className="neu-btn !px-4 !py-2.5 !text-[12.5px]"
+            >
+              <Icon.download size={15} className="text-ceyteq-500" />
+              Export CSV
+            </a>
+          </div>
         </div>
       </header>
 
@@ -113,6 +118,142 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
             </div>
           );
         })}
+      </section>
+
+      {/* Pipeline board by status */}
+      <section className="space-y-3">
+        <div className="flex flex-wrap items-end justify-between gap-2 px-1">
+          <div>
+            <h2 className="text-[16px] font-bold text-navy-700">Pipeline</h2>
+            <p className="text-[12px] font-medium text-navy-300">
+              Drag-free stages — open a column to work that queue.
+            </p>
+          </div>
+          <Link href="/admin/leads" className="neu-btn-ghost !px-2.5 !py-1.5 !text-[11.5px]">
+            Reset view
+            <Icon.chevronRight size={13} />
+          </Link>
+        </div>
+
+        <div className="no-scrollbar -mx-1 flex gap-3 overflow-x-auto px-1 pb-1">
+          {LEAD_STATUSES.map((stage) => {
+            const rows = leads.filter((lead) => lead.status === stage.value).slice(0, 3);
+            const stageCount = stage.value === "new" ? stats.newCount : stats.byStatus[stage.value] ?? 0;
+            const selected = status === stage.value;
+            return (
+              <div
+                key={stage.value}
+                className={cn(
+                  "flex min-w-[210px] flex-1 flex-col rounded-3xl p-3.5",
+                  selected ? "neu-inset-card" : "neu",
+                )}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-navy-500">
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-full",
+                        stage.value === "won"
+                          ? "bg-emerald-500"
+                          : stage.value === "archived"
+                            ? "bg-navy-200"
+                            : "bg-ceyteq-500",
+                      )}
+                    />
+                    {stage.label}
+                  </span>
+                  <span className="rounded-pill bg-ash-100 px-2 py-0.5 text-[10.5px] font-bold text-navy-400 shadow-neu-inset-sm">
+                    {stageCount}
+                  </span>
+                </div>
+
+                <div className="mt-2.5 space-y-1.5">
+                  {rows.length === 0 ? (
+                    <p className="rounded-xl px-2 py-3 text-[11px] font-semibold text-navy-300">
+                      Nothing here yet
+                    </p>
+                  ) : (
+                    rows.map((lead) => {
+                      const Glyph = Icon[leadChannelIcon(lead.channel)];
+                      return (
+                        <div
+                          key={lead.id}
+                          className="flex items-center gap-2 rounded-xl bg-ash-100/80 px-2.5 py-2 shadow-neu-inset-sm"
+                        >
+                          <Glyph size={12} className="shrink-0 text-ceyteq-500" />
+                          <span className="min-w-0 flex-1 truncate text-[11px] font-bold text-navy-600">
+                            {lead.name}
+                          </span>
+                          <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[0.06em] text-navy-300">
+                            {relativeTime(lead.createdAt)}
+                          </span>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+
+                <Link
+                  href={`/admin/leads?status=${stage.value}`}
+                  className="mt-auto inline-flex items-center gap-1.5 pt-3 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300 transition-colors hover:text-ceyteq-500"
+                >
+                  Open stage
+                  <Icon.arrowRight size={11} />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Source channels with their brand glyphs */}
+      <section className="neu-raised rounded-neu-lg p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+          <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-navy-300">
+            <Icon.filter size={12} className="text-ceyteq-500" />
+            Sources
+          </p>
+          <span className="text-[11px] font-semibold text-navy-300">
+            {socialCount} from social platforms
+          </span>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {LEAD_CHANNELS.filter((channel) => (stats.byChannel[channel.value] ?? 0) > 0).length === 0
+            ? LEAD_CHANNELS.slice(0, 7).map((channel) => {
+                const Glyph = Icon[leadChannelIcon(channel.value)];
+                return (
+                  <span
+                    key={channel.value}
+                    className="neu-chip !py-1.5 !text-[11px] text-navy-300"
+                    title={channel.label}
+                  >
+                    <Glyph size={13} className="text-navy-300" />
+                    {channel.label}
+                    <span className="font-bold text-navy-300">0</span>
+                  </span>
+                );
+              })
+            : LEAD_CHANNELS.map((channel) => {
+                const count = stats.byChannel[channel.value] ?? 0;
+                const Glyph = Icon[leadChannelIcon(channel.value)];
+                const active = activeChannel === channel.value;
+                return (
+                  <Link
+                    key={channel.value}
+                    href={`/admin/leads?channel=${channel.value}`}
+                    data-active={active}
+                    className="neu-chip !py-1.5 !text-[11px]"
+                    title={`${channel.label} · ${leadSourceLabel(channel.source)}`}
+                  >
+                    <Glyph size={13} className={active ? undefined : "text-ceyteq-500"} />
+                    {channel.label}
+                    <span className={cn("font-bold", active ? "text-white/80" : "text-navy-300")}>
+                      {count}
+                    </span>
+                  </Link>
+                );
+              })}
+        </div>
       </section>
 
       <LeadFilters counts={counts} />

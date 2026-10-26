@@ -123,7 +123,7 @@ function StatusPill({ status }: { status: string }) {
   const map: Record<string, string> = {
     published: "bg-emerald-100/80 text-emerald-700",
     draft: "bg-amber-100/80 text-amber-700",
-    archived: "bg-slate-200/80 text-slate-600",
+    archived: "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
   };
   return <span className={`neu-badge ${map[status] ?? "bg-ash-100 text-navy-400"}`}>{status}</span>;
 }

@@ -7,6 +7,7 @@ import { databaseInfo } from "@/lib/db";
 import { countUsers } from "@/lib/repos/users";
 import { formatDateTime, initials } from "@/lib/utils";
 import { TEMPLATES } from "@/lib/templates";
+import { roleLabel } from "@/lib/admin-modules";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Settings" };
@@ -41,7 +42,7 @@ export default async function SettingsPage() {
               {user.name}
             </h1>
             <p className="text-[12.5px] font-semibold text-navy-300">
-              {user.email} · {user.role}
+              {user.email} · {roleLabel(user.role)}
             </p>
           </div>
         </div>

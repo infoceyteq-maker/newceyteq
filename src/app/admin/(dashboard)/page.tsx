@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { CreateFormButton } from "@/components/admin/CreateFormButton";
+import { ModuleCards } from "@/components/admin/ModuleCards";
+import { AddLeadButton } from "@/components/admin/AddLeadButton";
 import { requireAdmin } from "@/lib/auth";
 import { dashboardStats, listSubmissions } from "@/lib/services/submissions-service";
 import { listForms } from "@/lib/services/forms-service";
 import { leadStats, recentLeadRows } from "@/lib/services/leads-service";
-import { leadChannelIcon, leadChannelLabel } from "@/lib/leads";
+import { LEAD_STATUSES, leadChannelIcon, leadChannelLabel } from "@/lib/leads";
+import { roleLabel } from "@/lib/admin-modules";
 import { displayValue, formatDateTime, relativeTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -40,6 +43,10 @@ export default async function AdminOverviewPage() {
             <h1 className="mt-2.5 text-[26px] font-semibold leading-tight text-navy-700 sm:text-[32px]">
               Good to see you, {user.name.split(" ")[0]}.
             </h1>
+            <p className="mt-1 flex items-center gap-2 text-[11.5px] font-bold uppercase tracking-[0.14em] text-navy-300">
+              <Icon.shield size={12} className="text-ceyteq-500" />
+              {roleLabel(user.role)}
+            </p>
             <p className="mt-1.5 text-[13.5px] text-navy-400">
               {stats.newCount > 0
                 ? `${stats.newCount} new submission${stats.newCount === 1 ? "" : "s"} waiting for review.`
@@ -49,9 +56,22 @@ export default async function AdminOverviewPage() {
           <div className="flex flex-wrap gap-2.5">
             <CreateFormButton template="restaurant" label="New from template" variant="primary" icon="sparkles" />
             <CreateFormButton template="blank" label="Blank form" icon="plus" />
+            <AddLeadButton label="Add lead" />
           </div>
         </div>
       </header>
+
+      {/* Every system in the control centre, straight from the registry */}
+      <ModuleCards
+        counts={{
+          forms: stats.formCount,
+          newSubmissions: stats.newCount,
+          submissions: stats.submissionCount,
+          clients: stats.submissionCount,
+          newLeads: leads.newCount,
+          leads: leads.total,
+        }}
+      />
 
       {/* Partitioned stats */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -101,10 +121,10 @@ export default async function AdminOverviewPage() {
                   <Glyph size={16} />
                 </span>
               </div>
-              <p className="stat-value mt-3 text-[30px]">
-                {card.value}
-              </p>
-              <p className="mt-1.5 truncate text-[11.5px] font-semibold text-navy-300">{card.sub}</p>
+              <div className="neu-well mt-3.5 rounded-2xl px-3.5 py-3">
+                <p className="stat-value text-[28px]">{card.value}</p>
+                <p className="mt-1.5 truncate text-[11px] font-semibold text-navy-300">{card.sub}</p>
+              </div>
             </Link>
           );
         })}
@@ -197,6 +217,22 @@ export default async function AdminOverviewPage() {
             Open pipeline
             <Icon.arrowRight size={13} />
           </Link>
+        </div>
+
+        <div className="neu-well mt-4 flex flex-wrap gap-1.5 rounded-2xl p-2.5">
+          {LEAD_STATUSES.map((stage) => {
+            const count = stage.value === "new" ? leads.newCount : leads.byStatus[stage.value] ?? 0;
+            return (
+              <Link
+                key={stage.value}
+                href={`/admin/leads?status=${stage.value}`}
+                className="inline-flex items-center gap-1.5 rounded-pill bg-ash-100 px-2.5 py-1 text-[10.5px] font-bold text-navy-400 shadow-neu-inset-sm transition-all duration-250 hover:-translate-y-0.5 hover:text-navy-700"
+              >
+                {stage.label}
+                <span className="text-ceyteq-500">{count}</span>
+              </Link>
+            );
+          })}
         </div>
 
         <div className="mt-4 space-y-2.5">
@@ -296,7 +332,7 @@ function StatusPill({ status }: { status: string }) {
   const map: Record<string, string> = {
     published: "bg-emerald-100/80 text-emerald-700",
     draft: "bg-amber-100/80 text-amber-700",
-    archived: "bg-slate-200/80 text-slate-600",
+    archived: "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
   };
   return (
     <span className={`neu-badge ${map[status] ?? "bg-ash-100 text-navy-400"}`}>{status}</span>
@@ -307,7 +343,7 @@ function SubmissionStatusPill({ status }: { status: string }) {
   const map: Record<string, { className: string; label: string }> = {
     new: { className: "bg-ceyteq-100/90 text-ceyteq-700", label: "New" },
     reviewed: { className: "bg-emerald-100/80 text-emerald-700", label: "Reviewed" },
-    archived: { className: "bg-slate-200/80 text-slate-600", label: "Archived" },
+    archived: { className: "bg-ash-100 text-navy-400 shadow-neu-inset-sm", label: "Archived" },
   };
   const item = map[status] ?? { className: "bg-ash-100 text-navy-400", label: status };
   return <span className={`neu-badge ${item.className}`}>{item.label}</span>;

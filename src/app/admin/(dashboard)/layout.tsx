@@ -3,40 +3,35 @@ import { countForms } from "@/lib/services/forms-service";
 import { countSubmissions } from "@/lib/services/submissions-service";
 import { leadStats } from "@/lib/services/leads-service";
 import { AdminShell } from "@/components/admin/AdminShell";
+import type { AdminBadgeCounts } from "@/lib/admin-modules";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAdmin();
 
-  let newCount = 0;
-  let formCount = 0;
-  let clientCount = 0;
-  let newLeadCount = 0;
+  const counts: AdminBadgeCounts = {};
 
   try {
-    const [newSubmissions, totalSubmissions, forms, leads] = await Promise.all([
+    const [newSubmissions, submissions, forms, leads] = await Promise.all([
       countSubmissions({ status: "new" }),
       countSubmissions(),
       countForms(),
       leadStats(),
     ]);
-    newCount = newSubmissions;
-    clientCount = totalSubmissions;
-    formCount = forms;
-    newLeadCount = leads.newCount;
+    counts.newSubmissions = newSubmissions;
+    counts.submissions = submissions;
+    counts.forms = forms;
+    counts.newLeads = leads.newCount;
+    counts.leads = leads.total;
+    /* A "client" is an onboarding submission, so the totals are the same. */
+    counts.clients = submissions;
   } catch {
-    // Dashboards should still render if a count query fails.
+    // The shell should render even if a count query fails.
   }
 
   return (
-    <AdminShell
-      user={user}
-      newCount={newCount}
-      formCount={formCount}
-      clientCount={clientCount}
-      newLeadCount={newLeadCount}
-    >
+    <AdminShell user={user} counts={counts}>
       {children}
     </AdminShell>
   );

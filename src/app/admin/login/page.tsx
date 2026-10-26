@@ -19,7 +19,7 @@ export default async function LoginPage() {
   if (user) redirect("/admin");
 
   return (
-    <div className="relative grid min-h-dvh place-items-center px-4 py-10">
+    <div className="relative grid min-h-screen place-items-center bg-ash-300 px-4 py-10">
       <div className="glow-blob left-[10%] top-[8%] h-72 w-72 bg-ash-50" />
       <div className="glow-blob bottom-[6%] right-[8%] h-64 w-64 bg-ash-100" />
 
@@ -88,7 +88,7 @@ export default async function LoginPage() {
             })}
           </div>
 
-          <p className="relative text-[10.5px] font-semibold uppercase tracking-[0.18em] text-white/35">
+          <p className="relative text-[10.5px] font-semibold uppercase tracking-[0.18em] text-white/50">
             Empowering Digital Evolution
           </p>
         </div>

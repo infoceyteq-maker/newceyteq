@@ -73,9 +73,10 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
           </Link>
         </div>
       ) : (
-        <div className="neu-raised overflow-hidden rounded-neu-lg">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[860px] border-separate border-spacing-y-1.5 p-3 text-left">
+        <div className="neu-raised rounded-neu-lg p-2.5 sm:p-3">
+          <div className="neu-well overflow-hidden rounded-3xl">
+            <div className="overflow-x-auto p-2">
+              <table className="w-full min-w-[860px] border-separate border-spacing-y-1.5 text-left">
               <thead>
                 <tr className="text-[10px] font-bold uppercase tracking-[0.14em] text-navy-300">
                   <th className="px-4 pb-1.5 font-bold">Reference</th>
@@ -144,9 +145,11 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
                   );
                 })}
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
-          <div className="flex items-center justify-between border-t border-white/60 px-5 py-3 text-[11.5px] font-semibold text-navy-300">
+          <div className="neu-divider my-2.5" />
+          <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-1 text-[11.5px] font-semibold text-navy-300">
             <span>
               Showing {submissions.length} of {counts.all} submissions
             </span>
@@ -165,7 +168,7 @@ function StatusPill({ status }: { status: string }) {
   const map: Record<string, { className: string; label: string }> = {
     new: { className: "bg-ceyteq-100/90 text-ceyteq-700", label: "New" },
     reviewed: { className: "bg-emerald-100/80 text-emerald-700", label: "Reviewed" },
-    archived: { className: "bg-slate-200/80 text-slate-600", label: "Archived" },
+    archived: { className: "bg-ash-100 text-navy-400 shadow-neu-inset-sm", label: "Archived" },
   };
   const item = map[status] ?? { className: "bg-ash-100 text-navy-400", label: status };
   return <span className={`neu-badge ${item.className}`}>{item.label}</span>;

@@ -12,7 +12,7 @@ import {
   recentLeads,
   updateLead as updateLeadRecord,
 } from "@/lib/repos/leads";
-import { LEAD_CHANNELS, leadChannel } from "@/lib/leads";
+import { LEAD_CHANNELS, LEAD_STATUSES, leadChannel } from "@/lib/leads";
 import {
   sanitizeEmail,
   sanitizeMultiline,
@@ -128,6 +128,65 @@ export async function submitLead(input: LeadInput): Promise<LeadResult> {
   }
 
   return { ok: true, id: lead.id, channel: lead.channel };
+}
+
+/* ------------------------------ admin create ----------------------------- */
+
+const adminLeadSchema = leadSchema.extend({
+  status: z.enum(LEAD_STATUSES.map((status) => status.value) as [string, ...string[]]).optional(),
+  notes: z.string().trim().max(2000).optional().or(z.literal("")),
+});
+
+export type AdminLeadResult =
+  | { ok: true; id: string }
+  | { ok: false; status: number; error: string; fieldErrors?: Record<string, string> };
+
+/**
+ * Create a lead from the control centre ("Add lead" quick action).
+ *
+ * The caller must already be an authenticated admin — this path skips the
+ * public anti-spam guards (honeypot, timing, per-IP limits) but keeps the same
+ * sanitisation and validation as the public endpoint.
+ */
+export async function createLeadFromAdmin(input: unknown): Promise<AdminLeadResult> {
+  const payload = (input ?? {}) as Record<string, unknown>;
+  const parsed = adminLeadSchema.safeParse({
+    name: sanitizeSingleLine(payload.name, 120),
+    email: sanitizeEmail(payload.email),
+    phone: sanitizePhone(payload.phone),
+    company: sanitizeSingleLine(payload.company, 120),
+    channel: sanitizeSingleLine(payload.channel, 40) || "website",
+    message: sanitizeMultiline(payload.message ?? "Added by the Ceyteq team.", 2000),
+    status: sanitizeSingleLine(payload.status, 20) || undefined,
+    notes: sanitizeMultiline(payload.notes, 2000),
+  });
+
+  if (!parsed.success) {
+    const fieldErrors: Record<string, string> = {};
+    for (const issue of parsed.error.issues) {
+      const key = String(issue.path[0] ?? "form");
+      if (!fieldErrors[key]) fieldErrors[key] = issue.message;
+    }
+    return { ok: false, status: 422, error: "Please check the highlighted fields.", fieldErrors };
+  }
+
+  const channel = leadChannel(parsed.data.channel);
+  const lead = await createLead({
+    name: parsed.data.name,
+    email: parsed.data.email,
+    phone: parsed.data.phone ?? "",
+    company: parsed.data.company ?? "",
+    channel: parsed.data.channel,
+    source: channel?.source ?? "website",
+    message: parsed.data.message,
+    status: parsed.data.status,
+    notes: parsed.data.notes ?? "",
+    ipHash: null,
+    userAgent: "admin-console",
+  });
+
+  if (!lead) return { ok: false, status: 500, error: "Could not save the lead. Please try again." };
+  return { ok: true, id: lead.id };
 }
 
 /* ------------------------------- admin reads ------------------------------ */

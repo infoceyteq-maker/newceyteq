@@ -329,7 +329,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                       ? "bg-emerald-100/80 text-emerald-700"
                       : draft.status === "draft"
                         ? "bg-amber-100/80 text-amber-700"
-                        : "bg-slate-200/80 text-slate-600",
+                        : "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
                   )}
                 >
                   {draft.status}
