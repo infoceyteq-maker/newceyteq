@@ -2,7 +2,8 @@
 
 A production-ready, full-stack onboarding platform for the **Ceyteq Digital Race** — built with
 Next.js (App Router, TypeScript, Tailwind CSS), a dynamic form engine, PostgreSQL storage and a
-3D **neumorphic (soft UI)** interface that mirrors the supplied design reference.
+3D **neumorphic (soft UI)** interface that mirrors the supplied design reference (surfaces, depth and
+colour tokens — no reference screenshots or placeholder images ship in the UI).
 
 ![Ceyteq](public/brand/ceyteq-logo.png)
 
@@ -12,7 +13,7 @@ Next.js (App Router, TypeScript, Tailwind CSS), a dynamic form engine, PostgreSQ
 
 | Area | Highlights |
 | --- | --- |
-| **Public site** | Neumorphic hero with the floating widget stack from the reference, platform overview, live form showcase, palette section, CTA. |
+| **Public site** | Single-column, top-to-bottom neumorphic layout: hero with live stats, platform overview, live form showcase, palette section, CTA. No preview/placeholder imagery is embedded in the layout — only the transparent Ceyteq logo. |
 | **Dynamic forms** | Every form is stored as a schema in PostgreSQL (sections → fields) and rendered at its own public slug, e.g. `/form/restaurant-onboarding`. |
 | **Admin dashboard** | Overview with 7-day submission chart, form list with publish/duplicate/delete, submission inbox with filters + CSV export, settings with live database info. |
 | **Form builder** | Create / reorder / rename sections and fields, pick field types, edit options, required rules, layouts, success copy and slug — saved atomically. |
@@ -169,7 +170,7 @@ src/app/
 src/components/
   admin/                       shell, builder, filters, review panel, actions
   form/                        dynamic field renderer + form runtime
-  site/                        header, footer, hero widgets
+  site/                        header, footer
   ui/                          logo, copy button, neumorphic select
 src/lib/                       types, validation, auth, db, repos, services
 ```

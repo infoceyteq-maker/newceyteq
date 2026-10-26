@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { HeroWidgets } from "@/components/site/HeroWidgets";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Icon } from "@/components/icons";
 import { getSessionUser } from "@/lib/auth";
@@ -42,9 +41,11 @@ export default async function HomePage() {
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* ---------------------------------------------------------------- hero */}
-        <section className="grid items-center gap-10 pb-8 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-16">
-          <div className="animate-fade-up">
-            <div className="neu-chip mb-6 !py-2.5">
+        <section className="relative pb-4 pt-10 sm:pt-14">
+          <div className="glow-blob left-1/2 top-2 h-48 w-[30rem] -translate-x-1/2 bg-white/60" />
+
+          <div className="relative mx-auto max-w-3xl text-center animate-fade-up">
+            <div className="neu-chip mx-auto !py-2.5">
               <span className="grid h-6 w-6 place-items-center rounded-full bg-ceyteq-500 text-white shadow-glow">
                 <Icon.bolt size={12} />
               </span>
@@ -53,21 +54,18 @@ export default async function HomePage() {
               </span>
             </div>
 
-            <h1 className="font-display text-[38px] font-semibold leading-[1.04] tracking-[-0.035em] text-navy-700 sm:text-[52px] lg:text-[58px]">
-              One soft interface
-              <br />
-              for <span className="text-gradient-blue">every restaurant</span>
-              <br />
-              in the digital race.
+            <h1 className="mt-6 font-display text-[36px] font-semibold leading-[1.05] tracking-[-0.035em] text-navy-700 sm:text-[52px] lg:text-[60px]">
+              One soft interface for{" "}
+              <span className="text-gradient-blue">every restaurant</span> in the digital race.
             </h1>
 
-            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-navy-400 sm:text-[16px]">
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-navy-400 sm:text-[16px]">
               Ceyteq builds your brand theme, listings and storefront from a single onboarding
               form. Admins design the form in the dashboard — every answer lands back in the same
               place, ready to launch.
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
               <Link
                 href={`/form/${featured?.slug ?? FEATURED_SLUG}`}
                 className="neu-btn-primary neu-btn group !px-7 !py-3.5"
@@ -82,27 +80,35 @@ export default async function HomePage() {
                 {user ? "Open dashboard" : "Admin dashboard"}
               </Link>
             </div>
+          </div>
 
-            <div className="mt-9 grid max-w-lg grid-cols-3 gap-3">
-              {[
-                { label: "Live forms", value: data.formCount },
-                { label: "Submissions", value: data.submissionCount },
-                { label: "Fields generated", value: fieldCount },
-              ].map((stat) => (
-                <div key={stat.label} className="neu rounded-2xl px-3.5 py-3">
-                  <p className="font-display text-[22px] font-semibold leading-none text-navy-700">
-                    {stat.value}
-                  </p>
-                  <p className="mt-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300">
+          <div className="relative mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3.5 sm:mt-12 sm:grid-cols-4">
+            {[
+              { label: "Live forms", value: data.formCount, icon: "forms" as const },
+              { label: "Submissions", value: data.submissionCount, icon: "inbox" as const },
+              { label: "Sections", value: sectionCount, icon: "layers" as const },
+              { label: "Fields generated", value: fieldCount, icon: "sparkles" as const },
+            ].map((stat) => {
+              const Glyph = Icon[stat.icon];
+              return (
+                <div
+                  key={stat.label}
+                  className="neu group rounded-2xl px-4 py-4 transition-transform hover:-translate-y-0.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="font-display text-[24px] font-semibold leading-none text-navy-700">
+                      {stat.value}
+                    </p>
+                    <span className="text-ceyteq-500/70 transition-colors group-hover:text-ceyteq-500">
+                      <Glyph size={15} />
+                    </span>
+                  </div>
+                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300">
                     {stat.label}
                   </p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative lg:pl-4">
-            <HeroWidgets formCount={data.formCount} submissionCount={data.submissionCount} />
+              );
+            })}
           </div>
         </section>
 
@@ -159,96 +165,95 @@ export default async function HomePage() {
 
         {/* --------------------------------------------------------------- forms */}
         <section id="forms" className="scroll-mt-28 pb-14 sm:pb-20">
-          <div className="neu-raised overflow-hidden rounded-neu-lg p-6 sm:p-9">
-            <div className="grid gap-9 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-              <div>
-                <SectionHeading
-                  align="left"
-                  eyebrow="Generated link"
-                  title={featured?.title ?? "Restaurant Onboarding"}
-                  copy={
-                    featured?.description ??
-                    "Restaurant details, owner contacts, social links, brand colours and notes — rendered automatically from the backend configuration."
-                  }
-                />
+          <SectionHeading
+            eyebrow="Generated link"
+            title={featured?.title ?? "Restaurant Onboarding"}
+            copy={
+              featured?.description ??
+              "Restaurant details, owner contacts, social links, brand colours and notes — rendered automatically from the backend configuration."
+            }
+          />
 
-                <div className="neu-sunken mt-6 flex items-center gap-2 rounded-2xl px-3.5 py-2.5">
+          <div className="neu-raised mt-9 rounded-neu-lg p-5 sm:p-7">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div className="min-w-0 flex-1">
+                <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-navy-300">
+                  Public link
+                </p>
+                <div className="neu-sunken mt-2 flex items-center gap-2 rounded-2xl px-3.5 py-3">
                   <Icon.link size={15} className="shrink-0 text-navy-300" />
                   <code className="flex-1 truncate text-[12.5px] font-semibold text-navy-500">
                     {featuredUrl.replace(/^https?:\/\//, "")}
                   </code>
                   <CopyButton value={featuredUrl} label="Copy" variant="ghost" compact />
                 </div>
-
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href={`/form/${featured?.slug ?? FEATURED_SLUG}`}
-                    className="neu-btn-dark neu-btn !px-6 !py-3"
-                  >
-                    Open live form
-                    <Icon.external size={15} />
-                  </Link>
-                  {user ? (
-                    <Link href={`/admin/forms/${featured?.id ?? ""}`} className="neu-btn !px-5 !py-3">
-                      <Icon.settings size={15} className="text-ceyteq-500" />
-                      Edit configuration
-                    </Link>
-                  ) : (
-                    <Link href="/admin/login" className="neu-btn !px-5 !py-3">
-                      <Icon.settings size={15} className="text-ceyteq-500" />
-                      Configure in dashboard
-                    </Link>
-                  )}
+                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[11.5px] font-semibold text-navy-300">
+                  <span className="flex items-center gap-1.5">
+                    <Icon.layers size={12} className="text-ceyteq-500" />
+                    {sectionCount} sections
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Icon.forms size={12} className="text-ceyteq-500" />
+                    {fieldCount} generated fields
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    {featured?.status === "published" ? "Accepting submissions" : "Awaiting publication"}
+                  </span>
                 </div>
-
-                <dl className="mt-7 grid grid-cols-2 gap-3 sm:max-w-md">
-                  <div className="neu-sunken rounded-2xl px-4 py-3">
-                    <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-navy-300">
-                      Sections
-                    </dt>
-                    <dd className="mt-1 font-display text-xl font-semibold text-navy-600">
-                      {sectionCount}
-                    </dd>
-                  </div>
-                  <div className="neu-sunken rounded-2xl px-4 py-3">
-                    <dt className="text-[10px] font-bold uppercase tracking-[0.14em] text-navy-300">
-                      Generated fields
-                    </dt>
-                    <dd className="mt-1 font-display text-xl font-semibold text-navy-600">
-                      {fieldCount}
-                    </dd>
-                  </div>
-                </dl>
               </div>
 
-              <div className="relative">
-                <div className="glow-blob right-0 top-2 h-32 w-32 bg-ceyteq-200/60" />
-                <ol className="relative space-y-3">
-                  {(featured?.sections ?? []).map((section, index) => (
-                    <li key={section.id} className="neu flex items-center gap-3.5 rounded-2xl p-3.5">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#f8fafd,#e6ebf3)] text-ceyteq-500 shadow-neu-inset-sm">
-                        <SectionIcon name={section.icon} />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-[13.5px] font-bold text-navy-600">{section.title}</p>
-                        <p className="text-[11.5px] font-medium text-navy-300">
-                          {section.fields.length} fields ·{" "}
-                          {section.fields.filter((field) => field.required).length} required
-                        </p>
-                      </div>
-                      <span className="neu-badge bg-white/70 text-navy-300">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </li>
-                  ))}
-                  {!featured ? (
-                    <li className="neu rounded-2xl p-6 text-center text-[13px] font-semibold text-navy-300">
-                      Publish a form in the dashboard and it will appear here.
-                    </li>
-                  ) : null}
-                </ol>
+              <div className="flex flex-col gap-3 sm:flex-row lg:shrink-0">
+                <Link
+                  href={`/form/${featured?.slug ?? FEATURED_SLUG}`}
+                  className="neu-btn-dark neu-btn !px-6 !py-3"
+                >
+                  Open live form
+                  <Icon.external size={15} />
+                </Link>
+                {user ? (
+                  <Link href={`/admin/forms/${featured?.id ?? ""}`} className="neu-btn !px-5 !py-3">
+                    <Icon.settings size={15} className="text-ceyteq-500" />
+                    Edit configuration
+                  </Link>
+                ) : (
+                  <Link href="/admin/login" className="neu-btn !px-5 !py-3">
+                    <Icon.settings size={15} className="text-ceyteq-500" />
+                    Configure in dashboard
+                  </Link>
+                )}
               </div>
             </div>
+
+            <div className="neu-divider my-6" />
+
+            <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-navy-300">
+              Sections in this form
+            </p>
+            <ol className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {(featured?.sections ?? []).map((section, index) => (
+                <li key={section.id} className="neu flex items-center gap-3 rounded-2xl p-3.5">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#f8fafd,#e6ebf3)] text-ceyteq-500 shadow-neu-inset-sm">
+                    <SectionIcon name={section.icon} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13px] font-bold text-navy-600">{section.title}</p>
+                    <p className="text-[11px] font-medium text-navy-300">
+                      {section.fields.length} fields ·{" "}
+                      {section.fields.filter((field) => field.required).length} required
+                    </p>
+                  </div>
+                  <span className="neu-badge shrink-0 bg-white/70 text-navy-300">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </li>
+              ))}
+              {!featured ? (
+                <li className="neu col-span-full rounded-2xl p-6 text-center text-[13px] font-semibold text-navy-300">
+                  Publish a form in the dashboard and it will appear here.
+                </li>
+              ) : null}
+            </ol>
           </div>
         </section>
 

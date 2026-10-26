@@ -63,26 +63,10 @@ const config: Config = {
         "glow-lg": "0 0 0 1px rgba(0,114,206,0.2), 0 18px 50px rgba(0,114,206,0.38)",
       },
       keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        "float-slow": {
-          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
-          "50%": { transform: "translateY(-16px) rotate(1.2deg)" },
-        },
-        blink: {
-          "0%, 92%, 100%": { transform: "scaleY(1)", opacity: "1" },
-          "95%": { transform: "scaleY(0.12)", opacity: "0.7" },
-        },
         "pulse-ring": {
           "0%": { transform: "scale(0.85)", opacity: "0.7" },
           "70%": { transform: "scale(1.35)", opacity: "0" },
           "100%": { transform: "scale(1.35)", opacity: "0" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
         },
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(14px)" },
@@ -90,11 +74,7 @@ const config: Config = {
         },
       },
       animation: {
-        float: "float 6s ease-in-out infinite",
-        "float-slow": "float-slow 9s ease-in-out infinite",
-        blink: "blink 5s ease-in-out infinite",
         "pulse-ring": "pulse-ring 2.6s cubic-bezier(0.24,0,0.38,1) infinite",
-        shimmer: "shimmer 2.4s linear infinite",
         "fade-up": "fade-up 0.5s ease-out both",
       },
     },

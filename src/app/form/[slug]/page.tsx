@@ -55,7 +55,7 @@ export default async function PublicFormPage({ params }: PageProps) {
       <div className="glow-blob right-0 top-1/3 h-80 w-80 bg-white/60" />
 
       <header className="relative z-10 px-3 pt-4 sm:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-[26px] border border-white/50 bg-white/35 px-3 py-2.5 shadow-[0_10px_30px_-24px_rgba(120,138,164,0.5)] backdrop-blur-md sm:px-5">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 rounded-[26px] border border-white/50 bg-white/35 px-3 py-2.5 shadow-[0_10px_30px_-24px_rgba(120,138,164,0.5)] backdrop-blur-md sm:px-5">
           <Logo height={36} priority />
           <div className="flex items-center gap-2">
             <span className="neu-chip hidden !py-1.5 !text-[10.5px] uppercase tracking-[0.14em] sm:inline-flex">
@@ -77,9 +77,9 @@ export default async function PublicFormPage({ params }: PageProps) {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
-        <div className="mb-8 sm:mb-10">
-          <div className="flex flex-wrap items-center gap-2">
+      <main className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
+        <div className="mb-8 text-center sm:mb-10">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="neu-badge bg-[linear-gradient(150deg,#f7f9fc,#e6ebf3)] text-navy-400">
               <Icon.sparkles size={12} className="text-ceyteq-500" />
               Ceyteq Digital Race
@@ -93,16 +93,16 @@ export default async function PublicFormPage({ params }: PageProps) {
             <span className="neu-badge bg-white/70 text-navy-300">/form/{form.slug}</span>
           </div>
 
-          <h1 className="mt-4 max-w-3xl text-[30px] font-semibold leading-[1.08] tracking-[-0.03em] text-navy-700 sm:text-[44px]">
+          <h1 className="mx-auto mt-4 max-w-3xl text-[30px] font-semibold leading-[1.08] tracking-[-0.03em] text-navy-700 sm:text-[44px]">
             {form.title}
           </h1>
           {form.description ? (
-            <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-navy-400">
+            <p className="mx-auto mt-3 max-w-2xl text-[14.5px] leading-relaxed text-navy-400">
               {form.description}
             </p>
           ) : null}
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             {[
               { icon: "layers" as const, label: `${dto.sections.length} sections` },
               { icon: "forms" as const, label: `${fieldCount} fields` },
@@ -127,7 +127,7 @@ export default async function PublicFormPage({ params }: PageProps) {
       </main>
 
       <footer className="relative z-10 border-t border-white/50 bg-white/25 px-4 py-6 backdrop-blur-sm sm:px-6">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-2 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
           <p>© {new Date().getFullYear()} Ceyteq. Empowering Digital Evolution.</p>
           <p className="flex items-center gap-1.5">
             <Icon.shield size={13} />

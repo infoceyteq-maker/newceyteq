@@ -235,7 +235,43 @@ export function DynamicForm({ form, preview = false }: Props) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-8">
+    <div className="mx-auto w-full max-w-3xl">
+      {/* Section rail — a single horizontal strip so the form reads top to bottom. */}
+      <nav
+        aria-label="Form sections"
+        className="neu no-scrollbar mb-5 flex items-center gap-2 overflow-x-auto rounded-[22px] p-2"
+      >
+        {form.sections.map((section, index) => {
+          const complete = section.fields.every((field) => !field.required || isFilled(values[field.key]));
+          return (
+            <a
+              key={section.id}
+              href={`#section-${index + 1}`}
+              className={cn(
+                "flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-[11.5px] font-semibold transition-colors",
+                complete
+                  ? "bg-ceyteq-500/10 text-ceyteq-700"
+                  : "text-navy-400 hover:bg-white/70 hover:text-navy-600",
+              )}
+            >
+              <span
+                className={cn(
+                  "grid h-5 w-5 shrink-0 place-items-center rounded-md text-[10px]",
+                  complete ? "bg-ceyteq-500 text-white shadow-glow" : "neu-inset text-navy-300",
+                )}
+              >
+                {complete ? <Icon.check size={10} strokeWidth={3} /> : index + 1}
+              </span>
+              <span className="whitespace-nowrap">{section.title}</span>
+            </a>
+          );
+        })}
+        <span className="ml-auto hidden shrink-0 items-center gap-1.5 pl-3 pr-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300 sm:flex">
+          <Icon.shield size={12} className="text-ceyteq-500" />
+          Secure
+        </span>
+      </nav>
+
       <form ref={formRef} onSubmit={handleSubmit} noValidate className="min-w-0 space-y-6 sm:space-y-8">
         {/* honeypot: hidden from humans and assistive tech */}
         <div aria-hidden className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0">
@@ -365,58 +401,6 @@ export function DynamicForm({ form, preview = false }: Props) {
         </p>
       </form>
 
-      {/* Sticky helper rail */}
-      <aside className="hidden lg:sticky lg:top-24 lg:block">
-        <div className="neu rounded-neu p-5">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-navy-300">Sections</p>
-          <nav className="mt-3 space-y-1.5">
-            {form.sections.map((section, index) => {
-              const fields = section.fields;
-              const done = fields.filter((field) => !field.required || isFilled(values[field.key])).length;
-              const complete = done === fields.length;
-              return (
-                <a
-                  key={section.id}
-                  href={`#section-${index + 1}`}
-                  className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[12.5px] font-semibold text-navy-400 transition-colors hover:bg-white/60 hover:text-navy-600"
-                >
-                  <span
-                    className={cn(
-                      "grid h-6 w-6 shrink-0 place-items-center rounded-lg text-[11px]",
-                      complete ? "bg-ceyteq-500 text-white shadow-glow" : "neu-inset text-navy-300",
-                    )}
-                  >
-                    {complete ? <Icon.check size={12} strokeWidth={3} /> : index + 1}
-                  </span>
-                  <span className="flex-1 truncate">{section.title}</span>
-                </a>
-              );
-            })}
-          </nav>
-
-          <div className="neu-divider my-4" />
-
-          <div className="flex items-center gap-2.5">
-            <span className="neu-orb h-9 w-9 text-ceyteq-500">
-              <Icon.shield size={16} />
-            </span>
-            <div>
-              <p className="text-[12px] font-bold text-navy-600">Secure submission</p>
-              <p className="text-[11px] text-navy-300">Encrypted in transit &amp; at rest</p>
-            </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-2.5">
-            <span className="neu-orb h-9 w-9 text-navy-400">
-              <Icon.clock size={16} />
-            </span>
-            <div>
-              <p className="text-[12px] font-bold text-navy-600">Takes ~3 minutes</p>
-              <p className="text-[11px] text-navy-300">Your progress is kept on this device</p>
-            </div>
-          </div>
-        </div>
-      </aside>
     </div>
   );
 }
