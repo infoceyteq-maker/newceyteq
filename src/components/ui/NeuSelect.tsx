@@ -129,7 +129,7 @@ export function NeuSelect({
           id={listId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 right-0 top-[calc(100%+10px)] z-40 max-h-64 overflow-auto rounded-2xl border border-white/75 bg-[linear-gradient(150deg,#d9e0e9,#c6d0dd)] p-2 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)]"
+          className="absolute left-0 right-0 top-[calc(100%+10px)] z-40 max-h-64 overflow-auto rounded-2xl bg-ash-200 p-2 shadow-neu-lg"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;
@@ -143,7 +143,7 @@ export function NeuSelect({
                   onClick={() => commit(index)}
                   className={cn(
                     "flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] font-medium transition-colors",
-                    index === activeIndex ? "bg-white/70 text-navy-700" : "text-navy-400",
+                    index === activeIndex ? "bg-ash-100 text-navy-700" : "text-navy-400",
                     isSelected && "text-ceyteq-600 font-semibold",
                   )}
                 >

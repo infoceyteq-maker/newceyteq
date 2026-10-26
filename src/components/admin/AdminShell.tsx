@@ -104,7 +104,7 @@ export function AdminShell({
       </div>
 
       <div className="neu-sunken flex items-center gap-2.5 rounded-2xl px-3.5 py-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#0f3555,#082b49)] text-[11px] font-bold text-white">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#1a2447,#0F1B3D)] text-[11px] font-bold text-white">
           {initials(user.name)}
         </span>
         <div className="min-w-0 flex-1">
@@ -137,7 +137,7 @@ export function AdminShell({
                           "rounded-pill px-2 py-0.5 text-[10px] font-bold",
                           active
                             ? "bg-ceyteq-neon text-navy-800 shadow-neon-sm"
-                            : "bg-white/80 text-navy-400",
+                            : "bg-ash-50 text-navy-400",
                         )}
                       >
                         {item.badge}
@@ -170,7 +170,7 @@ export function AdminShell({
     <div className="min-h-dvh">
       {/* Mobile top bar */}
       <div className="sticky top-0 z-40 px-3 pt-3 lg:hidden">
-        <div className="flex items-center justify-between rounded-[22px] border border-white/70 bg-[linear-gradient(150deg,#dae1ea_0%,#cbd5e1_52%,#c0cbd9_100%)] px-3 py-2.5 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm">
+        <div className="neu flex items-center justify-between rounded-pill px-3 py-2.5">
           <Logo href="/" height={28} />
           <div className="flex items-center gap-2">
             <Link href="/admin/leads" className="neu-btn relative h-9 w-9 !px-0" aria-label="Leads">

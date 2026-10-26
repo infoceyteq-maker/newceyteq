@@ -51,7 +51,7 @@ export default async function SubmissionDetailPage({ params }: { params: Promise
                 <span className="font-display text-[15px] font-bold tracking-[0.06em] text-navy-700">
                   {submission.reference}
                 </span>
-                <span className={`neu-badge ${statusStyles[submission.status] ?? "bg-white/70 text-navy-400"}`}>
+                <span className={`neu-badge ${statusStyles[submission.status] ?? "bg-ash-100 text-navy-400"}`}>
                   {submission.status}
                 </span>
               </div>
@@ -126,7 +126,7 @@ export default async function SubmissionDetailPage({ params }: { params: Promise
                                 row.platform;
                               return (
                                 <li key={index} className="flex items-center gap-2">
-                                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-white/70 text-ceyteq-500">
+                                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-ash-100 text-ceyteq-500">
                                     <Glyph size={12} />
                                   </span>
                                   <span className="text-[11.5px] font-bold text-navy-500">
@@ -151,7 +151,7 @@ export default async function SubmissionDetailPage({ params }: { params: Promise
                               return (
                                 <li
                                   key={colourValue}
-                                  className="flex items-center gap-1.5 rounded-pill bg-white/70 px-2 py-1 text-[11px] font-semibold text-navy-500"
+                                  className="flex items-center gap-1.5 rounded-pill bg-ash-100 px-2 py-1 text-[11px] font-semibold text-navy-500"
                                 >
                                   <span
                                     className="h-3.5 w-3.5 rounded-full ring-1 ring-white/70"
@@ -223,7 +223,7 @@ export default async function SubmissionDetailPage({ params }: { params: Promise
               ))}
             </dl>
             {submission.userAgent ? (
-              <p className="mt-3 line-clamp-3 rounded-lg bg-white/50 px-2.5 py-2 text-[10px] font-medium leading-relaxed text-navy-300">
+              <p className="mt-3 line-clamp-3 rounded-lg bg-ash-100 px-2.5 py-2 text-[10px] font-medium leading-relaxed text-navy-300">
                 {submission.userAgent}
               </p>
             ) : null}

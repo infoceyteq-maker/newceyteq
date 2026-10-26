@@ -38,10 +38,9 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
       <div
         className={cn(
-          "mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-[26px] px-3 py-2.5 transition-all duration-300 sm:px-5 sm:py-3",
-          scrolled
-            ? "border border-white/45 bg-[linear-gradient(150deg,#dae1ea_0%,#cbd5e1_52%,#c0cbd9_100%)] shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm"
-            : "border border-white/35 bg-[linear-gradient(150deg,rgba(218,225,234,0.92),rgba(196,206,220,0.9))] shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm",
+          "mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-pill px-3 py-2.5 transition-all duration-300 sm:px-5 sm:py-3",
+          "bg-ash-200 shadow-neu",
+          scrolled ? "shadow-neu-lg" : "shadow-neu",
         )}
       >
         <Logo height={34} priority className="sm:hidden" />
@@ -52,7 +51,7 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-pill px-4 py-2 text-[13.5px] font-semibold text-navy-400 transition-all hover:bg-white/60 hover:text-navy-700"
+              className="rounded-pill px-4 py-2 text-[13.5px] font-semibold text-navy-400 transition-all duration-200 hover:bg-ash-200 hover:text-navy-700 hover:shadow-neu-sm"
             >
               {link.label}
             </Link>
@@ -66,7 +65,7 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
             rel="noopener noreferrer"
             aria-label="Chat with Ceyteq on WhatsApp"
             title="Chat with Ceyteq on WhatsApp"
-            className="neu-orb hidden h-11 w-11 text-navy-400 transition-all hover:-translate-y-0.5 hover:text-ceyteq-500 md:grid"
+            className="neu-orb hidden h-11 w-11 rounded-full text-navy-400 transition-all duration-200 hover:-translate-y-0.5 hover:text-ceyteq-500 md:grid"
           >
             <Icon.whatsapp size={17} />
           </a>
@@ -74,14 +73,14 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
             href={CONTACT.hotlineTel}
             aria-label="Call the Ceyteq hotline"
             title="Ceyteq hotline"
-            className="neu-btn hidden h-11 items-center gap-2 !px-4 !py-0 text-[13px] font-semibold text-navy-500 xl:inline-flex"
+            className="neu-btn hidden h-11 items-center gap-2 !px-4 !py-0 text-[13px] font-semibold text-navy-600 xl:inline-flex"
           >
             <Icon.phone size={15} className="text-ceyteq-500" />
             {" "}Hotline
           </a>
           <Link
             href={authenticated ? "/admin" : "/admin/login"}
-            className="hidden rounded-pill px-4 py-2.5 text-[13px] font-semibold text-navy-500 transition-colors hover:text-ceyteq-500 sm:inline-flex"
+            className="hidden rounded-pill px-4 py-2.5 text-[13px] font-semibold text-navy-500 transition-colors duration-200 hover:text-ceyteq-500 sm:inline-flex"
           >
             {authenticated ? "Dashboard" : "Admin login"}
           </Link>
@@ -94,7 +93,7 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
             onClick={() => setOpen((prev) => !prev)}
             aria-expanded={open}
             aria-label="Toggle navigation"
-            className="neu-btn h-11 w-11 !px-0 lg:hidden"
+            className="neu-orb h-11 w-11 rounded-full !px-0 text-navy-600 lg:hidden"
           >
             {open ? <Icon.close size={18} /> : <Icon.menu size={18} />}
           </button>
@@ -103,13 +102,13 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
 
       {open ? (
         <div className="mx-auto mt-2 max-w-7xl lg:hidden">
-          <div className="neu-raised animate-fade-up rounded-[26px] p-3">
+          <div className="neu animate-fade-up rounded-[28px] p-3">
             <nav className="grid gap-1">
               {LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 transition-colors hover:bg-white/70 hover:text-navy-700"
+                  className="rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 transition-colors hover:bg-ash-100 hover:text-navy-700 hover:shadow-neu-sm"
                 >
                   {link.label}
                 </Link>
@@ -119,20 +118,20 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
                 href={CONTACT.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
+                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-ash-100 hover:shadow-neu-sm"
               >
                 <Icon.whatsapp size={16} className="text-ceyteq-500" /> WhatsApp us
               </a>
               <a
                 href={CONTACT.hotlineTel}
-                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
+                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-ash-100 hover:shadow-neu-sm"
               >
                 <Icon.phone size={16} className="text-ceyteq-500" /> Hotline
               </a>
               <div className="neu-divider my-1" />
               <Link
                 href={authenticated ? "/admin" : "/admin/login"}
-                className="rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-white/70"
+                className="rounded-2xl px-4 py-3 text-[14px] font-semibold text-navy-500 hover:bg-ash-100 hover:shadow-neu-sm"
               >
                 {authenticated ? "Dashboard" : "Admin login"}
               </Link>

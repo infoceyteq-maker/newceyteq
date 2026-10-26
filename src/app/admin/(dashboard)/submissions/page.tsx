@@ -29,7 +29,7 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
   return (
     <div className="space-y-5">
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
-        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ceyteq-200/60" />
+        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
@@ -91,7 +91,7 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
                   const values = Object.values(submission.data).filter(Boolean).slice(0, 2);
                   return (
                     <tr key={submission.id} className="group">
-                      <td className="rounded-l-2xl bg-white/40 px-4 py-3 group-hover:bg-white/70">
+                      <td className="rounded-l-2xl bg-ash-100/80 px-4 py-3 group-hover:bg-ash-100">
                         <Link
                           href={`/admin/submissions/${submission.id}`}
                           className="font-display text-[12.5px] font-semibold text-ceyteq-600 hover:underline"
@@ -99,12 +99,12 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
                           {submission.reference}
                         </Link>
                       </td>
-                      <td className="bg-white/40 px-4 py-3 group-hover:bg-white/70">
+                      <td className="bg-ash-100/80 px-4 py-3 group-hover:bg-ash-100">
                         <span className="text-[12.5px] font-semibold text-navy-500">
                           {submission.formTitle}
                         </span>
                       </td>
-                      <td className="max-w-[320px] bg-white/40 px-4 py-3 group-hover:bg-white/70">
+                      <td className="max-w-[320px] bg-ash-100/80 px-4 py-3 group-hover:bg-ash-100">
                         <div className="space-y-0.5">
                           {values.length > 0 ? (
                             values.map((value, index) => (
@@ -120,7 +120,7 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
                           )}
                         </div>
                       </td>
-                      <td className="whitespace-nowrap bg-white/40 px-4 py-3 group-hover:bg-white/70">
+                      <td className="whitespace-nowrap bg-ash-100/80 px-4 py-3 group-hover:bg-ash-100">
                         <span className="block text-[12px] font-semibold text-navy-500">
                           {relativeTime(submission.createdAt)}
                         </span>
@@ -128,10 +128,10 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
                           {formatDateTime(submission.createdAt)}
                         </span>
                       </td>
-                      <td className="bg-white/40 px-4 py-3 group-hover:bg-white/70">
+                      <td className="bg-ash-100/80 px-4 py-3 group-hover:bg-ash-100">
                         <StatusPill status={submission.status} />
                       </td>
-                      <td className="rounded-r-2xl bg-white/40 px-4 py-3 text-right group-hover:bg-white/70">
+                      <td className="rounded-r-2xl bg-ash-100/80 px-4 py-3 text-right group-hover:bg-ash-100">
                         <Link
                           href={`/admin/submissions/${submission.id}`}
                           className="neu-btn !px-3 !py-1.5 !text-[11px]"
@@ -167,6 +167,6 @@ function StatusPill({ status }: { status: string }) {
     reviewed: { className: "bg-emerald-100/80 text-emerald-700", label: "Reviewed" },
     archived: { className: "bg-slate-200/80 text-slate-600", label: "Archived" },
   };
-  const item = map[status] ?? { className: "bg-white/70 text-navy-400", label: status };
+  const item = map[status] ?? { className: "bg-ash-100 text-navy-400", label: status };
   return <span className={`neu-badge ${item.className}`}>{item.label}</span>;
 }

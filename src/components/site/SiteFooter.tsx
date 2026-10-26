@@ -77,7 +77,7 @@ export function SiteFooter({ onboardingHref = `/form/${SITE.onboardingSlug}` }: 
                       {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="group flex items-center gap-2.5 transition-colors hover:text-ceyteq-600"
                     >
-                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-white/70 text-ceyteq-500 neu-inset">
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-ash-100 text-ceyteq-500 neu-inset">
                         <Glyph size={14} />
                       </span>
                       <span className="min-w-0">

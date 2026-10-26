@@ -30,7 +30,7 @@ export default async function AdminOverviewPage() {
     <div className="space-y-5">
       {/* Header */}
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8 sm:py-7">
-        <div className="glow-blob -right-8 -top-10 h-40 w-40 bg-ceyteq-200/60" />
+        <div className="glow-blob -right-8 -top-10 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-navy-300">
@@ -118,7 +118,7 @@ export default async function AdminOverviewPage() {
               <h2 className="text-[16px] font-bold text-navy-700">Submission activity</h2>
               <p className="text-[12px] font-medium text-navy-300">Last 7 days</p>
             </div>
-            <span className="neu-badge bg-white/70 text-navy-400">
+            <span className="neu-badge bg-ash-100 text-navy-400">
               <Icon.bolt size={11} className="text-ceyteq-500" />
               {stats.buckets.reduce((total, bucket) => total + bucket.count, 0)} this week
             </span>
@@ -134,7 +134,7 @@ export default async function AdminOverviewPage() {
                   </span>
                   <div className="neu-sunken relative flex w-full flex-1 items-end overflow-hidden rounded-xl">
                     <div
-                      className="w-full rounded-xl bg-[linear-gradient(180deg,#00d2ff,#0072ce)] shadow-[0_0_18px_rgba(0,210,255,0.45)] transition-all"
+                      className="w-full rounded-xl bg-[linear-gradient(180deg,#3DA5FF,#2F6BFF)] shadow-[0_0_16px_rgba(61,165,255,0.4)] transition-all"
                       style={{ height: `${Math.max(height, 4)}%` }}
                     />
                   </div>
@@ -260,7 +260,7 @@ export default async function AdminOverviewPage() {
               <tbody>
                 {submissions.map((submission) => (
                   <tr key={submission.id} className="group">
-                    <td className="rounded-l-2xl bg-white/45 px-3 py-2.5 group-hover:bg-white/70">
+                    <td className="rounded-l-2xl bg-ash-100/80 px-3 py-2.5 group-hover:bg-ash-100">
                       <Link
                         href={`/admin/submissions/${submission.id}`}
                         className="font-display text-[12.5px] font-semibold text-ceyteq-600 hover:underline"
@@ -268,16 +268,16 @@ export default async function AdminOverviewPage() {
                         {submission.reference}
                       </Link>
                     </td>
-                    <td className="bg-white/45 px-3 py-2.5 text-[12.5px] font-semibold text-navy-500 group-hover:bg-white/70">
+                    <td className="bg-ash-100/80 px-3 py-2.5 text-[12.5px] font-semibold text-navy-500 group-hover:bg-ash-100">
                       {submission.formTitle}
                     </td>
-                    <td className="max-w-[220px] truncate bg-white/45 px-3 py-2.5 text-[12px] font-medium text-navy-300 group-hover:bg-white/70">
+                    <td className="max-w-[220px] truncate bg-ash-100/80 px-3 py-2.5 text-[12px] font-medium text-navy-300 group-hover:bg-ash-100">
                       {displayValue(Object.values(submission.data)[0])}
                     </td>
-                    <td className="whitespace-nowrap bg-white/45 px-3 py-2.5 text-[11.5px] font-semibold text-navy-300 group-hover:bg-white/70">
+                    <td className="whitespace-nowrap bg-ash-100/80 px-3 py-2.5 text-[11.5px] font-semibold text-navy-300 group-hover:bg-ash-100">
                       {relativeTime(submission.createdAt)}
                     </td>
-                    <td className="rounded-r-2xl bg-white/45 px-3 py-2.5 group-hover:bg-white/70">
+                    <td className="rounded-r-2xl bg-ash-100/80 px-3 py-2.5 group-hover:bg-ash-100">
                       <SubmissionStatusPill status={submission.status} />
                     </td>
                   </tr>
@@ -299,7 +299,7 @@ function StatusPill({ status }: { status: string }) {
     archived: "bg-slate-200/80 text-slate-600",
   };
   return (
-    <span className={`neu-badge ${map[status] ?? "bg-white/70 text-navy-400"}`}>{status}</span>
+    <span className={`neu-badge ${map[status] ?? "bg-ash-100 text-navy-400"}`}>{status}</span>
   );
 }
 
@@ -309,6 +309,6 @@ function SubmissionStatusPill({ status }: { status: string }) {
     reviewed: { className: "bg-emerald-100/80 text-emerald-700", label: "Reviewed" },
     archived: { className: "bg-slate-200/80 text-slate-600", label: "Archived" },
   };
-  const item = map[status] ?? { className: "bg-white/70 text-navy-400", label: status };
+  const item = map[status] ?? { className: "bg-ash-100 text-navy-400", label: status };
   return <span className={`neu-badge ${item.className}`}>{item.label}</span>;
 }

@@ -5,47 +5,50 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Deep matte ash canvas (#CBD5E1) — the surface every element pops out of. */
+        /* Neutral ash canvas + surfaces (no blue tint). */
         ash: {
-          50: "#F4F7FB",
-          100: "#E8EEF5",
-          200: "#CBD5E1",
-          300: "#BCC8D7",
-          400: "#A9B7C8",
-          500: "#94A4B7",
-          600: "#7E90A5",
+          50: "#F4F4F6",
+          100: "#EFEFF1",
+          200: "#E8E8EA" /* surface */,
+          300: "#E4E4E6" /* page base */,
+          400: "#DCDCE0",
+          500: "#C5C5CA" /* shadow-dark */,
+          600: "#A9A9B0",
         },
+        /* Royal-blue accent family, taken from the logo's radium blue. */
         ceyteq: {
-          50: "#E8F4FF",
-          100: "#CDE7FF",
-          200: "#9AD0FF",
-          300: "#5FB4FF",
-          400: "#2A95F5",
-          500: "#0072CE",
-          600: "#005DA9",
-          700: "#004A87",
-          800: "#06386A",
-          /** Radium / neon blue — active states, glowing indicators, primary actions. */
-          neon: "#00D2FF",
-          radium: "#00D2FF",
+          50: "#EEF3FF",
+          100: "#DCE6FF",
+          200: "#B8CBFF",
+          300: "#8FAEFF",
+          400: "#5C8BFF",
+          500: "#2F6BFF" /* royal blue */,
+          600: "#1E3FA8" /* dark blue */,
+          700: "#1A3589",
+          800: "#152A66",
+          /** Radium / glow blue — active states, glowing indicators. */
+          neon: "#3DA5FF",
+          radium: "#3DA5FF",
         },
         radium: {
-          300: "#7EE9FF",
-          400: "#33DCFF",
-          500: "#00D2FF",
-          600: "#00B4DB",
+          200: "#B7E2FF",
+          300: "#8FD1FF",
+          400: "#6CC4FF" /* light accent */,
+          500: "#3DA5FF" /* radium */,
+          600: "#2C8EE6",
         },
+        /* Deep navy for dark panels, headings and primary text. */
         navy: {
-          50: "#E7ECF2",
-          100: "#C6D2E0",
-          200: "#7189A6",
-          300: "#44607F",
-          400: "#274565",
-          500: "#123A5C",
-          600: "#0B3154",
-          700: "#082B49",
-          800: "#061F35",
-          900: "#041524",
+          50: "#EEF0F6",
+          100: "#DCE0EB",
+          200: "#8C93A6",
+          300: "#5F6678",
+          400: "#5A6070" /* body text */,
+          500: "#3B4468",
+          600: "#1E2A52" /* headline alt */,
+          700: "#0F1B3D" /* navy */,
+          800: "#14121F" /* navy deep */,
+          900: "#0B0A14",
         },
       },
       fontFamily: {
@@ -58,23 +61,24 @@ const config: Config = {
         pill: "999px",
       },
       boxShadow: {
-        /* Exact reference recipe: white highlight top-left, black drop bottom-right. */
-        neu: "-6px -6px 16px rgba(255,255,255,0.9), 6px 6px 16px rgba(0,0,0,0.2)",
-        "neu-sm": "-4px -4px 10px rgba(255,255,255,0.9), 4px 4px 10px rgba(0,0,0,0.18)",
-        "neu-md": "-6px -6px 16px rgba(255,255,255,0.9), 6px 6px 16px rgba(0,0,0,0.2)",
-        "neu-lg": "-10px -10px 24px rgba(255,255,255,0.92), 10px 10px 24px rgba(0,0,0,0.22)",
-        "neu-inset": "inset 6px 6px 16px rgba(0,0,0,0.2), inset -6px -6px 16px rgba(255,255,255,0.9)",
-        "neu-inset-sm":
-          "inset 4px 4px 10px rgba(0,0,0,0.16), inset -4px -4px 10px rgba(255,255,255,0.9)",
-        "neu-pressed":
-          "inset 6px 6px 16px rgba(0,0,0,0.22), inset -6px -6px 16px rgba(255,255,255,0.88)",
+        /* Raised: white highlight top-left, ash-drop bottom-right. */
+        neu: "8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF",
+        "neu-sm": "6px 6px 14px #C5C5CA, -6px -6px 14px #FFFFFF",
+        "neu-md": "8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF",
+        "neu-lg": "14px 14px 30px #C5C5CA, -12px -12px 28px #FFFFFF",
+        /* Pressed / inset. */
+        "neu-inset": "inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF",
+        "neu-inset-sm": "inset 4px 4px 9px #C5C5CA, inset -4px -4px 9px #FFFFFF",
+        "neu-pressed": "inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF",
+        /* Dark navy panel with a radium outline + inner glow. */
         "navy-neu":
-          "-6px -6px 16px rgba(255,255,255,0.5), 6px 6px 16px rgba(0,0,0,0.3), 0 0 15px rgba(0,210,255,0.25), inset 0 1px 0 rgba(255,255,255,0.16)",
-        glow: "0 0 15px rgba(0,210,255,0.25), 0 8px 24px rgba(0,114,206,0.25)",
-        "glow-lg": "0 0 26px rgba(0,210,255,0.35), 0 16px 44px rgba(0,114,206,0.3)",
-        neon: "0 0 15px rgba(0,210,255,0.25), 0 0 0 1px rgba(0,210,255,0.4)",
-        "neon-sm": "0 0 10px rgba(0,210,255,0.3), 0 0 0 1px rgba(0,210,255,0.35)",
-        "neon-inset": "inset 0 0 12px rgba(0,210,255,0.35), inset 0 0 2px rgba(0,210,255,0.6)",
+          "10px 10px 24px rgba(197,197,202,0.55), -10px -10px 24px #FFFFFF, 0 0 0 1px rgba(61,165,255,0.35), inset 0 0 28px rgba(61,165,255,0.12)",
+        /* Blue accent glows. */
+        glow: "0 8px 24px rgba(47,107,255,0.35)",
+        "glow-lg": "0 12px 32px rgba(47,107,255,0.45)",
+        neon: "0 0 18px rgba(61,165,255,0.35), 0 0 0 1px rgba(61,165,255,0.35)",
+        "neon-sm": "0 0 10px rgba(61,165,255,0.35)",
+        "neon-inset": "inset 0 0 20px rgba(61,165,255,0.25)",
       },
       keyframes: {
         "pulse-ring": {

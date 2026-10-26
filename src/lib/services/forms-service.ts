@@ -277,7 +277,7 @@ export async function saveFormDefinition(
     slug,
     title: sanitizeSingleLine(input.title, 140) || "Untitled form",
     description: sanitizeMultiline(input.description, 600),
-    accent: /^#[0-9a-f]{6}$/i.test(input.accent ?? "") ? input.accent : "#0072CE",
+    accent: /^#[0-9a-f]{6}$/i.test(input.accent ?? "") ? input.accent : "#2F6BFF",
     submitLabel: sanitizeSingleLine(input.submitLabel, 60) || "Submit",
     successTitle: sanitizeSingleLine(input.successTitle, 120) || "Submission received",
     successMessage:

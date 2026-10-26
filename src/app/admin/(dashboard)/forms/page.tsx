@@ -18,7 +18,7 @@ export default async function AdminFormsPage() {
   return (
     <div className="space-y-5">
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
-        <div className="glow-blob -right-6 -top-10 h-36 w-36 bg-ceyteq-200/60" />
+        <div className="glow-blob -right-6 -top-10 h-36 w-36 bg-ash-50" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
@@ -125,5 +125,5 @@ function StatusPill({ status }: { status: string }) {
     draft: "bg-amber-100/80 text-amber-700",
     archived: "bg-slate-200/80 text-slate-600",
   };
-  return <span className={`neu-badge ${map[status] ?? "bg-white/70 text-navy-400"}`}>{status}</span>;
+  return <span className={`neu-badge ${map[status] ?? "bg-ash-100 text-navy-400"}`}>{status}</span>;
 }

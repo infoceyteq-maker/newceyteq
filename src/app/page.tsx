@@ -43,11 +43,12 @@ export default async function HomePage() {
       <main className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* ---------------------------------------------------------------- hero */}
         <section className="relative pb-4 pt-10 sm:pt-14">
-          <div className="glow-blob left-1/2 top-2 h-48 w-[30rem] -translate-x-1/2 bg-white/60" />
+          <div className="glow-blob left-1/2 top-2 h-48 w-[30rem] -translate-x-1/2 bg-ash-50" />
+          <div className="glow-blob -left-24 top-24 h-56 w-56 bg-ash-50" />
 
           <div className="relative mx-auto max-w-3xl text-center animate-fade-up">
-            <div className="neu-chip mx-auto !py-2.5">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-[linear-gradient(145deg,#0093cf,#0072ce)] text-white shadow-[0_0_14px_rgba(0,210,255,0.55)]">
+            <div className="neu-chip neu-chip-inset mx-auto !py-2.5">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-[linear-gradient(145deg,#2F6BFF,#3DA5FF)] text-white shadow-[0_0_14px_rgba(61,165,255,0.6)]">
                 <Icon.bolt size={12} />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-400">
@@ -146,7 +147,7 @@ export default async function HomePage() {
                   key={card.title}
                   className="neu-raised neu-click-card group relative overflow-hidden rounded-neu-lg p-6"
                 >
-                  <span className="glow-blob -right-6 -top-6 h-24 w-24 bg-ceyteq-200/50 transition-opacity group-hover:opacity-90" />
+                  <span className="glow-blob -right-6 -top-6 h-24 w-24 bg-ash-50 transition-opacity group-hover:opacity-90" />
                   <span className="neu-orb relative grid h-14 w-14 place-items-center text-ceyteq-500">
                     <Glyph size={22} />
                   </span>
@@ -242,7 +243,7 @@ export default async function HomePage() {
                       {section.fields.filter((field) => field.required).length} required
                     </p>
                   </div>
-                  <span className="neu-badge shrink-0 bg-white/70 text-navy-300">
+                  <span className="neu-badge shrink-0 bg-ash-100 text-navy-300">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </li>
@@ -273,7 +274,7 @@ export default async function HomePage() {
                 <span
                   className="block h-20 w-full rounded-2xl ring-1 ring-white/60"
                   style={{
-                    background: `linear-gradient(150deg, ${colour.swatch}, ${shade(colour.swatch ?? "#0072CE")})`,
+                    background: `linear-gradient(150deg, ${colour.swatch}, ${shade(colour.swatch ?? "#2F6BFF")})`,
                     boxShadow: `inset 0 2px 6px rgba(255,255,255,0.5), inset 0 -8px 16px rgba(0,0,0,0.18), 0 10px 20px -12px ${colour.swatch}`,
                   }}
                 />
@@ -282,7 +283,7 @@ export default async function HomePage() {
                   {colour.swatch}
                 </p>
                 {index === 0 ? (
-                  <span className="absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-white/85 text-ceyteq-500 shadow-sm">
+                  <span className="absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-ash-50 text-ceyteq-500 shadow-sm">
                     <Icon.check size={12} strokeWidth={3} />
                   </span>
                 ) : null}
@@ -341,7 +342,7 @@ export default async function HomePage() {
         <section className="pb-16 sm:pb-20">
           <div className="neu-dark relative overflow-hidden rounded-neu-lg px-6 py-10 sm:px-12 sm:py-14">
             <div className="glow-blob -left-10 top-0 h-48 w-48 bg-ceyteq-neon/25" />
-            <div className="glow-blob -right-6 bottom-0 h-56 w-56 bg-ceyteq-500/30" />
+            <div className="glow-blob -right-6 bottom-0 h-56 w-56 bg-ceyteq-500/25" />
             <div className="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-center">
               <div>
                 <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.2em] text-ceyteq-neon text-glow-neon">
@@ -365,7 +366,7 @@ export default async function HomePage() {
                   </Link>
                   <Link
                     href="/admin/login"
-                    className="inline-flex items-center justify-center gap-2 rounded-pill border border-white/20 bg-white/10 px-6 py-3.5 text-[13.5px] font-semibold text-white/85 backdrop-blur transition-colors hover:bg-white/20"
+                    className="neu-btn inline-flex items-center justify-center gap-2 !px-6 !py-3.5 text-[13.5px] font-semibold text-navy-700"
                   >
                     <Icon.shield size={16} />
                     Admin access
@@ -383,10 +384,10 @@ export default async function HomePage() {
                   return (
                     <div
                       key={item.label}
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur"
+                      className="neu-dark-inset flex items-center gap-3 rounded-2xl px-4 py-3"
                     >
-                      <Glyph size={16} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0,210,255,0.85)]" />
-                      <span className="text-[12.5px] font-semibold text-white/80">{item.label}</span>
+                      <Glyph size={16} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(61,165,255,0.85)]" />
+                      <span className="text-[12.5px] font-semibold text-white/85">{item.label}</span>
                     </div>
                   );
                 })}

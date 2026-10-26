@@ -33,7 +33,7 @@ export function ContactSection() {
                   <a
                     href={channel.href}
                     {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="group flex h-full items-center gap-3 rounded-2xl bg-white/45 p-3.5 shadow-neu-inset transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/75"
+                    className="group flex h-full items-center gap-3 rounded-2xl bg-ash-100/80 p-3.5 shadow-neu-inset transition-all duration-200 hover:-translate-y-0.5 hover:bg-ash-100"
                   >
                     <span className="neu-orb h-10 w-10 shrink-0 text-ceyteq-500">
                       <Glyph size={16} />
@@ -79,7 +79,7 @@ export function ContactSection() {
 
         {/* Enquiry form */}
         <div className="neu-3d relative overflow-hidden rounded-neu-lg p-6 sm:p-8">
-          <div className="glow-blob -right-10 -top-12 h-40 w-40 bg-ceyteq-neon/25" />
+          <div className="glow-blob -right-10 -top-12 h-40 w-40 bg-ash-50" />
           <div className="relative">
             <div className="flex items-center justify-between gap-3">
               <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.2em] text-navy-300">

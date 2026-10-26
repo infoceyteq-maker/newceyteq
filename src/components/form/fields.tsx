@@ -181,7 +181,7 @@ function LinksField({ field, value, onChange, error, disabled }: FieldRendererPr
           >
             <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
               <div className="flex items-center gap-2 sm:w-[220px] sm:shrink-0">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/60 text-ceyteq-500 shadow-neu-inset-sm">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-ash-100 text-ceyteq-500 shadow-neu-inset-sm">
                   {row.platform ? <PlatformGlyph platform={row.platform} /> : <Icon.link size={16} />}
                 </span>
                 <NeuSelect

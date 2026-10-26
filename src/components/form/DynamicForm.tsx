@@ -193,7 +193,7 @@ export function DynamicForm({ form, preview = false }: Props) {
     return (
       <div className="mx-auto w-full max-w-2xl">
         <div className="neu-raised animate-fade-up relative overflow-hidden rounded-neu-lg p-8 text-center sm:p-12">
-          <div className="glow-blob left-1/2 top-0 h-40 w-64 -translate-x-1/2 bg-ceyteq-300/50" />
+          <div className="glow-blob left-1/2 top-0 h-40 w-64 -translate-x-1/2 bg-ash-50" />
           <div className="relative">
             <div className="relative mx-auto grid h-24 w-24 place-items-center">
               <span className="absolute inset-0 rounded-full bg-ceyteq-500/20 animate-pulse-ring" />
@@ -280,7 +280,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                 "flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-[11.5px] font-semibold transition-colors",
                 complete
                   ? "bg-ceyteq-500/10 text-ceyteq-700"
-                  : "text-navy-400 hover:bg-white/70 hover:text-navy-600",
+                  : "text-navy-400 hover:bg-ash-100 hover:text-navy-600",
               )}
             >
               <span
@@ -321,7 +321,7 @@ export function DynamicForm({ form, preview = false }: Props) {
               </span>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="neu-badge bg-white/70 text-navy-400">
+                  <span className="neu-badge bg-ash-100 text-navy-400">
                     Step {String(sectionIndex + 1).padStart(2, "0")}
                   </span>
                   <h2 className="text-lg font-bold text-navy-700 sm:text-xl">{section.title}</h2>
@@ -384,7 +384,7 @@ export function DynamicForm({ form, preview = false }: Props) {
               </div>
               <div className="neu-sunken h-3 overflow-hidden rounded-full">
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,#0072ce,#00d2ff)] shadow-[0_0_14px_rgba(0,210,255,0.7)] transition-[width] duration-500"
+                  className="h-full rounded-full bg-[linear-gradient(90deg,#2F6BFF,#3DA5FF)] shadow-[0_0_14px_rgba(61,165,255,0.6)] transition-[width] duration-500"
                   style={{ width: `${Math.max(progress, 4)}%` }}
                 />
               </div>
@@ -404,7 +404,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                 disabled={status === "submitting" || preview}
                 className="neu-btn-neon neu-btn group relative w-full overflow-hidden !px-8 !py-4 text-[14.5px] sm:w-auto"
               >
-                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(0,210,255,0.45),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(61,165,255,0.4),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
                 <span className="relative flex items-center gap-2.5">
                   {status === "submitting" ? (
                     <>
@@ -414,7 +414,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                   ) : (
                     <>
                       {form.submitLabel}
-                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-neon text-navy-800 shadow-[0_0_18px_rgba(0,210,255,0.85)]">
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-neon text-navy-800 shadow-[0_0_16px_rgba(61,165,255,0.75)]">
                         <Icon.arrowRight size={15} />
                       </span>
                     </>

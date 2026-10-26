@@ -457,7 +457,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                       type="color"
                       value={draft.accent}
                       onChange={(event) => patch((prev) => ({ ...prev, accent: event.target.value }))}
-                      className="h-12 w-14 cursor-pointer rounded-xl border border-white/60 bg-transparent p-1"
+                      className="h-12 w-14 cursor-pointer rounded-xl bg-transparent p-1 shadow-neu-inset-sm"
                     />
                     <input
                       aria-label="Accent hex"
@@ -536,7 +536,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="neu-badge bg-white/70 text-navy-300">
+                      <span className="neu-badge bg-ash-100 text-navy-300">
                         {String(sectionIndex + 1).padStart(2, "0")}
                       </span>
                       {open ? (
@@ -663,7 +663,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                                 </button>
                               )}
 
-                              <span className="neu-badge shrink-0 bg-white/70 text-navy-400">
+                              <span className="neu-badge shrink-0 bg-ash-100 text-navy-400">
                                 {FIELD_TYPE_META[field.type]?.label ?? field.type}
                               </span>
 
@@ -674,7 +674,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                                   onChange={(event) =>
                                     patchField(section.uid, field.uid, { required: event.target.checked })
                                   }
-                                  className="h-3.5 w-3.5 accent-[#0072CE]"
+                                  className="h-3.5 w-3.5 accent-[#2F6BFF]"
                                 />
                                 Req
                               </label>
@@ -801,9 +801,9 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                   onClick={() =>
                     setOpenSections((prev) => ({ ...prev, [section.uid]: true }))
                   }
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[11.5px] font-semibold text-navy-400 transition-colors hover:bg-white/60"
+                  className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-[11.5px] font-semibold text-navy-400 transition-colors hover:bg-ash-100"
                 >
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white/70 text-[10px] text-navy-400">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-ash-100 text-[10px] text-navy-400">
                     {index + 1}
                   </span>
                   <span className="truncate">{section.title || "Untitled"}</span>
@@ -1077,7 +1077,7 @@ function FieldEditor({
                     aria-label={`Colour ${optionIndex + 1}`}
                     value={option.swatch ?? "#8C9BB0"}
                     onChange={(event) => updateOption(optionIndex, { swatch: event.target.value })}
-                    className="h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-white/60 bg-transparent p-0.5"
+                    className="h-9 w-10 shrink-0 cursor-pointer rounded-lg bg-transparent p-0.5 shadow-neu-inset-sm"
                   />
                 ) : null}
                 <input
@@ -1109,7 +1109,7 @@ function FieldEditor({
               </div>
             ))}
             {field.options.length === 0 ? (
-              <p className="rounded-lg bg-white/50 px-3 py-2 text-[11.5px] font-semibold text-navy-300">
+              <p className="rounded-lg bg-ash-100 px-3 py-2 text-[11.5px] font-semibold text-navy-300">
                 No options yet — add at least one.
               </p>
             ) : null}

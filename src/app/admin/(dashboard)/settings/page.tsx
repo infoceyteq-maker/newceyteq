@@ -28,9 +28,9 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-5">
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
-        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ceyteq-200/60" />
+        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex items-center gap-4">
-          <span className="neu grid h-14 w-14 place-items-center rounded-2xl bg-[linear-gradient(150deg,#123a5c,#082b49)] text-[16px] font-bold text-white">
+          <span className="neu grid h-14 w-14 place-items-center rounded-2xl bg-[linear-gradient(150deg,#123a5c,#0F1B3D)] text-[16px] font-bold text-white">
             {initials(user.name)}
           </span>
           <div>
@@ -95,7 +95,7 @@ export default async function SettingsPage() {
             ))}
           </dl>
 
-          <div className="mt-4 rounded-xl bg-white/55 p-3.5">
+          <div className="mt-4 rounded-xl bg-ash-100 p-3.5">
             <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-navy-300">
               {isRemote ? "Supabase / PostgreSQL connected" : "Connect Supabase"}
             </p>
@@ -125,7 +125,7 @@ export default async function SettingsPage() {
               <div key={template.slug} className="neu rounded-2xl p-4">
                 <div className="flex items-center justify-between">
                   <p className="text-[13.5px] font-bold text-navy-600">{template.name}</p>
-                  <span className="neu-badge bg-white/70 text-navy-400">{template.status}</span>
+                  <span className="neu-badge bg-ash-100 text-navy-400">{template.status}</span>
                 </div>
                 <p className="mt-1.5 text-[11.5px] leading-relaxed text-navy-300">{template.description}</p>
                 <p className="mt-2 font-mono text-[10.5px] font-semibold text-ceyteq-600">
@@ -152,7 +152,7 @@ export default async function SettingsPage() {
               ["npm run db:stats", "Inspect the database contents"],
               ["npm run logo", "Regenerate the transparent logo assets"],
             ].map(([command, description]) => (
-              <div key={command} className="flex items-center gap-2.5 rounded-xl bg-white/55 px-3 py-2.5">
+              <div key={command} className="flex items-center gap-2.5 rounded-xl bg-ash-100 px-3 py-2.5">
                 <code className="font-mono text-[11px] font-bold text-navy-600">{command}</code>
                 <span className="text-[11px] font-medium text-navy-300">{description}</span>
               </div>

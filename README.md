@@ -2,8 +2,8 @@
 
 A production-ready, full-stack onboarding platform for the **Ceyteq Digital Race** — built with
 Next.js (App Router, TypeScript, Tailwind CSS), a dynamic form engine, PostgreSQL storage and a
-3D **neumorphic (soft UI)** interface that mirrors the supplied design reference (surfaces, depth and
-colour tokens — no reference screenshots or placeholder images ship in the UI).
+3D **neumorphic (soft UI)** interface — a light ash canvas with paired `#FFFFFF`/`#C5C5CA` shadows and
+radium-blue accents. No reference screenshots or placeholder images ship in the UI.
 
 ![Ceyteq](public/brand/ceyteq-logo.png)
 
@@ -170,27 +170,46 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 
 ## Design system
 
-* **Palette** — deep matte ash canvas `#CBD5E1`, Ceyteq Blue `#0072CE`, Radium/neon blue `#00D2FF`
-  for active states, digits and glowing indicators, Deep Navy `#082B49` for text, dark pills and
-  display panels.
-* **True 3D neumorphism** — nothing is flat, and there is exactly one light source (top-left), on a
-  **deep matte ash** canvas `#CBD5E1`. Every card, button, chip, orb and input carries the same
-  dual-layer recipe:
+* **Palette** — a neutral **light ash** neumorphic canvas (no blue tint in the page itself). Every
+  value is defined once as a CSS variable in `src/app/globals.css` and mirrored as a Tailwind token in
+  `tailwind.config.ts`, so the whole system can be re-tuned from those two blocks:
+
+  | Token | Value | Role |
+  | --- | --- | --- |
+  | `--bg` | `#E4E4E6` | page base (subtle gradient up to `#EAEAEC`) |
+  | `--surface` | `#E8E8EA` | cards, navbar, badges, inputs, secondary buttons |
+  | `--shadow-light` | `#FFFFFF` | top-left highlight |
+  | `--shadow-dark` | `#C5C5CA` | bottom-right drop |
+  | `--navy` | `#0F1B3D` | dark panels, headings (`#1E2A52` for sub-headings) |
+  | `--blue-dark` | `#1E3FA8` | primary button gradient start |
+  | `--blue` | `#2F6BFF` | royal blue, primary gradient end, highlight text |
+  | `--radium` | `#3DA5FF` | glow blue / gradient highlight end |
+  | `--radium-light` | `#6CC4FF` | light accent |
+  | `--text-body` | `#5A6070` | body copy (5.1:1 on the surface) |
+
+* **True soft-3D neumorphism** — no hard borders anywhere; depth comes only from paired shadows with a
+  single top-left light source. Radii are 24–32px, pills fully rounded.
 
   | Layer | Value |
   | --- | --- |
-  | Light highlight (top-left) | `-6px -6px 16px rgba(255,255,255,0.9)` |
-  | Deep shadow (bottom-right) | `6px 6px 16px rgba(0,0,0,0.2)` |
-  | Radium ambient glow (active + dark panels) | `0 0 15px rgba(0,210,255,0.25)` |
+  | Raised (cards, navbar, pills) | `8px 8px 18px #C5C5CA, -8px -8px 18px #FFFFFF` |
+  | Pressed / inset (badges, inputs, active tabs) | `inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF` |
+  | Primary CTA glow | `0 8px 24px rgba(47,107,255,0.35)` |
+  | Radium halo (dark panels, dots) | `0 0 18px rgba(61,165,255,0.35)` |
 
-  Sunken inputs invert the same two shadows with `inset`, and pressed states collapse into a
-  deeper inset so the control physically depresses. Primitives live in `src/app/globals.css`
+  Hover lifts surfaces by `translateY(-2px)` with a stronger shadow, active states collapse into the
+  inset recipe, and all transitions run 200–300ms. Primitives live in `src/app/globals.css`
   (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-input`, `.neu-btn*`, `.neu-orb`,
   `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by every page.
 
-* **Neon accents** — `.neu-btn-neon` (navy → cobalt → radium gradient with an outer glow) is the
-  primary form submit; `.neon-dot` marks live indicators; focused inputs glow radium blue; active
-  sidebar partitions get a neon edge bar.
+* **Blue accents** — primary buttons use the `#1E3FA8 → #2F6BFF` gradient with white text and the soft
+  glow above; the hero headline highlight ("every restaurant") uses the `#2F6BFF → #3DA5FF` gradient.
+  Secondary CTAs are raised ash pills with navy text.
+* **Dark 3D elements** — feature cards, stats and badges on the navy panels use `.neu-dark`
+  (`#14121F → #0F1B3D` with a glowing `#3DA5FF` rim and inner glow) and `.neu-dark-inset` for sunken
+  widgets inside those panels, giving the sci-fi dashboard feel.
+* **Neon accents** — `.neu-btn-neon` is the primary form submit; `.neon-dot` marks live indicators;
+  focused inputs glow radium blue; the active admin partition gets a radium edge bar.
 * **Logo** — `scripts/prepare-logo.mjs` removes the photographed white paper from the supplied
   artwork: it flood-fills the background from the edges, rebuilds a feathered alpha channel,
   un-premultiplies the white pigment (no white fringing) and un-premultiplies highlight pixels, then

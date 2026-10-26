@@ -34,7 +34,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
   return (
     <div className="space-y-5">
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
-        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ceyteq-200/60" />
+        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
@@ -116,7 +116,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
                       {client.restaurantName || "Untitled restaurant"}
                     </h2>
                     <span
-                      className={`neu-badge ${STATUS_STYLES[client.status] ?? "bg-white/70 text-navy-400"}`}
+                      className={`neu-badge ${STATUS_STYLES[client.status] ?? "bg-ash-100 text-navy-400"}`}
                     >
                       {client.status}
                     </span>
@@ -155,7 +155,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
                     <span
                       key={color}
                       title={color}
-                      className="h-6 w-6 rounded-lg border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_2px_6px_rgba(23,43,77,0.25)]"
+                      className="h-6 w-6 rounded-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_3px_8px_rgba(197,197,202,0.9)]"
                       style={{ backgroundColor: color }}
                     />
                   ))

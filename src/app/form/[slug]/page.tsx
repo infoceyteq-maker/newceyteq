@@ -52,11 +52,11 @@ export default async function PublicFormPage({ params }: PageProps) {
 
   return (
     <div className="relative min-h-dvh">
-      <div className="glow-blob -left-24 top-10 h-72 w-72 bg-ceyteq-200/40" />
-      <div className="glow-blob right-0 top-1/3 h-80 w-80 bg-white/60" />
+      <div className="glow-blob -left-24 top-10 h-72 w-72 bg-ash-50" />
+      <div className="glow-blob right-0 top-1/3 h-80 w-80 bg-ash-100" />
 
       <header className="relative z-10 px-3 pt-4 sm:px-6">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 rounded-[26px] border border-white/65 bg-[linear-gradient(150deg,#dae1ea_0%,#cbd5e1_52%,#c0cbd9_100%)] px-3 py-2.5 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:px-5">
+        <div className="neu mx-auto flex max-w-4xl items-center justify-between gap-3 rounded-pill px-3 py-2.5 sm:px-5">
           <Logo height={36} priority />
           <div className="flex items-center gap-2">
             <span className="neu-chip hidden !py-1.5 !text-[10.5px] uppercase tracking-[0.14em] sm:inline-flex">
@@ -91,7 +91,7 @@ export default async function PublicFormPage({ params }: PageProps) {
                 {form.status} preview
               </span>
             ) : null}
-            <span className="neu-badge bg-white/70 text-navy-300">/form/{form.slug}</span>
+            <span className="neu-badge bg-ash-100 text-navy-300">/form/{form.slug}</span>
           </div>
 
           <h1 className="mx-auto mt-4 max-w-3xl text-[30px] font-semibold leading-[1.08] tracking-[-0.03em] text-navy-700 sm:text-[44px]">
@@ -127,8 +127,8 @@ export default async function PublicFormPage({ params }: PageProps) {
         <DynamicForm form={dto} preview={isPreview} />
       </main>
 
-      <footer className="relative z-10 border-t border-white/50 bg-white/25 px-4 py-7 backdrop-blur-sm sm:px-6">
-        <div className="mx-auto max-w-4xl">
+      <footer className="relative z-10 px-4 pb-10 pt-6 sm:px-6">
+        <div className="neu mx-auto max-w-4xl rounded-[28px] p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-center gap-2.5">
             <a
               href={CONTACT.whatsapp}
@@ -165,7 +165,8 @@ export default async function PublicFormPage({ params }: PageProps) {
             })}
           </div>
 
-          <div className="mt-5 flex flex-col items-center justify-between gap-2 border-t border-white/60 pt-4 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
+          <div className="neu-divider my-4" />
+          <div className="flex flex-col items-center justify-between gap-2 text-[11.5px] font-semibold text-navy-300 sm:flex-row">
             <p>© {new Date().getFullYear()} Ceyteq. Empowering Digital Evolution.</p>
             <p className="flex items-center gap-1.5">
               <Icon.shield size={13} />

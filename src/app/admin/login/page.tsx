@@ -20,8 +20,8 @@ export default async function LoginPage() {
 
   return (
     <div className="relative grid min-h-dvh place-items-center px-4 py-10">
-      <div className="glow-blob left-[10%] top-[8%] h-72 w-72 bg-ceyteq-200/50" />
-      <div className="glow-blob bottom-[6%] right-[8%] h-64 w-64 bg-white/70" />
+      <div className="glow-blob left-[10%] top-[8%] h-72 w-72 bg-ash-50" />
+      <div className="glow-blob bottom-[6%] right-[8%] h-64 w-64 bg-ash-100" />
 
       <div className="relative grid w-full max-w-4xl overflow-hidden rounded-[36px] lg:grid-cols-[1fr_0.85fr]">
         {/* Form panel */}
@@ -36,7 +36,7 @@ export default async function LoginPage() {
             Sign in to build forms, publish links and review restaurant submissions.
           </p>
 
-          <Suspense fallback={<div className="mt-8 h-64 animate-pulse rounded-2xl bg-white/40" />}>
+          <Suspense fallback={<div className="mt-8 h-64 animate-pulse rounded-2xl bg-ash-100/80" />}>
             <LoginForm />
           </Suspense>
 
@@ -79,10 +79,10 @@ export default async function LoginPage() {
               return (
                 <div
                   key={item.label}
-                  className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.07] px-3.5 py-2.5"
+                  className="neu-dark-inset flex items-center gap-2.5 rounded-xl px-3.5 py-2.5"
                 >
-                  <Glyph size={15} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0,210,255,0.85)]" />
-                  <span className="text-[12px] font-semibold text-white/80">{item.label}</span>
+                  <Glyph size={15} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(61,165,255,0.85)]" />
+                  <span className="text-[12px] font-semibold text-white/85">{item.label}</span>
                 </div>
               );
             })}

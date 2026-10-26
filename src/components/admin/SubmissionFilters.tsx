@@ -96,7 +96,7 @@ export function SubmissionFilters({ forms, counts }: Props) {
               <span
                 className={cn(
                   "rounded-pill px-1.5 text-[10px] font-bold",
-                  active ? "bg-white/25" : "bg-white/80 text-navy-400",
+                  active ? "bg-white/25" : "bg-ash-50 text-navy-400",
                 )}
               >
                 {counts[item.value] ?? 0}

@@ -48,7 +48,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
   return (
     <div className="space-y-5">
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
-        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ceyteq-neon/25" />
+        <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
@@ -152,12 +152,12 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
                         </span>
                       ) : null}
                       <span
-                        className={`neu-badge ${STATUS_STYLES[lead.status] ?? "bg-white/70 text-navy-400"}`}
+                        className={`neu-badge ${STATUS_STYLES[lead.status] ?? "bg-ash-100 text-navy-400"}`}
                       >
                         {LEAD_STATUSES.find((option) => option.value === lead.status)?.label ??
                           lead.status}
                       </span>
-                      <span className="neu-badge bg-white/70 text-navy-400">
+                      <span className="neu-badge bg-ash-100 text-navy-400">
                         {leadChannelLabel(lead.channel)}
                       </span>
                     </div>

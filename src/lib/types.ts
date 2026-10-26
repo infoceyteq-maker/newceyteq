@@ -116,8 +116,8 @@ export const FIELD_TYPE_META: Record<
 
 /** Default brand swatches offered by the theme-colour field. */
 export const DEFAULT_PALETTE: FieldOption[] = [
-  { value: "ceyteq-blue", label: "Ceyteq Blue", swatch: "#0072CE" },
-  { value: "deep-navy", label: "Deep Navy", swatch: "#082B49" },
+  { value: "ceyteq-blue", label: "Ceyteq Blue", swatch: "#2F6BFF" },
+  { value: "deep-navy", label: "Deep Navy", swatch: "#0F1B3D" },
   { value: "sky", label: "Sky", swatch: "#00A9E0" },
   { value: "aqua", label: "Aqua", swatch: "#33D6C0" },
   { value: "indigo", label: "Indigo", swatch: "#7B61FF" },
