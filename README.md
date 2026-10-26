@@ -80,6 +80,7 @@ The public onboarding form is live at **/form/restaurant-onboarding**.
 | `npm run db:reset` | Delete the local PGlite data folder and reseed |
 | `npm run db:stats` | Print forms, statuses and submission counts |
 | `npm run db:schema` | Regenerate `db/schema.sql` from `src/lib/db/schema.ts` |
+| `npm run db:apply -- supabase/realtime.sql` | Apply a SQL file to `DATABASE_URL` (RLS, realtime, cron) |
 | `npm run logo` | Rebuild the transparent logo assets from the source artwork |
 
 ---
@@ -315,8 +316,9 @@ vercel.json                    Vercel project config (region, function limits, h
 ## Deploy to Vercel
 
 1. **Create the database** — Supabase project → *Database → Connection pooling* → copy the pooled
-   URI. Run `db/schema.sql` in the Supabase SQL editor (or `psql "$DATABASE_URL" -f db/schema.sql`),
-   then `supabase/realtime.sql` to lock down RLS and enable the live signal feed.
+   URI. Run `npm run db:seed` (creates the tables, the admin and the onboarding form) and then
+   `npm run db:apply -- supabase/realtime.sql` to lock down RLS and enable the live signal feed.
+   Both can also be pasted into the Supabase SQL editor.
 2. **Environment variables** (Project → Settings → Environment Variables, *Production* scope):
 
    | Variable | Required | Notes |

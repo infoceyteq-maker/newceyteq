@@ -11,6 +11,7 @@
     "db:reset": "node -e \"require('node:fs').rmSync('.data',{recursive:true,force:true})\" && npm run db:seed",
     "db:stats": "NODE_OPTIONS=--conditions=react-server tsx scripts/db-stats.ts",
     "db:schema": "NODE_OPTIONS=--conditions=react-server tsx scripts/export-schema.ts",
+    "db:apply": "NODE_OPTIONS=--conditions=react-server tsx scripts/apply-sql.ts",
     "logo": "node scripts/prepare-logo.mjs",
     "lint": "tsc --noEmit"
   },
