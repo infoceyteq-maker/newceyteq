@@ -18,29 +18,58 @@ const PLACEHOLDER_SECRETS = new Set([
   "development",
 ]);
 
+/**
+ * `.env` files usually declare optional values as `KEY=""`. Treat a blank or
+ * whitespace-only value exactly like an unset variable so optional validators
+ * (`.url()`, `.email()`) never reject an empty placeholder.
+ */
+const optionalString = z.preprocess(
+  (value) => {
+    if (typeof value !== "string") return value;
+    const trimmed = value.trim();
+    return trimmed === "" ? undefined : trimmed;
+  },
+  z.string().trim().optional(),
+);
+
+const optionalUrl = z.preprocess(
+  (value) => {
+    if (typeof value !== "string") return value;
+    const trimmed = value.trim();
+    return trimmed === "" ? undefined : trimmed;
+  },
+  z.string().trim().url().optional(),
+);
+
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 
   /** PostgreSQL connection string (Supabase pooler in production). */
   DATABASE_URL: z.string().trim().optional().default(""),
-  PGLITE_DATA_DIR: z.string().trim().optional(),
+  PGLITE_DATA_DIR: optionalString,
 
   /** Session + IP hashing secret. Minimum 32 random characters in production. */
   AUTH_SECRET: z.string().trim().optional().default(""),
 
   /** Bootstrap administrator (used only when the admin table is empty). */
-  ADMIN_EMAIL: z.string().trim().email().optional(),
-  ADMIN_PASSWORD: z.string().trim().min(8).optional(),
-  ADMIN_NAME: z.string().trim().min(1).max(120).optional(),
+  ADMIN_EMAIL: z.preprocess(
+    (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+    z.string().trim().email().optional(),
+  ),
+  ADMIN_PASSWORD: z.preprocess(
+    (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+    z.string().trim().min(8).optional(),
+  ),
+  ADMIN_NAME: optionalString,
 
-  NEXT_PUBLIC_SITE_URL: z.string().trim().url().optional(),
+  NEXT_PUBLIC_SITE_URL: optionalUrl,
 
   /** Optional comma separated extra origins allowed to call the public API. */
-  ALLOWED_ORIGINS: z.string().trim().optional(),
+  ALLOWED_ORIGINS: optionalString,
 
   /** Optional Upstash Redis for distributed rate limiting. */
-  UPSTASH_REDIS_REST_URL: z.string().trim().url().optional(),
-  UPSTASH_REDIS_REST_TOKEN: z.string().trim().optional(),
+  UPSTASH_REDIS_REST_URL: optionalUrl,
+  UPSTASH_REDIS_REST_TOKEN: optionalString,
 });
 
 export type AppEnv = z.infer<typeof envSchema>;
