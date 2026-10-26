@@ -154,7 +154,7 @@ export default async function AdminOverviewPage() {
                   </span>
                   <div className="neu-sunken relative flex w-full flex-1 items-end overflow-hidden rounded-xl">
                     <div
-                      className="w-full rounded-xl bg-[linear-gradient(180deg,#3DA5FF,#2F6BFF)] shadow-[0_0_16px_rgba(61,165,255,0.4)] transition-all"
+                      className="w-full rounded-xl bg-[linear-gradient(180deg,#00D2FF,#0072CE)] shadow-[0_0_16px_rgba(0, 210, 255,0.4)] transition-all"
                       style={{ height: `${Math.max(height, 4)}%` }}
                     />
                   </div>

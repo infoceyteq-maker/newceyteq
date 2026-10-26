@@ -22,19 +22,19 @@ const config: Config = {
           200: "#B8CBFF",
           300: "#8FAEFF",
           400: "#5C8BFF",
-          500: "#2F6BFF" /* royal blue */,
-          600: "#1E3FA8" /* dark blue */,
+          500: "#0072CE" /* royal blue */,
+          600: "#005AA3" /* dark blue */,
           700: "#1A3589",
           800: "#152A66",
           /** Radium / glow blue — active states, glowing indicators. */
-          neon: "#3DA5FF",
-          radium: "#3DA5FF",
+          neon: "#00D2FF",
+          radium: "#00D2FF",
         },
         radium: {
           200: "#B7E2FF",
           300: "#8FD1FF",
-          400: "#6CC4FF" /* light accent */,
-          500: "#3DA5FF" /* radium */,
+          400: "#7FE3FF" /* light accent */,
+          500: "#00D2FF" /* radium */,
           600: "#2C8EE6",
         },
         /* Deep navy for dark panels, headings and primary text. */
@@ -46,8 +46,8 @@ const config: Config = {
           400: "#39465F" /* body text · 6.3:1 */,
           500: "#24314F",
           600: "#1E2A52" /* headline alt */,
-          700: "#0F1B3D" /* navy */,
-          800: "#14121F" /* navy deep */,
+          700: "#082B49" /* navy */,
+          800: "#04192B" /* navy deep */,
           900: "#0B0A14",
         },
       },
@@ -77,13 +77,13 @@ const config: Config = {
         "neu-pressed": "inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF",
         /* Dark navy panel with a radium outline + inner glow. */
         "navy-neu":
-          "12px 12px 28px rgba(197,197,202,0.6), -12px -12px 28px #FFFFFF, 0 0 0 1px rgba(61,165,255,0.35), inset 0 0 28px rgba(61,165,255,0.12)",
+          "12px 12px 28px rgba(197,197,202,0.6), -12px -12px 28px #FFFFFF, 0 0 0 1px rgba(0, 210, 255,0.35), inset 0 0 28px rgba(0, 210, 255,0.12)",
         /* Blue accent glows. */
-        glow: "0 8px 24px rgba(47,107,255,0.35)",
-        "glow-lg": "0 12px 32px rgba(47,107,255,0.45)",
-        neon: "0 0 18px rgba(61,165,255,0.35), 0 0 0 1px rgba(61,165,255,0.35)",
-        "neon-sm": "0 0 10px rgba(61,165,255,0.35)",
-        "neon-inset": "inset 0 0 20px rgba(61,165,255,0.25)",
+        glow: "0 8px 24px rgba(0, 114, 206,0.35)",
+        "glow-lg": "0 12px 32px rgba(0, 114, 206,0.45)",
+        neon: "0 0 18px rgba(0, 210, 255,0.35), 0 0 0 1px rgba(0, 210, 255,0.35)",
+        "neon-sm": "0 0 10px rgba(0, 210, 255,0.35)",
+        "neon-inset": "inset 0 0 20px rgba(0, 210, 255,0.25)",
       },
       keyframes: {
         "pulse-ring": {
@@ -96,8 +96,8 @@ const config: Config = {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "neon-pulse": {
-          "0%, 100%": { opacity: "1", boxShadow: "0 0 0 0 rgba(61,165,255,0.5)" },
-          "50%": { opacity: "0.85", boxShadow: "0 0 14px 2px rgba(61,165,255,0.5)" },
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 0 0 rgba(0, 210, 255,0.5)" },
+          "50%": { opacity: "0.85", boxShadow: "0 0 14px 2px rgba(0, 210, 255,0.5)" },
         },
         "float-soft": {
           "0%, 100%": { transform: "translateY(0)" },

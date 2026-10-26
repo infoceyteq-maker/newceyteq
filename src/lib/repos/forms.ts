@@ -196,7 +196,7 @@ export async function createForm(input: FormCreateInput): Promise<FormWithSectio
           "Thank you. Our team will review your details and get back to you shortly.",
         input.submitLabel ?? "Submit",
         input.status ?? "draft",
-        input.accent ?? "#2F6BFF",
+        input.accent ?? "#0072CE",
         input.createdById ?? null,
       ],
     );
@@ -270,7 +270,7 @@ export async function replaceFormDefinition(formId: string, input: FormUpdateInp
         input.successMessage ??
           "Thank you. Our team will review your details and get back to you shortly.",
         input.submitLabel ?? "Submit",
-        input.accent ?? "#2F6BFF",
+        input.accent ?? "#0072CE",
         input.status ?? null,
       ],
     );

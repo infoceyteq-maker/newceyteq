@@ -124,7 +124,7 @@ export function AddLeadButton({
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-ceyteq-600">
                   <span className="neon-dot" />
                   Pipeline
                 </p>

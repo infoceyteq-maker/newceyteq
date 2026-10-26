@@ -674,7 +674,7 @@ export function FormBuilder({ form }: { form: FormDTO }) {
                                   onChange={(event) =>
                                     patchField(section.uid, field.uid, { required: event.target.checked })
                                   }
-                                  className="h-3.5 w-3.5 accent-[#2F6BFF]"
+                                  className="h-3.5 w-3.5 accent-[#0072CE]"
                                 />
                                 Req
                               </label>

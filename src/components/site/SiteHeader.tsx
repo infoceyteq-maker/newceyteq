@@ -80,7 +80,7 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
           </a>
           <Link
             href={authenticated ? "/admin" : "/admin/login"}
-            className="hidden rounded-pill px-4 py-2.5 text-[13px] font-semibold text-navy-500 transition-colors duration-200 hover:text-ceyteq-500 sm:inline-flex"
+            className="hidden rounded-pill px-4 py-2.5 text-[13px] font-semibold text-navy-500 transition-colors duration-200 hover:text-ceyteq-600 sm:inline-flex"
           >
             {authenticated ? "Dashboard" : "Admin login"}
           </Link>

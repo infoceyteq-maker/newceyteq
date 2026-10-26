@@ -81,7 +81,7 @@ export default async function LoginPage() {
                   key={item.label}
                   className="neu-dark-inset flex items-center gap-2.5 rounded-xl px-3.5 py-2.5"
                 >
-                  <Glyph size={15} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(61,165,255,0.85)]" />
+                  <Glyph size={15} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0, 210, 255,0.85)]" />
                   <span className="text-[12px] font-semibold text-white/85">{item.label}</span>
                 </div>
               );

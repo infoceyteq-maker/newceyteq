@@ -27,7 +27,7 @@ export function Logo({ href = "/", className, height = 40, priority, plate }: Lo
       width={Math.round(height * 2.38)}
       priority={priority}
       className={cn(
-        "w-auto select-none object-contain drop-shadow-[0_6px_14px_rgba(15,27,61,0.16)]",
+        "w-auto select-none object-contain drop-shadow-[0_6px_14px_rgba(8, 43, 73,0.16)]",
         className,
       )}
       style={{ height }}

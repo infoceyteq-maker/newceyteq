@@ -384,7 +384,7 @@ export function DynamicForm({ form, preview = false }: Props) {
               </div>
               <div className="neu-sunken h-3 overflow-hidden rounded-full">
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,#2F6BFF,#3DA5FF)] shadow-[0_0_14px_rgba(61,165,255,0.6)] transition-[width] duration-500"
+                  className="h-full rounded-full bg-[linear-gradient(90deg,#0072CE,#00D2FF)] shadow-[0_0_14px_rgba(0, 210, 255,0.6)] transition-[width] duration-500"
                   style={{ width: `${Math.max(progress, 4)}%` }}
                 />
               </div>
@@ -404,7 +404,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                 disabled={status === "submitting" || preview}
                 className="neu-btn-neon neu-btn group relative w-full overflow-hidden !px-8 !py-4 text-[14.5px] sm:w-auto"
               >
-                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(61,165,255,0.4),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(0, 210, 255,0.4),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
                 <span className="relative flex items-center gap-2.5">
                   {status === "submitting" ? (
                     <>
@@ -414,7 +414,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                   ) : (
                     <>
                       {form.submitLabel}
-                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-neon text-navy-800 shadow-[0_0_16px_rgba(61,165,255,0.75)]">
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-neon text-navy-800 shadow-[0_0_16px_rgba(0, 210, 255,0.75)]">
                         <Icon.arrowRight size={15} />
                       </span>
                     </>

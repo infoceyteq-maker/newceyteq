@@ -169,7 +169,7 @@ export function AdminShell({
           rail && "justify-center !px-1.5",
         )}
       >
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#1a2447,#0F1B3D)] text-[11px] font-bold text-white shadow-[0_0_16px_rgba(61,165,255,0.28)]">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[linear-gradient(150deg,#0E3A5C,#082B49)] text-[11px] font-bold text-white shadow-[0_0_16px_rgba(0, 210, 255,0.28)]">
           {initials(user.name)}
         </span>
         {rail ? null : (

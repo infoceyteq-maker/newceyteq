@@ -99,11 +99,11 @@ export const ADMIN_MODULES: AdminModule[] = [
       },
       {
         key: "leads",
-        label: "Leads & Inquiries",
+        label: "Social & Email Leads",
         icon: "mail",
         href: "/admin/leads",
         status: "live",
-        description: "Social, WhatsApp, email and website enquiries.",
+        description: "Facebook, Instagram, TikTok, WhatsApp, email and website enquiries.",
         badge: "newLeads",
         short: "Leads",
         mobile: true,

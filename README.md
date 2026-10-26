@@ -184,11 +184,12 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
   | `--surface` | `#D5DCE5` | cards, navbar, badges, inputs, secondary buttons |
   | `--shadow-light` | `#FFFFFF` | top-left highlight |
   | `--shadow-dark` | `#C5C5CA` | bottom-right drop (paired with a faint navy contact shadow) |
-  | `--navy` | `#0F1B3D` | dark panels, headings (`#1E2A52` for sub-headings) |
-  | `--blue-dark` | `#1E3FA8` | primary button gradient start |
-  | `--blue` | `#2F6BFF` | royal blue, primary gradient end, highlight text |
-  | `--radium` | `#3DA5FF` | glow blue / gradient highlight end |
-  | `--radium-light` | `#6CC4FF` | light accent |
+  | `--navy` | `#082B49` | Deep Navy — dark panels, headers, headings |
+  | `--blue-dark` | `#005AA3` | primary button gradient start |
+  | `--blue` | `#0072CE` | Ceyteq Blue — primary gradient end, fills, icon accent |
+  | `--blue-ink` | `#005AA3` | blue text on ash (5.1:1, WCAG AA for small text) |
+  | `--radium` | `#00D2FF` | Radium Blue — glow, active states, accents on dark panels |
+  | `--radium-light` | `#7FE3FF` | light accent |
   | `--text-body` | `#39465F` | body copy (6.3:1 on the surface) |
 
 * **True soft-3D neumorphism** — no hard borders anywhere; depth comes only from paired shadows with a
@@ -199,9 +200,9 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
   | Raised (cards, navbar, pills) | `12px 12px 28px #C5C5CA, -12px -12px 28px #FFFFFF` |
   | Pressed / inset (badges, inputs, active tabs) | `inset 6px 6px 12px #C5C5CA, inset -6px -6px 12px #FFFFFF` |
   | Sunken well (stats, tables) | `inset 8px 8px 18px #C5C5CA, inset -8px -8px 18px #FFFFFF` |
-  | Card light sweep | `linear-gradient(145deg, #EFEFF1, #E8E8EA, #E2E2E5)` |
-  | Primary CTA glow | `0 8px 24px rgba(47,107,255,0.35)` |
-  | Radium halo (dark panels, dots) | `0 0 18px rgba(61,165,255,0.35)` |
+  | Card light sweep | `linear-gradient(145deg, #EEF2F7, #E0E6EE, #CCD6E2)` |
+  | Primary CTA glow | `0 8px 24px rgba(0, 114, 206,0.35)` |
+  | Radium halo (dark panels, dots) | `0 0 18px rgba(0, 210, 255,0.35)` |
 
   Hover lifts surfaces by `translateY(-3px)` with a stronger shadow, active states collapse into the
   inset recipe, and all transitions run 250ms. Cards nest inside cards (`.neu-inset-card`) and metrics
@@ -209,13 +210,13 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
   (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-well`, `.neu-inset-card`, `.neu-input`,
   `.neu-btn*`, `.neu-orb`, `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by every page.
 * **Ash everywhere** — `html`, `body` and every layout wrapper are `min-h-screen` with
-  `background-color: #E4E4E6`, so dialogs, drawers and short pages never show a white or blue gap.
+  `background-color: #CBD5E1`, so dialogs, drawers and short pages never show a white or blue gap.
 
-* **Blue accents** — primary buttons use the `#1E3FA8 → #2F6BFF` gradient with white text and the soft
-  glow above; the hero headline highlight ("every restaurant") uses the `#2F6BFF → #3DA5FF` gradient.
+* **Blue accents** — primary buttons use the `#005AA3 → #0072CE` gradient with white text and the soft
+  glow above; the hero headline highlight ("every restaurant") uses the `#0072CE → #00D2FF` gradient.
   Secondary CTAs are raised ash pills with navy text.
 * **Dark 3D elements** — feature cards, stats and badges on the navy panels use `.neu-dark`
-  (`#14121F → #0F1B3D` with a glowing `#3DA5FF` rim and inner glow) and `.neu-dark-inset` for sunken
+  (`#04192B → #082B49` with a glowing `#00D2FF` rim and inner glow) and `.neu-dark-inset` for sunken
   widgets inside those panels, giving the sci-fi dashboard feel.
 * **Neon accents** — `.neu-btn-neon` is the primary form submit; `.neon-dot` marks live indicators;
   focused inputs glow radium blue; the active admin partition gets a radium edge bar.

@@ -53,9 +53,9 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
         <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-600">
               <span className="neon-dot" />
-              Leads &amp; inquiries
+              Social &amp; Email Leads
             </p>
             <h1 className="mt-2 text-[26px] font-semibold leading-tight text-navy-700 sm:text-[30px]">
               Social media &amp; email pipeline
@@ -195,7 +195,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
 
                 <Link
                   href={`/admin/leads?status=${stage.value}`}
-                  className="mt-auto inline-flex items-center gap-1.5 pt-3 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300 transition-colors hover:text-ceyteq-500"
+                  className="mt-auto inline-flex items-center gap-1.5 pt-3 text-[10px] font-bold uppercase tracking-[0.12em] text-navy-300 transition-colors hover:text-ceyteq-600"
                 >
                   Open stage
                   <Icon.arrowRight size={11} />

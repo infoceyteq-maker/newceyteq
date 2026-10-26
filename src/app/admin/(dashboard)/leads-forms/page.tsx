@@ -4,6 +4,7 @@ import { Icon } from "@/components/icons";
 import { CreateFormButton } from "@/components/admin/CreateFormButton";
 import { AddLeadButton } from "@/components/admin/AddLeadButton";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { FormLinkManager } from "@/components/admin/FormLinkManager";
 import { countForms, listForms } from "@/lib/services/forms-service";
 import { leadStats, recentLeadRows } from "@/lib/services/leads-service";
 import { todaySubmissionCount } from "@/lib/services/submissions-service";
@@ -88,7 +89,7 @@ export default async function LeadsFormsHubPage() {
         <span className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-600">
               <span className="neon-dot" />
               {module.label} · live module
             </p>
@@ -112,6 +113,20 @@ export default async function LeadsFormsHubPage() {
           </div>
         </div>
       </header>
+
+      {/* Form Link Manager — view / copy / manage the active public link */}
+      <FormLinkManager
+        forms={forms.map((form) => ({
+          id: form.id,
+          slug: form.slug,
+          title: form.title,
+          status: form.status,
+          submissionCount: form.submissionCount,
+          fieldCount: form.fieldCount,
+          updatedAt: form.updatedAt,
+        }))}
+        siteUrl={process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")}
+      />
 
       {/* Key metrics: raised ash cards, inset wells inside, one dark panel */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -140,7 +155,7 @@ export default async function LeadsFormsHubPage() {
                   className={cn(
                     "grid h-9 w-9 place-items-center rounded-xl",
                     stat.dark
-                      ? "bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_16px_rgba(61,165,255,0.25),0_0_0_1px_rgba(61,165,255,0.3)]"
+                      ? "bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_16px_rgba(0, 210, 255,0.25),0_0_0_1px_rgba(0, 210, 255,0.3)]"
                       : "neu-inset-card",
                     !stat.dark && (stat.highlight ? "text-ceyteq-500" : "text-navy-300"),
                   )}
@@ -254,7 +269,7 @@ export default async function LeadsFormsHubPage() {
                 </span>
                 <span className="h-2.5 flex-1 overflow-hidden rounded-pill bg-ash-100 shadow-neu-inset-sm">
                   <span
-                    className="block h-full rounded-pill bg-[linear-gradient(90deg,#2F6BFF,#3DA5FF)] shadow-[0_0_12px_rgba(61,165,255,0.45)]"
+                    className="block h-full rounded-pill bg-[linear-gradient(90deg,#0072CE,#00D2FF)] shadow-[0_0_12px_rgba(0, 210, 255,0.45)]"
                     style={{ width: `${Math.max((stage.count / pipelineMax) * 100, stage.count ? 6 : 0)}%` }}
                   />
                 </span>

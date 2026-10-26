@@ -62,7 +62,7 @@ export function ModuleCards({
                   className={cn(
                     "grid h-12 w-12 place-items-center rounded-2xl",
                     featured
-                      ? "bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_18px_rgba(61,165,255,0.25),0_0_0_1px_rgba(61,165,255,0.35)]"
+                      ? "bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_18px_rgba(0, 210, 255,0.25),0_0_0_1px_rgba(0, 210, 255,0.35)]"
                       : "neu-inset-card text-ceyteq-500",
                   )}
                 >
@@ -74,7 +74,7 @@ export function ModuleCards({
                     soon
                       ? "bg-ash-100 text-navy-300 shadow-neu-inset-sm"
                       : featured
-                        ? "bg-ceyteq-neon/15 text-ceyteq-neon shadow-[0_0_14px_rgba(61,165,255,0.25)]"
+                        ? "bg-ceyteq-neon/15 text-ceyteq-neon shadow-[0_0_14px_rgba(0, 210, 255,0.25)]"
                         : "bg-ash-100 text-navy-400 shadow-neu-inset-sm",
                   )}
                 >

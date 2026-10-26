@@ -21,7 +21,7 @@ export default async function AdminFormsPage() {
         <div className="glow-blob -right-6 -top-10 h-36 w-36 bg-ash-50" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-600">
               <span className="neon-dot" />
               Form generator
             </p>

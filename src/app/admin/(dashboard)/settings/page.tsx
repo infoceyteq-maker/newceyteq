@@ -36,11 +36,11 @@ export default async function SettingsPage() {
       <header className="neu-raised relative overflow-hidden rounded-neu-lg px-5 py-6 sm:px-8">
         <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ash-50" />
         <div className="relative flex items-center gap-4">
-          <span className="neu grid h-14 w-14 place-items-center rounded-2xl bg-[linear-gradient(150deg,#123a5c,#0F1B3D)] text-[16px] font-bold text-white">
+          <span className="neu grid h-14 w-14 place-items-center rounded-2xl bg-[linear-gradient(150deg,#123a5c,#082B49)] text-[16px] font-bold text-white">
             {initials(user.name)}
           </span>
           <div>
-            <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+            <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-600">
               Workspace settings
             </p>
             <h1 className="mt-1 text-[24px] font-semibold leading-tight text-navy-700 sm:text-[28px]">

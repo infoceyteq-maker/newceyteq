@@ -48,7 +48,7 @@ export function ModulePlaceholder({
           </span>
 
           <div className="mt-6 flex items-center gap-4">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_20px_rgba(61,165,255,0.25),0_0_0_1px_rgba(61,165,255,0.35)]">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/[0.06] text-ceyteq-neon shadow-[inset_0_0_20px_rgba(0, 210, 255,0.25),0_0_0_1px_rgba(0, 210, 255,0.35)]">
               <Glyph size={24} />
             </span>
             <div>

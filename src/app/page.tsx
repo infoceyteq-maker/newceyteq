@@ -48,7 +48,7 @@ export default async function HomePage() {
 
           <div className="relative mx-auto max-w-3xl text-center animate-fade-up">
             <div className="neu-chip neu-chip-inset mx-auto !py-2.5">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-[linear-gradient(145deg,#2F6BFF,#3DA5FF)] text-white shadow-[0_0_14px_rgba(61,165,255,0.6)]">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-[linear-gradient(145deg,#0072CE,#00D2FF)] text-white shadow-[0_0_14px_rgba(0, 210, 255,0.6)]">
                 <Icon.bolt size={12} />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-400">
@@ -274,7 +274,7 @@ export default async function HomePage() {
                 <span
                   className="block h-20 w-full rounded-2xl ring-1 ring-white/60"
                   style={{
-                    background: `linear-gradient(150deg, ${colour.swatch}, ${shade(colour.swatch ?? "#2F6BFF")})`,
+                    background: `linear-gradient(150deg, ${colour.swatch}, ${shade(colour.swatch ?? "#0072CE")})`,
                     boxShadow: `inset 0 2px 6px rgba(255,255,255,0.5), inset 0 -8px 16px rgba(0,0,0,0.18), 0 10px 20px -12px ${colour.swatch}`,
                   }}
                 />
@@ -386,7 +386,7 @@ export default async function HomePage() {
                       key={item.label}
                       className="neu-dark-inset flex items-center gap-3 rounded-2xl px-4 py-3"
                     >
-                      <Glyph size={16} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(61,165,255,0.85)]" />
+                      <Glyph size={16} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0, 210, 255,0.85)]" />
                       <span className="text-[12.5px] font-semibold text-white/85">{item.label}</span>
                     </div>
                   );
@@ -415,7 +415,7 @@ function SectionHeading({
 }) {
   return (
     <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl"}>
-      <p className="text-[10.5px] font-bold uppercase tracking-[0.2em] text-ceyteq-500">{eyebrow}</p>
+      <p className="text-[10.5px] font-bold uppercase tracking-[0.2em] text-ceyteq-600">{eyebrow}</p>
       <h2 className="mt-3 text-[26px] font-semibold leading-tight text-navy-700 sm:text-[32px]">
         {title}
       </h2>

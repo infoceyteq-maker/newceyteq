@@ -29,7 +29,7 @@ create table if not exists forms (
   success_message text not null default 'Thank you. Our team will review your details and get back to you shortly.',
   submit_label    text not null default 'Submit',
   status          text not null default 'draft',
-  accent          text not null default '#2F6BFF',
+  accent          text not null default '#0072CE',
   created_by_id   text references admin_users(id) on delete set null,
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now()
