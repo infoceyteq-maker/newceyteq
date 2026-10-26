@@ -312,7 +312,7 @@ export function DynamicForm({ form, preview = false }: Props) {
           <section
             key={section.id}
             id={`section-${sectionIndex + 1}`}
-            className="neu-raised scroll-mt-24 rounded-neu-lg p-5 sm:p-7"
+            className="neu-3d scroll-mt-24 rounded-neu-lg p-5 sm:p-7"
           >
             <header className="mb-5 flex items-start gap-3.5 sm:mb-6 sm:gap-4">
               <span className="neu grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-ceyteq-500 sm:h-14 sm:w-14">
@@ -375,7 +375,7 @@ export function DynamicForm({ form, preview = false }: Props) {
           </div>
         ) : null}
 
-        <div className="neu-raised rounded-neu-lg p-5 sm:p-6">
+        <div className="neu-3d rounded-neu-lg p-5 sm:p-6">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
             <div className="w-full sm:max-w-xs">
               <div className="mb-2 flex items-center justify-between text-[11.5px] font-bold uppercase tracking-[0.12em] text-navy-300">
@@ -384,7 +384,7 @@ export function DynamicForm({ form, preview = false }: Props) {
               </div>
               <div className="neu-sunken h-3 overflow-hidden rounded-full">
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,#2a95f5,#0072ce)] shadow-[0_0_12px_rgba(0,114,206,0.6)] transition-[width] duration-500"
+                  className="h-full rounded-full bg-[linear-gradient(90deg,#0072ce,#00d2ff)] shadow-[0_0_14px_rgba(0,210,255,0.7)] transition-[width] duration-500"
                   style={{ width: `${Math.max(progress, 4)}%` }}
                 />
               </div>
@@ -402,9 +402,9 @@ export function DynamicForm({ form, preview = false }: Props) {
               <button
                 type="submit"
                 disabled={status === "submitting" || preview}
-                className="neu-btn-dark group relative w-full overflow-hidden !px-8 !py-4 text-[14.5px] sm:w-auto"
+                className="neu-btn-neon neu-btn group relative w-full overflow-hidden !px-8 !py-4 text-[14.5px] sm:w-auto"
               >
-                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(0,114,206,0.35),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(0,210,255,0.45),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
                 <span className="relative flex items-center gap-2.5">
                   {status === "submitting" ? (
                     <>
@@ -414,7 +414,7 @@ export function DynamicForm({ form, preview = false }: Props) {
                   ) : (
                     <>
                       {form.submitLabel}
-                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-500 text-white shadow-[0_0_16px_rgba(0,114,206,0.7)]">
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-ceyteq-neon text-navy-800 shadow-[0_0_18px_rgba(0,210,255,0.85)]">
                         <Icon.arrowRight size={15} />
                       </span>
                     </>

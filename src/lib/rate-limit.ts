@@ -179,6 +179,9 @@ export const RATE_LIMITS = {
   /** Admin login: 5 attempts per 5 minutes per IP, 20 per hour per IP. */
   loginShort: { limit: 5, windowMs: 5 * 60_000 } satisfies RateLimitRule,
   loginLong: { limit: 20, windowMs: 60 * 60_000 } satisfies RateLimitRule,
+  /** Public lead enquiries: 4 per 5 minutes/IP, 20 per hour/IP. */
+  leadShort: { limit: 4, windowMs: 5 * 60_000 } satisfies RateLimitRule,
+  leadLong: { limit: 20, windowMs: 60 * 60_000 } satisfies RateLimitRule,
   /** Admin write endpoints. */
   adminWrite: { limit: 60, windowMs: 60_000 } satisfies RateLimitRule,
 } as const;

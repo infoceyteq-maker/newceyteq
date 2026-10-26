@@ -15,10 +15,12 @@ colour tokens — no reference screenshots or placeholder images ship in the UI)
 | --- | --- |
 | **Public site** | Single-column, top-to-bottom neumorphic layout: hero with live stats, platform overview, live form showcase, palette section, CTA. No preview/placeholder imagery is embedded in the layout — only the transparent Ceyteq logo. |
 | **Dynamic forms** | Every form is stored as a schema in PostgreSQL (sections → fields) and rendered at its own public slug, e.g. `/form/restaurant-onboarding`. |
-| **Admin dashboard** | Overview with 7-day submission chart, form list with publish/duplicate/delete, submission inbox with filters + CSV export, settings with live database info. |
+| **Admin dashboard** | Partitioned workspace: **Restaurant Clients**, **Social Media Leads & Inquiries**, **Form Generator** and **Responses**, plus an overview with a 7-day activity chart, pipeline stats and settings. |
+| **Restaurant Clients** | `/admin/clients` derives a client record from every onboarding submission (venue, owner contacts, social links, palette, completeness score) with search and status filters. |
+| **Leads & Inquiries** | `/admin/leads` is a full pipeline for enquiries arriving from Facebook, Instagram, TikTok, LinkedIn, YouTube, Pinterest, X, Google Maps, WhatsApp, email, phone or the website form — statuses from new → contacted → qualified → won, with CSV export. |
 | **Form builder** | Create / reorder / rename sections and fields, pick field types, edit options, required rules, layouts, success copy and slug — saved atomically. |
 | **Restaurant onboarding** | The full five-section form from the brief: Restaurant Details, Owner Details, dynamic Social & Maps links, 10-colour theme picker (max 5), Special Notes. |
-| **Security** | scrypt password hashing, HMAC-signed HttpOnly session cookie, server-side Zod validation generated from the form schema, sanitisation of every input, origin/CSRF checks, CSP + HSTS headers, honeypot + timing + distributed rate limiting. |
+| **Security** | CORS + origin verification on every mutating API call, scrypt password hashing, HMAC-signed HttpOnly session cookie, server-side Zod validation generated from the form schema, sanitisation of every input, origin/CSRF checks, CSP + HSTS headers, honeypot + timing + distributed rate limiting. |
 | **Contact & social** | All seven official Ceyteq profiles plus hotline, WhatsApp, mobile and email are rendered as real links in the header, contact section and footer — defined once in `src/lib/site-config.ts`. |
 | **Database** | One PostgreSQL dialect: embedded **PGlite** in development, **Supabase / managed PostgreSQL** in production. Zero code changes between the two. |
 
@@ -88,6 +90,8 @@ The schema lives in **`src/lib/db/schema.ts`** and is mirrored to **`db/schema.s
 ```
 admin_users   ──< forms ──< form_sections ──< form_fields
                     └────< submissions >── admin_users (reviewer)
+
+leads            standalone pipeline: social / email / phone / website enquiries
 ```
 
 * Applied automatically on first connection (`create table if not exists`, so it is idempotent).
@@ -157,17 +161,26 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 | `POST` | `/api/admin/forms/:id/duplicate` | admin | Duplicate a form |
 | `PATCH/DELETE` | `/api/admin/submissions/:id` | admin | Status, notes, delete |
 | `GET` | `/api/admin/submissions/export` | admin | CSV download |
+| `POST` | `/api/leads` | public | Website enquiry → leads pipeline |
+| `PATCH/DELETE` | `/api/admin/leads/:id` | admin | Update lead status / delete |
+| `GET` | `/api/admin/leads/export` | admin | Leads CSV download |
 | `GET` | `/api/health` | public | Liveness/readiness probe (driver, row counts, no secrets) |
 
 ---
 
 ## Design system
 
-* **Palette** — soft ash surface `#E9EDF3`, Ceyteq Blue `#0072CE`, Deep Navy `#082B49`.
-* **Neumorphism** — raised/sunken surfaces are defined once in `src/app/globals.css`
-  (`.neu`, `.neu-raised`, `.neu-sunken`, `.neu-input`, `.neu-btn`, `.neu-btn-primary`,
-  `.neu-btn-dark`, `.neu-orb`, `.neu-check`, `.nav-link`) and reused everywhere, so shadows,
-  specular highlights and pressed states stay consistent.
+* **Palette** — matte ash canvas `#E2E8F0`, Ceyteq Blue `#0072CE`, Radium/neon blue `#00D2FF`
+  for active states and glowing indicators, Deep Navy `#082B49` for text and dark surfaces.
+* **True 3D neumorphism** — nothing is flat. One light source (top-left) drives every surface:
+  a white specular highlight on the top-left edge plus a deep two-layer ash shadow on the
+  bottom-right, and a neutral fill gradient between `#F9FBFE` and `#D7DFE9`. Primitives live in
+  `src/app/globals.css` — `.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-input`,
+  `.neu-btn`, `.neu-btn-primary`, `.neu-btn-dark`, `.neu-btn-neon`, `.neu-orb`, `.neu-check`,
+  `.neu-chip`, `.nav-link` — so pressed (inset) and raised (extruded) states stay consistent.
+* **Neon accents** — `.neu-btn-neon` (navy → cobalt → radium gradient with an outer glow) is the
+  primary form submit; `.neon-dot` marks live indicators; focused inputs glow radium blue; active
+  sidebar partitions get a neon edge bar.
 * **Logo** — `scripts/prepare-logo.mjs` removes the photographed white paper from the supplied
   artwork: it flood-fills the background from the edges, rebuilds a feathered alpha channel,
   un-premultiplies the white pigment (no white fringing) and un-premultiplies highlight pixels, then
@@ -190,7 +203,7 @@ src/app/
   page.tsx                     neumorphic landing page
   form/[slug]/page.tsx         dynamic public form (published links)
   admin/login/                 sign-in
-  admin/(dashboard)/           overview, forms, builder, submissions, settings
+  admin/(dashboard)/           overview, clients, leads, forms, builder, responses, settings
   api/                         REST endpoints above
 src/components/
   admin/                       shell, builder, filters, review panel, actions
@@ -198,6 +211,9 @@ src/components/
   site/                        header, footer
   ui/                          logo, copy button, neumorphic select
 src/lib/                       types, validation, auth, db, repos, services
+src/lib/leads.ts               lead channels, sources and statuses
+src/lib/services/clients-service.ts   restaurant client records derived from submissions
+src/lib/services/leads-service.ts     lead capture, pipeline reads and CSV export
 src/middleware.ts              security headers, CSP, CORS + CSRF origin checks
 src/instrumentation.ts         boot-time configuration validation
 vercel.json                    Vercel project config (region, function limits, headers)
@@ -211,7 +227,7 @@ vercel.json                    Vercel project config (region, function limits, h
 | --- | --- |
 | Input | Every submitted value is sanitised (`src/lib/sanitize.ts`) **before** Zod validation: control characters stripped, lengths bounded, emails/phones normalised, URLs restricted to `http(s)` with no credentials, dotless hosts or `javascript:`/`data:` schemes. |
 | Uploads / body size | JSON bodies capped at 64 KB for public submissions and 512 KB for admin writes; non-object payloads rejected. |
-| Abuse | Honeypot field, minimum completion time, burst (5/min) + sustained (30/h) limits per IP and per form. Admin write actions are limited to 60/min per user. |
+| Abuse | Honeypot field, minimum completion time, burst (5/min) + sustained (30/h) limits per IP and per form; enquiries 4 per 5 min and 20 per hour per IP. Admin write actions are limited to 60/min per user. |
 | Auth | scrypt hashes, HMAC-SHA256 session tokens, HttpOnly + SameSite=Lax cookie, `Secure` in production, 7-day TTL, identical error for unknown email and wrong password. |
 | Transport / browser | CSP, HSTS (production), `X-Frame-Options` equivalent via `frame-ancestors`, `nosniff`, strict referrer policy, restrictive `Permissions-Policy`; `poweredByHeader` disabled. |
 | API surface | Mutating API calls require JSON content type and a same-origin (or explicitly allowed) `Origin`; unknown methods return 405; all API responses are `no-store`. |

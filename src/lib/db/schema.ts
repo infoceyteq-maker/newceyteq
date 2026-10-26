@@ -82,4 +82,25 @@ create table if not exists submissions (
 );
 create index if not exists submissions_form_idx on submissions (form_id, created_at desc);
 create index if not exists submissions_status_idx on submissions (status);
+
+/* Social media / email enquiries captured outside the onboarding forms. */
+create table if not exists leads (
+  id         text primary key,
+  name       text not null default '',
+  email      text not null default '',
+  phone      text not null default '',
+  company    text not null default '',
+  channel    text not null default 'website',
+  source     text not null default 'website',
+  message    text not null default '',
+  status     text not null default 'new',
+  notes      text not null default '',
+  ip_hash    text,
+  user_agent text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists leads_status_idx on leads (status);
+create index if not exists leads_channel_idx on leads (channel);
+create index if not exists leads_created_idx on leads (created_at desc);
 `;

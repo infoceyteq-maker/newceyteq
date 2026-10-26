@@ -5,6 +5,8 @@ import { CreateFormButton } from "@/components/admin/CreateFormButton";
 import { requireAdmin } from "@/lib/auth";
 import { dashboardStats, listSubmissions } from "@/lib/services/submissions-service";
 import { listForms } from "@/lib/services/forms-service";
+import { leadStats, recentLeadRows } from "@/lib/services/leads-service";
+import { leadChannelIcon, leadChannelLabel } from "@/lib/leads";
 import { displayValue, formatDateTime, relativeTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -13,10 +15,12 @@ export const metadata: Metadata = { title: "Overview" };
 
 export default async function AdminOverviewPage() {
   const user = await requireAdmin();
-  const [stats, submissions, forms] = await Promise.all([
+  const [stats, submissions, forms, leads, latestLeads] = await Promise.all([
     dashboardStats(),
     listSubmissions({ take: 6 }),
     listForms(),
+    leadStats(),
+    recentLeadRows(4),
   ]);
 
   const maxBucket = Math.max(1, ...stats.buckets.map((bucket) => bucket.count));
@@ -49,46 +53,51 @@ export default async function AdminOverviewPage() {
         </div>
       </header>
 
-      {/* Stats */}
+      {/* Partitioned stats */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
           {
-            label: "Forms",
+            label: "Restaurant clients",
+            value: stats.submissionCount,
+            sub: `${stats.newCount} awaiting review`,
+            icon: "store" as const,
+            href: "/admin/clients",
+          },
+          {
+            label: "Leads & inquiries",
+            value: leads.total,
+            sub: `${leads.newCount} new · ${leads.bySource.social ?? 0} from social`,
+            icon: "mail" as const,
+            href: "/admin/leads",
+            highlight: leads.newCount > 0,
+          },
+          {
+            label: "Form links",
             value: stats.formCount,
             sub: `${stats.publishedCount} published`,
             icon: "forms" as const,
-            accent: "text-ceyteq-500",
-          },
-          {
-            label: "Submissions",
-            value: stats.submissionCount,
-            sub: "all time",
-            icon: "inbox" as const,
-            accent: "text-navy-500",
+            href: "/admin/forms",
           },
           {
             label: "Awaiting review",
             value: stats.newCount,
             sub: stats.newCount ? "action needed" : "all clear",
             icon: "clock" as const,
-            accent: stats.newCount ? "text-amber-500" : "text-emerald-500",
-          },
-          {
-            label: "Busiest form",
-            value: topForm?.submissionCount ?? 0,
-            sub: topForm?.title ?? "No forms yet",
-            icon: "chart" as const,
-            accent: "text-ceyteq-500",
+            href: "/admin/submissions",
+            highlight: stats.newCount > 0,
           },
         ].map((card) => {
           const Glyph = Icon[card.icon];
           return (
-            <div key={card.label} className="neu rounded-neu p-5">
+            <Link key={card.label} href={card.href} className="neu-3d neu-click-card rounded-neu p-5">
               <div className="flex items-start justify-between">
                 <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-navy-300">
                   {card.label}
                 </p>
-                <span className={`neu-orb h-9 w-9 ${card.accent}`}>
+                <span
+                  className="neu-orb h-9 w-9 text-ceyteq-500"
+                  data-active={card.highlight ? "true" : undefined}
+                >
                   <Glyph size={16} />
                 </span>
               </div>
@@ -96,7 +105,7 @@ export default async function AdminOverviewPage() {
                 {card.value}
               </p>
               <p className="mt-1.5 truncate text-[11.5px] font-semibold text-navy-300">{card.sub}</p>
-            </div>
+            </Link>
           );
         })}
       </section>
@@ -125,7 +134,7 @@ export default async function AdminOverviewPage() {
                   </span>
                   <div className="neu-sunken relative flex w-full flex-1 items-end overflow-hidden rounded-xl">
                     <div
-                      className="w-full rounded-xl bg-[linear-gradient(180deg,#3aa6ff,#0072ce)] shadow-[0_0_16px_rgba(0,114,206,0.35)] transition-all"
+                      className="w-full rounded-xl bg-[linear-gradient(180deg,#00d2ff,#0072ce)] shadow-[0_0_18px_rgba(0,210,255,0.45)] transition-all"
                       style={{ height: `${Math.max(height, 4)}%` }}
                     />
                   </div>
@@ -141,9 +150,9 @@ export default async function AdminOverviewPage() {
         {/* Forms quick access */}
         <section className="neu-raised rounded-neu-lg p-5 sm:p-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-[16px] font-bold text-navy-700">Forms</h2>
+            <h2 className="text-[16px] font-bold text-navy-700">Form links</h2>
             <Link href="/admin/forms" className="neu-btn-ghost !px-2.5 !py-1.5 !text-[11.5px]">
-              Manage
+              Generator
               <Icon.chevronRight size={13} />
             </Link>
           </div>
@@ -176,6 +185,49 @@ export default async function AdminOverviewPage() {
         </section>
       </div>
 
+      <div className="grid gap-5 xl:grid-cols-2">
+      {/* Latest leads */}
+      <section className="neu-raised rounded-neu-lg p-5 sm:p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-[16px] font-bold text-navy-700">Latest leads</h2>
+            <p className="text-[12px] font-medium text-navy-300">Social, email &amp; website</p>
+          </div>
+          <Link href="/admin/leads" className="neu-btn !px-4 !py-2 !text-[12px]">
+            Open pipeline
+            <Icon.arrowRight size={13} />
+          </Link>
+        </div>
+
+        <div className="mt-4 space-y-2.5">
+          {latestLeads.length === 0 ? (
+            <p className="neu-sunken rounded-2xl px-4 py-8 text-center text-[12.5px] font-semibold text-navy-300">
+              No enquiries yet. The contact form on the home page feeds this pipeline.
+            </p>
+          ) : (
+            latestLeads.map((lead) => {
+              const Glyph = Icon[leadChannelIcon(lead.channel)];
+              return (
+                <div key={lead.id} className="neu flex items-start gap-3 rounded-2xl p-3">
+                  <span className="neu-orb h-9 w-9 shrink-0 text-ceyteq-500">
+                    <Glyph size={15} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13px] font-bold text-navy-600">{lead.name}</p>
+                    <p className="truncate text-[11.5px] font-medium text-navy-300">
+                      {leadChannelLabel(lead.channel)} · {lead.email}
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-[10.5px] font-semibold text-navy-300">
+                    {relativeTime(lead.createdAt)}
+                  </span>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </section>
+
       {/* Recent submissions */}
       <section className="neu-raised rounded-neu-lg p-5 sm:p-6">
         <div className="flex items-center justify-between">
@@ -195,7 +247,7 @@ export default async function AdminOverviewPage() {
               No submissions yet. Publish a form and share its link.
             </p>
           ) : (
-            <table className="w-full min-w-[640px] border-separate border-spacing-y-2 text-left">
+            <table className="w-full border-separate border-spacing-y-2 text-left">
               <thead>
                 <tr className="text-[10px] font-bold uppercase tracking-[0.14em] text-navy-300">
                   <th className="px-3 pb-1 font-bold">Reference</th>
@@ -235,6 +287,7 @@ export default async function AdminOverviewPage() {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 }

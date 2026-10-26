@@ -7,7 +7,7 @@ import { listForms } from "@/lib/services/forms-service";
 import { displayValue, formatDateTime, relativeTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Submissions" };
+export const metadata: Metadata = { title: "Responses" };
 
 type SearchParams = Promise<{ formId?: string; status?: string; q?: string }>;
 
@@ -32,9 +32,12 @@ export default async function SubmissionsPage({ searchParams }: { searchParams: 
         <div className="glow-blob -right-8 -top-12 h-40 w-40 bg-ceyteq-200/60" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">Inbox</p>
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+              <span className="neon-dot" />
+              Responses
+            </p>
             <h1 className="mt-2 text-[26px] font-semibold leading-tight text-navy-700 sm:text-[30px]">
-              Submissions
+              Form responses
             </h1>
             <p className="mt-1.5 max-w-xl text-[13.5px] leading-relaxed text-navy-400">
               Every response captured from your published links, validated against the current form

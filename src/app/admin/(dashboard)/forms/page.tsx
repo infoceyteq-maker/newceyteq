@@ -8,7 +8,7 @@ import { relativeTime } from "@/lib/utils";
 import { requestOrigin } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Forms" };
+export const metadata: Metadata = { title: "Form Generator" };
 
 export default async function AdminFormsPage() {
   const [forms, origin] = await Promise.all([listForms(), requestOrigin()]);
@@ -21,11 +21,12 @@ export default async function AdminFormsPage() {
         <div className="glow-blob -right-6 -top-10 h-36 w-36 bg-ceyteq-200/60" />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
-              Dynamic forms
+            <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-ceyteq-500">
+              <span className="neon-dot" />
+              Form generator
             </p>
             <h1 className="mt-2 text-[26px] font-semibold leading-tight text-navy-700 sm:text-[30px]">
-              Form builder
+              Dynamic form links
             </h1>
             <p className="mt-1.5 max-w-xl text-[13.5px] leading-relaxed text-navy-400">
               Each form is a stored schema with its own public link. Edit the definition and every

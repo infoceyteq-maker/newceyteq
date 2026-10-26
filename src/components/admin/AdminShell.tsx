@@ -13,17 +13,22 @@ type NavItem = {
   icon: keyof typeof Icon;
   badge?: number | null;
   exact?: boolean;
+  group: "Clients" | "Form engine" | "Workspace";
 };
 
 export function AdminShell({
   user,
   newCount,
   formCount,
+  clientCount,
+  newLeadCount,
   children,
 }: {
   user: { name: string; email: string; role: string };
   newCount: number;
   formCount: number;
+  clientCount: number;
+  newLeadCount: number;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -36,11 +41,39 @@ export function AdminShell({
   }, [pathname]);
 
   const nav: NavItem[] = [
-    { href: "/admin", label: "Overview", icon: "chart", exact: true },
-    { href: "/admin/forms", label: "Forms", icon: "forms", badge: formCount },
-    { href: "/admin/submissions", label: "Submissions", icon: "inbox", badge: newCount || null },
-    { href: "/admin/settings", label: "Settings", icon: "settings" },
+    { href: "/admin", label: "Overview", icon: "chart", exact: true, group: "Workspace" },
+    {
+      href: "/admin/clients",
+      label: "Restaurant Clients",
+      icon: "store",
+      badge: clientCount || null,
+      group: "Clients",
+    },
+    {
+      href: "/admin/leads",
+      label: "Leads & Inquiries",
+      icon: "mail",
+      badge: newLeadCount || null,
+      group: "Clients",
+    },
+    {
+      href: "/admin/forms",
+      label: "Form Generator",
+      icon: "forms",
+      badge: formCount || null,
+      group: "Form engine",
+    },
+    {
+      href: "/admin/submissions",
+      label: "Responses",
+      icon: "inbox",
+      badge: newCount || null,
+      group: "Form engine",
+    },
+    { href: "/admin/settings", label: "Settings", icon: "settings", group: "Workspace" },
   ];
+
+  const GROUPS: Array<NavItem["group"]> = ["Clients", "Form engine", "Workspace"];
 
   const isActive = (item: NavItem) =>
     item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -80,46 +113,47 @@ export function AdminShell({
             {user.role}
           </p>
         </div>
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-        </span>
+        <span className="neon-dot" aria-hidden />
       </div>
 
       <nav className="flex-1 space-y-1.5">
-        <p className="px-2 pb-1 text-[10px] font-bold uppercase tracking-[0.18em] text-navy-300">
-          Workspace
-        </p>
-        {nav.map((item) => {
-          const Glyph = Icon[item.icon];
-          const active = isActive(item);
-          return (
-            <Link key={item.href} href={item.href} className="nav-link" data-active={active}>
-              <Glyph size={18} />
-              <span className="flex-1">{item.label}</span>
-              {item.badge ? (
-                <span
-                  className={cn(
-                    "rounded-pill px-2 py-0.5 text-[10px] font-bold",
-                    active ? "bg-ceyteq-500 text-white" : "bg-white/80 text-navy-400",
-                  )}
-                >
-                  {item.badge}
-                </span>
-              ) : null}
-            </Link>
-          );
-        })}
+        {GROUPS.map((group) => (
+          <div key={group} className="space-y-1.5">
+            <p className="px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-navy-300">
+              {group}
+            </p>
+            {nav
+              .filter((item) => item.group === group)
+              .map((item) => {
+                const Glyph = Icon[item.icon];
+                const active = isActive(item);
+                return (
+                  <Link key={item.href} href={item.href} className="nav-link" data-active={active}>
+                    <Glyph size={18} />
+                    <span className="flex-1">{item.label}</span>
+                    {item.badge ? (
+                      <span
+                        className={cn(
+                          "rounded-pill px-2 py-0.5 text-[10px] font-bold",
+                          active
+                            ? "bg-ceyteq-neon text-navy-800 shadow-neon-sm"
+                            : "bg-white/80 text-navy-400",
+                        )}
+                      >
+                        {item.badge}
+                      </span>
+                    ) : null}
+                  </Link>
+                );
+              })}
+          </div>
+        ))}
 
         <div className="neu-divider my-3" />
         <p className="px-2 pb-1 text-[10px] font-bold uppercase tracking-[0.18em] text-navy-300">
           Quick actions
         </p>
-        <Link
-          href="/form/restaurant-onboarding"
-          target="_blank"
-          className="nav-link"
-        >
+        <Link href="/form/restaurant-onboarding" target="_blank" className="nav-link">
           <Icon.external size={18} />
           <span className="flex-1">View live form</span>
         </Link>
@@ -139,8 +173,8 @@ export function AdminShell({
         <div className="flex items-center justify-between rounded-[22px] border border-white/60 bg-[linear-gradient(150deg,rgba(250,252,255,0.94),rgba(231,236,243,0.92))] px-3 py-2.5 shadow-[0_12px_30px_-20px_rgba(120,138,164,0.6)] backdrop-blur-xl">
           <Logo href="/" height={28} />
           <div className="flex items-center gap-2">
-            <Link href="/admin/submissions" className="neu-btn relative h-9 w-9 !px-0">
-              <Icon.inbox size={16} />
+            <Link href="/admin/leads" className="neu-btn relative h-9 w-9 !px-0" aria-label="Leads">
+              <Icon.mail size={16} />
               {newCount ? (
                 <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-ceyteq-500 px-1 text-[9px] font-bold text-white">
                   {newCount}
