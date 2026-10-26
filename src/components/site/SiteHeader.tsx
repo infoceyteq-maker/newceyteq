@@ -40,8 +40,8 @@ export function SiteHeader({ authenticated = false }: { authenticated?: boolean 
         className={cn(
           "mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-[26px] px-3 py-2.5 transition-all duration-300 sm:px-5 sm:py-3",
           scrolled
-            ? "border border-white/75 bg-[linear-gradient(150deg,rgba(252,253,255,0.96),rgba(228,235,244,0.94))] shadow-[-8px_-8px_18px_rgba(255,255,255,0.9),10px_10px_22px_rgba(23,43,77,0.16)] backdrop-blur-xl"
-            : "border border-white/60 bg-[linear-gradient(150deg,rgba(250,252,255,0.88),rgba(231,238,246,0.78))] shadow-[-6px_-6px_14px_rgba(255,255,255,0.85),7px_7px_16px_rgba(23,43,77,0.12)] backdrop-blur-md",
+            ? "border border-white/45 bg-[linear-gradient(150deg,#dae1ea_0%,#cbd5e1_52%,#c0cbd9_100%)] shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm"
+            : "border border-white/35 bg-[linear-gradient(150deg,rgba(218,225,234,0.92),rgba(196,206,220,0.9))] shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm",
         )}
       >
         <Logo height={34} priority className="sm:hidden" />

@@ -104,7 +104,7 @@ export function NeuSelect({
           "flex w-full items-center justify-between gap-2 rounded-2xl text-left font-semibold transition-all duration-200",
           size === "sm" ? "px-3.5 py-3 text-[13.5px]" : "px-4 py-3.5 text-[14.5px]",
           "neu-input",
-          open && "ring-2 ring-ceyteq-500/20",
+          open && "ring-2 ring-ceyteq-neon/30",
           invalid && "neu-input-error",
           disabled && "cursor-not-allowed opacity-60",
         )}
@@ -129,7 +129,7 @@ export function NeuSelect({
           id={listId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute left-0 right-0 top-[calc(100%+10px)] z-40 max-h-64 overflow-auto rounded-2xl border border-white/75 bg-[linear-gradient(150deg,#fbfdff,#e9eff7)] p-2 shadow-[-10px_-10px_24px_rgba(255,255,255,0.95),14px_14px_32px_rgba(23,43,77,0.18)]"
+          className="absolute left-0 right-0 top-[calc(100%+10px)] z-40 max-h-64 overflow-auto rounded-2xl border border-white/75 bg-[linear-gradient(150deg,#d9e0e9,#c6d0dd)] p-2 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)]"
         >
           {options.map((option, index) => {
             const isSelected = option.value === value;

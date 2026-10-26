@@ -5,14 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /* Deep matte ash canvas (#CBD5E1) — the surface every element pops out of. */
         ash: {
-          50: "#F7FAFD",
-          100: "#EFF4F9",
-          200: "#E2E8F0",
-          300: "#D8E0EA",
-          400: "#CBD5E1",
-          500: "#B6C2D2",
-          600: "#9BA9BC",
+          50: "#F4F7FB",
+          100: "#E8EEF5",
+          200: "#CBD5E1",
+          300: "#BCC8D7",
+          400: "#A9B7C8",
+          500: "#94A4B7",
+          600: "#7E90A5",
         },
         ceyteq: {
           50: "#E8F4FF",
@@ -28,12 +29,18 @@ const config: Config = {
           neon: "#00D2FF",
           radium: "#00D2FF",
         },
+        radium: {
+          300: "#7EE9FF",
+          400: "#33DCFF",
+          500: "#00D2FF",
+          600: "#00B4DB",
+        },
         navy: {
           50: "#E7ECF2",
           100: "#C6D2E0",
-          200: "#7F96B3",
-          300: "#4E6785",
-          400: "#2F4E70",
+          200: "#7189A6",
+          300: "#44607F",
+          400: "#274565",
           500: "#123A5C",
           600: "#0B3154",
           700: "#082B49",
@@ -51,22 +58,22 @@ const config: Config = {
         pill: "999px",
       },
       boxShadow: {
-        /* Light from the top-left: crisp white highlight + soft navy-tinted drop. */
-        neu: "-8px -8px 18px rgba(255,255,255,0.85), 10px 10px 22px rgba(23,43,77,0.13), inset 0 1px 0 rgba(255,255,255,0.95)",
-        "neu-sm": "-4px -4px 10px rgba(255,255,255,0.8), 4px 4px 10px rgba(0,0,0,0.1)",
-        "neu-md": "-6px -6px 14px rgba(255,255,255,0.85), 7px 7px 16px rgba(23,43,77,0.13)",
-        "neu-lg": "-14px -14px 30px rgba(255,255,255,0.95), 20px 20px 42px rgba(23,43,77,0.17)",
-        "neu-inset": "inset 5px 5px 10px rgba(23,43,77,0.13), inset -5px -5px 10px rgba(255,255,255,0.95)",
+        /* Exact reference recipe: white highlight top-left, black drop bottom-right. */
+        neu: "-6px -6px 16px rgba(255,255,255,0.9), 6px 6px 16px rgba(0,0,0,0.2)",
+        "neu-sm": "-4px -4px 10px rgba(255,255,255,0.9), 4px 4px 10px rgba(0,0,0,0.18)",
+        "neu-md": "-6px -6px 16px rgba(255,255,255,0.9), 6px 6px 16px rgba(0,0,0,0.2)",
+        "neu-lg": "-10px -10px 24px rgba(255,255,255,0.92), 10px 10px 24px rgba(0,0,0,0.22)",
+        "neu-inset": "inset 6px 6px 16px rgba(0,0,0,0.2), inset -6px -6px 16px rgba(255,255,255,0.9)",
         "neu-inset-sm":
-          "inset 3px 3px 7px rgba(23,43,77,0.12), inset -3px -3px 7px rgba(255,255,255,0.95)",
+          "inset 4px 4px 10px rgba(0,0,0,0.16), inset -4px -4px 10px rgba(255,255,255,0.9)",
         "neu-pressed":
-          "inset 4px 4px 10px rgba(23,43,77,0.18), inset -4px -4px 10px rgba(255,255,255,0.9), 0 1px 0 rgba(255,255,255,0.6)",
+          "inset 6px 6px 16px rgba(0,0,0,0.22), inset -6px -6px 16px rgba(255,255,255,0.88)",
         "navy-neu":
-          "-10px -10px 24px rgba(255,255,255,0.9), 12px 12px 28px rgba(23,43,77,0.3), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 10px rgba(0,0,0,0.35)",
-        glow: "0 0 0 1px rgba(0,114,206,0.16), 0 12px 32px rgba(0,114,206,0.3)",
-        "glow-lg": "0 0 0 1px rgba(0,114,206,0.22), 0 20px 54px rgba(0,114,206,0.4)",
-        neon: "0 0 0 1px rgba(0,210,255,0.4), 0 0 18px rgba(0,210,255,0.45), 0 12px 30px rgba(0,114,206,0.35)",
-        "neon-sm": "0 0 0 1px rgba(0,210,255,0.35), 0 0 10px rgba(0,210,255,0.4)",
+          "-6px -6px 16px rgba(255,255,255,0.5), 6px 6px 16px rgba(0,0,0,0.3), 0 0 15px rgba(0,210,255,0.25), inset 0 1px 0 rgba(255,255,255,0.16)",
+        glow: "0 0 15px rgba(0,210,255,0.25), 0 8px 24px rgba(0,114,206,0.25)",
+        "glow-lg": "0 0 26px rgba(0,210,255,0.35), 0 16px 44px rgba(0,114,206,0.3)",
+        neon: "0 0 15px rgba(0,210,255,0.25), 0 0 0 1px rgba(0,210,255,0.4)",
+        "neon-sm": "0 0 10px rgba(0,210,255,0.3), 0 0 0 1px rgba(0,210,255,0.35)",
         "neon-inset": "inset 0 0 12px rgba(0,210,255,0.35), inset 0 0 2px rgba(0,210,255,0.6)",
       },
       keyframes: {

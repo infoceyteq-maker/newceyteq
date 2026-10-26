@@ -53,10 +53,10 @@ export default async function LoginPage() {
         </div>
 
         {/* Visual panel */}
-        <div className="relative hidden flex-col justify-between overflow-hidden bg-[linear-gradient(160deg,#123a5c,#082b49_55%,#051d33)] p-8 lg:flex">
-          <div className="glow-blob -right-10 top-10 h-40 w-40 bg-ceyteq-500/40" />
+        <div className="neu-dark relative hidden flex-col justify-between overflow-hidden rounded-r-[36px] p-8 lg:flex">
+          <div className="glow-blob -right-10 top-10 h-40 w-40 bg-ceyteq-neon/30" />
           <div className="relative">
-            <span className="neu-badge bg-white/10 text-ceyteq-200">
+            <span className="neu-badge bg-white/10 text-ceyteq-neon text-glow-neon">
               <Icon.bolt size={12} />
               Platform console
             </span>
@@ -81,7 +81,7 @@ export default async function LoginPage() {
                   key={item.label}
                   className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.07] px-3.5 py-2.5"
                 >
-                  <Glyph size={15} className="text-[#63d6ff]" />
+                  <Glyph size={15} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0,210,255,0.85)]" />
                   <span className="text-[12px] font-semibold text-white/80">{item.label}</span>
                 </div>
               );

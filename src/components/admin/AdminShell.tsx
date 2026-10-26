@@ -170,7 +170,7 @@ export function AdminShell({
     <div className="min-h-dvh">
       {/* Mobile top bar */}
       <div className="sticky top-0 z-40 px-3 pt-3 lg:hidden">
-        <div className="flex items-center justify-between rounded-[22px] border border-white/70 bg-[linear-gradient(150deg,rgba(252,253,255,0.96),rgba(228,235,244,0.92))] px-3 py-2.5 shadow-[-6px_-6px_14px_rgba(255,255,255,0.85),7px_7px_16px_rgba(23,43,77,0.16)] backdrop-blur-xl">
+        <div className="flex items-center justify-between rounded-[22px] border border-white/70 bg-[linear-gradient(150deg,#dae1ea_0%,#cbd5e1_52%,#c0cbd9_100%)] px-3 py-2.5 shadow-[-6px_-6px_16px_rgba(255,255,255,0.9),6px_6px_16px_rgba(0,0,0,0.2)] backdrop-blur-sm">
           <Logo href="/" height={28} />
           <div className="flex items-center gap-2">
             <Link href="/admin/leads" className="neu-btn relative h-9 w-9 !px-0" aria-label="Leads">

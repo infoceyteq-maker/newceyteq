@@ -6,34 +6,38 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------------- */
-/*  Ceyteq Digital Race — true 3D neumorphic (soft UI) design tokens          */
+/*  Ceyteq Digital Race — 3D Neumorphic (Soft UI) design system               */
 /*                                                                            */
-/*  Light source: top-left. Every surface pairs a white specular highlight on */
-/*  the top-left edge with a deep, soft ash shadow on the bottom-right so the  */
-/*  elements read as physically extruded (or pressed, when inset).            */
+/*  Canvas          : deep matte ash  #CBD5E1                                 */
+/*  Light source    : top-left.                                                */
+/*  Raised surface  : -6px -6px 16px rgba(255,255,255,0.9)                    */
+/*                    6px  6px 16px rgba(0,0,0,0.2)                           */
+/*  Pressed surface : the same two shadows, inverted with `inset`.            */
+/*  Active accent   : 0 0 15px rgba(0,210,255,0.25) radium halo.              */
+/*  Dark display    : navy #082B49 with radium #00D2FF glow text.             */
 /* ------------------------------------------------------------------------- */
 @layer base {
   :root {
-    --ash-50: 247 250 253;
-    --ash-100: 239 244 249;
-    --ash-200: 226 232 240;
-    --ash-300: 216 224 234;
-    --ash-400: 203 213 225;
-    --ash-500: 182 194 210;
+    --ash-50: 244 247 251;
+    --ash-100: 232 238 245;
+    --ash-200: 203 213 225;
+    --ash-300: 188 200 215;
+    --ash-400: 169 183 200;
+    --ash-500: 148 164 183;
 
-    /* Matte ash canvas + the two tones every shadow is mixed from. */
-    --surface: #e2e8f0;
-    --surface-high: #f3f7fb;
-    --surface-low: #d7dfe9;
+    /* Deep matte ash canvas + the tones every surface is mixed from. */
+    --surface: #cbd5e1;
+    --surface-high: #d8dfe9;
+    --surface-low: #c2ccda;
 
-    --shade: 163 177 198;
+    --shade: 0 0 0;
     --light: 255 255 255;
 
     --ceyteq-blue: #0072ce;
-    --neon-blue: #00d2ff;
+    --radium-blue: #00d2ff;
     --deep-navy: #082b49;
 
-    --ring: 0 114 206;
+    --ring: 0 210 255;
   }
 
   * {
@@ -48,23 +52,23 @@
   body {
     @apply bg-ash-200 font-sans text-navy-700 antialiased;
     background-color: var(--surface);
-    /* Soft studio lighting: a key light top-left, a cool blue bounce right. */
+    /* Soft studio light: white key light top-left, faint radium bounce right. */
     background-image:
-      radial-gradient(1200px 680px at 6% -10%, rgba(255, 255, 255, 0.95), transparent 60%),
-      radial-gradient(900px 560px at 104% 2%, rgba(0, 210, 255, 0.1), transparent 58%),
-      radial-gradient(820px 560px at 50% 120%, rgba(0, 114, 206, 0.09), transparent 62%);
+      radial-gradient(1150px 660px at 4% -12%, rgba(255, 255, 255, 0.55), transparent 62%),
+      radial-gradient(900px 560px at 104% 0%, rgba(0, 210, 255, 0.12), transparent 58%),
+      radial-gradient(820px 560px at 52% 122%, rgba(8, 43, 73, 0.1), transparent 64%);
     background-attachment: fixed;
     min-height: 100dvh;
     letter-spacing: -0.011em;
   }
 
   ::selection {
-    background: rgba(0, 210, 255, 0.28);
+    background: rgba(0, 210, 255, 0.35);
     color: var(--deep-navy);
   }
 
   :focus-visible {
-    outline: 2px solid rgba(0, 114, 206, 0.6);
+    outline: 2px solid rgba(0, 210, 255, 0.75);
     outline-offset: 3px;
   }
 
@@ -79,7 +83,7 @@
   /* Slim, ash-friendly scrollbars */
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(163, 177, 198, 0.7) transparent;
+    scrollbar-color: rgba(8, 43, 73, 0.24) transparent;
   }
   *::-webkit-scrollbar {
     width: 10px;
@@ -89,7 +93,7 @@
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background: rgba(163, 177, 198, 0.65);
+    background: rgba(8, 43, 73, 0.22);
     border-radius: 999px;
     border: 3px solid transparent;
     background-clip: content-box;
@@ -104,7 +108,7 @@
 
   /* Makes native select dropdowns match the soft surface */
   select option {
-    background: #eef3f9;
+    background: #d8dfe9;
     color: #082b49;
   }
 }
@@ -115,120 +119,117 @@
 @layer components {
   /* ---------------- raised card (extruded from the ash canvas) ------------- */
   .neu {
-    background-image: linear-gradient(145deg, #f8fbff 0%, #eef4fa 52%, #e6edf5 100%);
+    background-image: linear-gradient(145deg, #d8dfe9 0%, #cbd5e1 52%, #c2ccda 100%);
     box-shadow:
-      -8px -8px 18px rgba(255, 255, 255, 0.85),
-      10px 10px 22px rgba(23, 43, 77, 0.13),
-      3px 3px 8px rgba(23, 43, 77, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 0 -2px 4px rgba(23, 43, 77, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset 1px 1px 0 rgba(255, 255, 255, 0.55),
+      inset -1px -1px 0 rgba(8, 43, 73, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.35);
   }
 
   .neu-raised {
-    background-image: linear-gradient(150deg, #fbfdff 0%, #eff5fb 44%, #e4ebf4 100%);
+    background-image: linear-gradient(150deg, #d9e0e9 0%, #cbd5e1 48%, #bfc9d8 100%);
     box-shadow:
-      -12px -12px 26px rgba(255, 255, 255, 0.9),
-      16px 16px 34px rgba(23, 43, 77, 0.15),
-      4px 4px 10px rgba(23, 43, 77, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.98),
-      inset 0 -2px 5px rgba(23, 43, 77, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.72);
+      -8px -8px 20px rgba(255, 255, 255, 0.9),
+      8px 8px 20px rgba(0, 0, 0, 0.2),
+      inset 1px 1px 0 rgba(255, 255, 255, 0.6),
+      inset -1px -1px 0 rgba(8, 43, 73, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
-  /* Deeper extrusion used for hero panels and stat cards. */
+  /* Deeper extrusion for hero panels and stat cards. */
   .neu-3d {
-    background-image: linear-gradient(150deg, #fdfeff 0%, #f1f6fc 42%, #e3eaf3 100%);
+    background-image: linear-gradient(150deg, #dde3ec 0%, #cbd5e1 46%, #bcc7d6 100%);
     box-shadow:
-      -14px -14px 30px rgba(255, 255, 255, 0.95),
-      20px 20px 42px rgba(23, 43, 77, 0.17),
-      5px 5px 14px rgba(23, 43, 77, 0.07),
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      inset 0 -3px 6px rgba(23, 43, 77, 0.06),
-      0 0 0 1px rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+      -10px -10px 24px rgba(255, 255, 255, 0.92),
+      10px 10px 24px rgba(0, 0, 0, 0.22),
+      inset 1px 1px 0 rgba(255, 255, 255, 0.65),
+      inset -1px -1px 0 rgba(8, 43, 73, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     transform: translateZ(0);
+  }
+
+  /* Dark display panel: navy base, radium ambient glow, glowing accents. */
+  .neu-dark {
+    background-image: linear-gradient(150deg, #0d3352 0%, #082b49 46%, #04121f 100%);
+    color: #eaf6ff;
+    box-shadow:
+      -6px -6px 16px rgba(255, 255, 255, 0.55),
+      6px 6px 16px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -6px 18px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(10, 45, 74, 0.9);
   }
 
   /* ---------------- sunken well (inputs, tracks, empty states) ------------ */
   .neu-sunken {
-    background-image: linear-gradient(145deg, #dde5ef 0%, #e8eef6 55%, #f2f7fc 100%);
+    background-image: linear-gradient(145deg, #bcc7d6 0%, #c7d1de 55%, #d3dbe5 100%);
     box-shadow:
-      inset 6px 6px 12px rgba(23, 43, 77, 0.14),
-      inset -6px -6px 12px rgba(255, 255, 255, 0.95),
-      0 1px 0 rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   .neu-inset {
     box-shadow:
-      inset 5px 5px 11px rgba(23, 43, 77, 0.13),
-      inset -5px -5px 11px rgba(255, 255, 255, 0.95);
-  }
-
-  /* ---------------- dark navy surface ------------------------------------- */
-  .neu-dark {
-    background-image: linear-gradient(150deg, #17405f 0%, #082b49 48%, #041a2e 100%);
-    box-shadow:
-      -14px -14px 32px rgba(255, 255, 255, 0.9),
-      18px 18px 40px rgba(23, 43, 77, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.22),
-      inset 0 -8px 20px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(6, 28, 48, 0.95);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.18),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9);
   }
 
   .neu-blue {
     background-image: linear-gradient(150deg, #2a95f5 0%, #0072ce 48%, #005da9 100%);
+    color: #fff;
     box-shadow:
-      -10px -10px 24px rgba(255, 255, 255, 0.9),
-      12px 12px 26px rgba(0, 114, 206, 0.34),
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.22),
+      0 0 15px rgba(0, 210, 255, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -6px 16px rgba(0, 60, 110, 0.38);
+      inset 0 -6px 16px rgba(0, 60, 110, 0.4);
   }
 
   /* Neon-lit dark surface: primary actions + active partition tiles. */
   .neu-neon {
-    background-image: linear-gradient(150deg, #0b4f86 0%, #0072ce 46%, #00a8d6 100%);
+    background-image: linear-gradient(150deg, #0b4f86 0%, #0072ce 48%, #00a8d6 100%);
     color: #fff;
     box-shadow:
-      -12px -12px 26px rgba(255, 255, 255, 0.9),
-      14px 14px 30px rgba(0, 114, 206, 0.38),
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.22),
+      0 0 15px rgba(0, 210, 255, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -8px 20px rgba(0, 62, 112, 0.45),
-      0 0 22px rgba(0, 210, 255, 0.3);
-    border: 1px solid rgba(0, 130, 190, 0.4);
+      inset 0 -7px 18px rgba(0, 62, 112, 0.45);
+    border: 1px solid rgba(0, 170, 220, 0.4);
   }
 
   /* ---------------- inputs ------------------------------------------------ */
   .neu-input {
     @apply w-full rounded-2xl px-4 py-3.5 text-[15px] font-medium text-navy-700 outline-none transition-all duration-200;
-    background-image: linear-gradient(145deg, #dfe7f1 0%, #eaf0f8 100%);
+    background-image: linear-gradient(145deg, #bfcad8 0%, #d2dae4 100%);
     box-shadow:
-      inset 5px 5px 10px rgba(23, 43, 77, 0.13),
-      inset -5px -5px 10px rgba(255, 255, 255, 0.98),
-      0 1px 0 rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .neu-input::placeholder {
-    @apply font-normal text-navy-300/80;
+    @apply font-normal text-navy-400/75;
   }
 
   .neu-input:hover:not(:disabled):not(:focus) {
     box-shadow:
-      inset 6px 6px 12px rgba(23, 43, 77, 0.16),
-      inset -6px -6px 12px rgba(255, 255, 255, 1),
-      0 1px 0 rgba(255, 255, 255, 0.8);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.24),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.95);
   }
 
   /* Focus ring glows radium blue. */
   .neu-input:focus {
-    border-color: rgba(0, 210, 255, 0.55);
+    border-color: rgba(0, 210, 255, 0.6);
     box-shadow:
-      inset 4px 4px 10px rgba(23, 43, 77, 0.14),
-      inset -4px -4px 10px rgba(255, 255, 255, 0.95),
-      0 0 0 3px rgba(0, 210, 255, 0.22),
-      0 0 18px rgba(0, 210, 255, 0.25);
+      inset 5px 5px 14px rgba(0, 0, 0, 0.2),
+      inset -5px -5px 14px rgba(255, 255, 255, 0.9),
+      0 0 0 3px rgba(0, 210, 255, 0.25),
+      0 0 15px rgba(0, 210, 255, 0.25);
   }
 
   .neu-input:disabled {
@@ -236,40 +237,40 @@
   }
 
   .neu-input-error {
-    border-color: rgba(220, 38, 38, 0.5) !important;
+    border-color: rgba(220, 38, 38, 0.55) !important;
     box-shadow:
-      inset 4px 4px 9px rgba(198, 150, 150, 0.45),
-      inset -4px -4px 9px rgba(255, 255, 255, 0.9),
-      0 0 0 4px rgba(220, 38, 38, 0.12) !important;
+      inset 6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9),
+      0 0 0 3px rgba(220, 38, 38, 0.16) !important;
   }
 
   /* ---------------- buttons ----------------------------------------------- */
   .neu-btn {
     @apply inline-flex select-none items-center justify-center gap-2 rounded-pill px-6 py-3 text-[14px] font-semibold transition-all duration-200 active:translate-y-[1px];
-    background-image: linear-gradient(150deg, #fbfdff 0%, #edf2f9 52%, #dde5ef 100%);
+    background-image: linear-gradient(150deg, #dde3ec 0%, #ccd6e1 55%, #c0cbd9 100%);
     color: #10395c;
     box-shadow:
-      -8px -8px 18px rgba(255, 255, 255, 0.9),
-      9px 9px 20px rgba(23, 43, 77, 0.16),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
-      inset 0 -2px 4px rgba(23, 43, 77, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -1px 0 rgba(8, 43, 73, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.45);
   }
 
   .neu-btn:hover {
     color: #0072ce;
     box-shadow:
-      -10px -10px 22px rgba(255, 255, 255, 1),
-      11px 11px 24px rgba(23, 43, 77, 0.19),
-      inset 0 1.5px 0 rgba(255, 255, 255, 1),
-      0 0 0 1px rgba(0, 114, 206, 0.14);
+      -6px -6px 16px rgba(255, 255, 255, 1),
+      6px 6px 16px rgba(0, 0, 0, 0.22),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
     transform: translateY(-1.5px);
   }
 
   .neu-btn:active {
     box-shadow:
-      inset 6px 6px 13px rgba(23, 43, 77, 0.2),
-      inset -6px -6px 13px rgba(255, 255, 255, 0.92);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.22),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9);
     transform: translateY(1px) scale(0.995);
   }
 
@@ -283,49 +284,50 @@
     color: #fff;
     border: 1px solid rgba(0, 78, 140, 0.5);
     box-shadow:
-      -10px -10px 24px rgba(255, 255, 255, 0.92),
-      13px 15px 30px rgba(0, 114, 206, 0.38),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -7px 18px rgba(0, 58, 108, 0.42);
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.22),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -6px 16px rgba(0, 58, 108, 0.42);
     text-shadow: 0 1px 2px rgba(0, 40, 70, 0.35);
   }
 
   .neu-btn-primary:hover {
     color: #fff;
     box-shadow:
-      -11px -11px 26px rgba(255, 255, 255, 0.96),
-      15px 18px 38px rgba(0, 114, 206, 0.46),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -7px 20px rgba(0, 58, 108, 0.48),
-      0 0 20px rgba(0, 210, 255, 0.28);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.24),
+      0 0 22px rgba(0, 210, 255, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -6px 18px rgba(0, 58, 108, 0.48);
   }
 
   .neu-btn-primary:active {
     box-shadow:
-      inset 7px 7px 18px rgba(0, 52, 96, 0.68),
+      inset 6px 6px 16px rgba(0, 52, 96, 0.72),
       inset -4px -4px 12px rgba(90, 180, 255, 0.35);
   }
 
   .neu-btn-dark {
-    background-image: linear-gradient(150deg, #16405f 0%, #082b49 50%, #051d33 100%);
+    background-image: linear-gradient(150deg, #123a5c 0%, #082b49 52%, #04121f 100%);
     color: #fff;
     border: 1px solid rgba(6, 32, 54, 0.9);
     box-shadow:
-      -10px -10px 24px rgba(255, 255, 255, 0.88),
-      13px 15px 30px rgba(23, 43, 77, 0.3),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.24),
-      inset 0 -7px 18px rgba(0, 0, 0, 0.48);
+      -6px -6px 16px rgba(255, 255, 255, 0.8),
+      6px 6px 16px rgba(0, 0, 0, 0.26),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -6px 16px rgba(0, 0, 0, 0.5);
   }
 
   .neu-btn-dark:hover {
-    color: #b9e2ff;
+    color: #7ee4ff;
     box-shadow:
-      -11px -11px 26px rgba(255, 255, 255, 0.92),
-      15px 18px 38px rgba(23, 43, 77, 0.34),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.3),
-      inset 0 -7px 20px rgba(0, 0, 0, 0.52),
-      0 0 0 1px rgba(0, 210, 255, 0.4),
-      0 0 22px rgba(0, 210, 255, 0.25);
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.28),
+      0 0 22px rgba(0, 210, 255, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -6px 18px rgba(0, 0, 0, 0.55);
   }
 
   /* Hero submit: navy base, cobalt face, radium rim glow. */
@@ -334,29 +336,29 @@
     color: #fff;
     border: 1px solid rgba(0, 170, 220, 0.45);
     box-shadow:
-      -12px -12px 28px rgba(255, 255, 255, 0.9),
-      14px 16px 34px rgba(0, 114, 206, 0.42),
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.24),
+      0 0 15px rgba(0, 210, 255, 0.25),
       inset 0 2px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -8px 20px rgba(0, 46, 86, 0.5),
-      0 0 24px rgba(0, 210, 255, 0.35);
+      inset 0 -7px 18px rgba(0, 46, 86, 0.5);
     text-shadow: 0 1px 3px rgba(0, 30, 55, 0.45);
   }
 
   .neu-btn-neon:hover {
     color: #ffffff;
     box-shadow:
-      -13px -13px 30px rgba(255, 255, 255, 0.95),
-      16px 19px 40px rgba(0, 114, 206, 0.5),
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.26),
+      0 0 24px rgba(0, 210, 255, 0.5),
       inset 0 2px 0 rgba(255, 255, 255, 0.55),
-      inset 0 -8px 22px rgba(0, 46, 86, 0.55),
-      0 0 34px rgba(0, 210, 255, 0.5);
+      inset 0 -7px 20px rgba(0, 46, 86, 0.55);
     transform: translateY(-1.5px);
   }
 
   .neu-btn-neon:active {
     transform: translateY(1px) scale(0.995);
     box-shadow:
-      inset 8px 8px 20px rgba(0, 45, 85, 0.7),
+      inset 7px 7px 18px rgba(0, 45, 85, 0.72),
       inset -4px -4px 14px rgba(0, 210, 255, 0.4);
   }
 
@@ -366,34 +368,33 @@
     border: 1px solid transparent;
   }
   .neu-btn-ghost:hover {
-    @apply text-ceyteq-500;
-    background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
+    @apply text-ceyteq-600;
+    background-image: linear-gradient(145deg, #d8dfe9 0%, #c5cfdc 100%);
     box-shadow:
-      -6px -6px 14px rgba(255, 255, 255, 0.95),
-      7px 7px 16px rgba(23, 43, 77, 0.14);
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* ---------------- pills, chips, badges ---------------------------------- */
   .neu-chip {
     @apply inline-flex items-center gap-1.5 rounded-pill px-3.5 py-2 text-[12px] font-semibold tracking-wide transition-all duration-200;
-    background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
-    color: #2f4e70;
+    background-image: linear-gradient(145deg, #d9e0e9 0%, #c6d0dd 100%);
+    color: #22456a;
     box-shadow:
-      -5px -5px 12px rgba(255, 255, 255, 0.9),
-      6px 6px 13px rgba(23, 43, 77, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 2px rgba(23, 43, 77, 0.06);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
   .neu-chip[data-active="true"] {
     background-image: linear-gradient(150deg, #1280e6 0%, #0072ce 55%, #00a8d6 100%);
     color: #fff;
     box-shadow:
-      -5px -5px 12px rgba(255, 255, 255, 0.92),
-      6px 6px 14px rgba(0, 114, 206, 0.42),
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.2),
+      0 0 15px rgba(0, 210, 255, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -3px 8px rgba(0, 58, 108, 0.4),
-      0 0 14px rgba(0, 210, 255, 0.3);
+      inset 0 -3px 8px rgba(0, 58, 108, 0.4);
   }
 
   .neu-badge {
@@ -403,36 +404,36 @@
   /* Floating icon orb — fully extruded, sits above the surface. */
   .neu-orb {
     @apply grid place-items-center rounded-[22px];
-    background-image: linear-gradient(145deg, #fbfdff 0%, #eaf0f7 55%, #dfe7f0 100%);
+    background-image: linear-gradient(145deg, #dce3ec 0%, #c9d3df 52%, #bfcad8 100%);
     box-shadow:
-      -7px -7px 16px rgba(255, 255, 255, 0.95),
-      8px 8px 18px rgba(23, 43, 77, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.98),
-      inset 0 -2px 4px rgba(23, 43, 77, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(8, 43, 73, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.45);
   }
 
   .neu-orb[data-active="true"] {
     background-image: linear-gradient(150deg, #0072ce 0%, #0093cf 100%);
     color: #fff;
     box-shadow:
-      -8px -8px 20px rgba(255, 255, 255, 0.95),
-      9px 9px 20px rgba(0, 114, 206, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      0 0 18px rgba(0, 210, 255, 0.35);
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.2),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
   }
 
   .neu-divider {
     height: 2px;
     border-radius: 999px;
-    background: linear-gradient(90deg, transparent, rgba(163, 177, 198, 0.5), transparent);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+    background: linear-gradient(90deg, transparent, rgba(8, 43, 73, 0.18), transparent);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
   /* Live/active indicator with a radium halo. */
   .neon-dot {
     @apply relative inline-flex h-2 w-2 rounded-full bg-ceyteq-neon;
-    box-shadow: 0 0 8px rgba(0, 210, 255, 0.85), 0 0 2px rgba(0, 210, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.75), 0 0 3px rgba(0, 210, 255, 1);
   }
 
   .neon-dot::after {
@@ -447,30 +448,28 @@
   /* Selectable neumorphic checkbox tile */
   .neu-check {
     @apply relative flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all duration-200;
-    background-image: linear-gradient(145deg, #f5f8fc 0%, #e4ebf4 100%);
+    background-image: linear-gradient(145deg, #dae1ea 0%, #c7d1de 100%);
     box-shadow:
-      -7px -7px 16px rgba(255, 255, 255, 0.95),
-      8px 8px 17px rgba(23, 43, 77, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.92),
-      inset 0 -2px 4px rgba(23, 43, 77, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+      -6px -6px 16px rgba(255, 255, 255, 0.9),
+      6px 6px 16px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
   .neu-check:hover:not([data-checked="true"]):not(:disabled) {
     transform: translateY(-1.5px);
     box-shadow:
-      -8px -8px 18px rgba(255, 255, 255, 1),
-      10px 10px 22px rgba(23, 43, 77, 0.18);
+      -6px -6px 16px rgba(255, 255, 255, 1),
+      6px 6px 16px rgba(0, 0, 0, 0.2);
   }
 
   .neu-check[data-checked="true"] {
-    background-image: linear-gradient(145deg, #dfe6ef 0%, #d5dee9 100%);
+    background-image: linear-gradient(145deg, #c3cdda 0%, #ccd6e2 100%);
     box-shadow:
-      inset 5px 5px 11px rgba(23, 43, 77, 0.2),
-      inset -5px -5px 11px rgba(255, 255, 255, 0.98),
-      0 0 0 2px rgba(0, 210, 255, 0.28),
-      0 0 16px rgba(0, 210, 255, 0.2);
-    border-color: rgba(0, 210, 255, 0.35);
+      inset 6px 6px 16px rgba(0, 0, 0, 0.2),
+      inset -6px -6px 16px rgba(255, 255, 255, 0.9),
+      0 0 15px rgba(0, 210, 255, 0.25);
+    border-color: rgba(0, 210, 255, 0.4);
   }
 
   .neu-check:disabled {
@@ -486,29 +485,28 @@
   }
 
   .label {
-    @apply mb-2 block text-[12px] font-bold uppercase tracking-[0.1em] text-navy-400;
+    @apply mb-2 block text-[12px] font-bold uppercase tracking-[0.1em] text-navy-500;
   }
 
   /* ---------------- partitioned sidebar navigation ------------------------ */
   .nav-link {
-    @apply relative flex items-center gap-3 rounded-2xl px-3.5 py-3 text-[13.5px] font-semibold text-navy-300 transition-all duration-200;
+    @apply relative flex items-center gap-3 rounded-2xl px-3.5 py-3 text-[13.5px] font-semibold text-navy-400 transition-all duration-200;
   }
   .nav-link:hover {
-    @apply text-navy-600;
-    background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
+    @apply text-navy-700;
+    background-image: linear-gradient(145deg, #d9e0e9 0%, #c6d0dd 100%);
     box-shadow:
-      -5px -5px 12px rgba(255, 255, 255, 0.95),
-      6px 6px 13px rgba(23, 43, 77, 0.14);
+      -6px -6px 16px rgba(255, 255, 255, 0.85),
+      6px 6px 16px rgba(0, 0, 0, 0.18);
   }
   .nav-link[data-active="true"] {
     @apply text-white;
-    background-image: linear-gradient(150deg, #16405f 0%, #082b49 55%, #061f35 100%);
+    background-image: linear-gradient(150deg, #123a5c 0%, #082b49 55%, #04121f 100%);
     box-shadow:
-      -8px -8px 20px rgba(255, 255, 255, 0.9),
-      10px 12px 24px rgba(23, 43, 77, 0.34),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
-      inset 0 -4px 10px rgba(0, 0, 0, 0.35),
-      0 0 18px rgba(0, 210, 255, 0.22);
+      -6px -6px 16px rgba(255, 255, 255, 0.8),
+      6px 6px 16px rgba(0, 0, 0, 0.26),
+      0 0 15px rgba(0, 210, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
   .nav-link[data-active="true"]::before {
     content: "";
@@ -519,7 +517,7 @@
     width: 3px;
     border-radius: 999px;
     background: linear-gradient(180deg, #00d2ff, #0072ce);
-    box-shadow: 0 0 10px rgba(0, 210, 255, 0.9);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.9);
   }
   .nav-link[data-active="true"] svg {
     color: #7ee4ff;
@@ -536,12 +534,12 @@
   /* Metric digits: cobalt → radium gradient with a soft glow. */
   .stat-value {
     @apply font-display font-semibold leading-none tracking-[-0.02em];
-    background-image: linear-gradient(145deg, #0072ce 0%, #00a4e4 55%, #00d2ff 100%);
+    background-image: linear-gradient(145deg, #00518f 0%, #0072ce 42%, #00bde8 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85))
-      drop-shadow(0 4px 10px rgba(0, 114, 206, 0.25));
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.75))
+      drop-shadow(0 3px 10px rgba(0, 114, 206, 0.4));
   }
 
   .text-gradient-blue {
@@ -552,7 +550,7 @@
   }
 
   .grain {
-    background-image: radial-gradient(rgba(8, 43, 73, 0.045) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(8, 43, 73, 0.06) 1px, transparent 1px);
     background-size: 4px 4px;
   }
 }
@@ -572,11 +570,15 @@
     text-wrap: balance;
   }
   .text-glow-neon {
-    text-shadow: 0 0 12px rgba(0, 210, 255, 0.55);
+    text-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
   }
   .ring-neon {
-    box-shadow: 0 0 0 2px rgba(226, 232, 240, 1), 0 0 0 4px rgba(0, 210, 255, 0.55),
-      0 0 18px rgba(0, 210, 255, 0.35);
+    box-shadow: 0 0 0 2px rgba(203, 213, 225, 1), 0 0 0 4px rgba(0, 210, 255, 0.6),
+      0 0 15px rgba(0, 210, 255, 0.35);
+  }
+  /* Radium ambient glow for dark display panels and active controls. */
+  .glow-radium {
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.25);
   }
 }
 

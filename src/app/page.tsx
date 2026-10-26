@@ -340,11 +340,11 @@ export default async function HomePage() {
         {/* ----------------------------------------------------------------- cta */}
         <section className="pb-16 sm:pb-20">
           <div className="neu-dark relative overflow-hidden rounded-neu-lg px-6 py-10 sm:px-12 sm:py-14">
-            <div className="glow-blob -left-10 top-0 h-48 w-48 bg-ceyteq-500/40" />
-            <div className="glow-blob -right-6 bottom-0 h-56 w-56 bg-ceyteq-400/25" />
+            <div className="glow-blob -left-10 top-0 h-48 w-48 bg-ceyteq-neon/25" />
+            <div className="glow-blob -right-6 bottom-0 h-56 w-56 bg-ceyteq-500/30" />
             <div className="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-center">
               <div>
-                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.2em] text-ceyteq-200">
+                <p className="flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.2em] text-ceyteq-neon text-glow-neon">
                   <Icon.sparkles size={14} />
                   Ready when you are
                 </p>
@@ -385,7 +385,7 @@ export default async function HomePage() {
                       key={item.label}
                       className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur"
                     >
-                      <Glyph size={16} className="text-[#63d6ff]" />
+                      <Glyph size={16} className="text-ceyteq-neon drop-shadow-[0_0_8px_rgba(0,210,255,0.85)]" />
                       <span className="text-[12.5px] font-semibold text-white/80">{item.label}</span>
                     </div>
                   );

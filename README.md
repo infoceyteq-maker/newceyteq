@@ -170,23 +170,24 @@ src/lib/services/*.ts     Business logic used by pages and route handlers
 
 ## Design system
 
-* **Palette** — matte ash canvas `#E2E8F0`, Ceyteq Blue `#0072CE`, Radium/neon blue `#00D2FF`
-  for active states and glowing indicators, Deep Navy `#082B49` for text and dark surfaces.
-* **True 3D neumorphism** — nothing is flat and there is exactly one light source (top-left).
-  Every surface pairs a crisp white highlight on the top-left with a soft navy-tinted drop shadow
-  on the bottom-right, plus a bevel (inner top highlight / inner bottom shade) so cards read as
-  physically extruded:
+* **Palette** — deep matte ash canvas `#CBD5E1`, Ceyteq Blue `#0072CE`, Radium/neon blue `#00D2FF`
+  for active states, digits and glowing indicators, Deep Navy `#082B49` for text, dark pills and
+  display panels.
+* **True 3D neumorphism** — nothing is flat, and there is exactly one light source (top-left), on a
+  **deep matte ash** canvas `#CBD5E1`. Every card, button, chip, orb and input carries the same
+  dual-layer recipe:
 
-  | Level | Recipe |
+  | Layer | Value |
   | --- | --- |
-  | Small control (`shadow-neu-sm`) | `-4px -4px 10px rgba(255,255,255,0.8)`, `4px 4px 10px rgba(0,0,0,0.1)` |
-  | Card (`.neu`) | `-8px -8px 18px rgba(255,255,255,0.85)`, `10px 10px 22px rgba(23,43,77,0.13)` + bevel |
-  | Panel (`.neu-raised` / `.neu-3d`) | `-12…14px` highlight, `16…20px` `rgba(23,43,77,0.15–0.17)` + bevel |
-  | Sunken field (`.neu-input`, `.neu-sunken`) | `inset 5…6px 10…12px rgba(23,43,77,0.13–0.14)`, `inset -5…6px 11…12px rgba(255,255,255,0.95)` |
+  | Light highlight (top-left) | `-6px -6px 16px rgba(255,255,255,0.9)` |
+  | Deep shadow (bottom-right) | `6px 6px 16px rgba(0,0,0,0.2)` |
+  | Radium ambient glow (active + dark panels) | `0 0 15px rgba(0,210,255,0.25)` |
 
-  The primitives live in `src/app/globals.css` (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`,
-  `.neu-input`, `.neu-btn*`, `.neu-orb`, `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by
-  every page, so pressed (inset) and raised (extruded) states never drift.
+  Sunken inputs invert the same two shadows with `inset`, and pressed states collapse into a
+  deeper inset so the control physically depresses. Primitives live in `src/app/globals.css`
+  (`.neu`, `.neu-raised`, `.neu-3d`, `.neu-sunken`, `.neu-input`, `.neu-btn*`, `.neu-orb`,
+  `.neu-check`, `.neu-chip`, `.nav-link`) and are reused by every page.
+
 * **Neon accents** — `.neu-btn-neon` (navy → cobalt → radium gradient with an outer glow) is the
   primary form submit; `.neon-dot` marks live indicators; focused inputs glow radium blue; active
   sidebar partitions get a neon edge bar.
