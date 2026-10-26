@@ -56,7 +56,7 @@ export default async function PublicFormPage({ params }: PageProps) {
       <div className="glow-blob right-0 top-1/3 h-80 w-80 bg-white/60" />
 
       <header className="relative z-10 px-3 pt-4 sm:px-6">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 rounded-[26px] border border-white/50 bg-white/35 px-3 py-2.5 shadow-[0_10px_30px_-24px_rgba(120,138,164,0.5)] backdrop-blur-md sm:px-5">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 rounded-[26px] border border-white/65 bg-[linear-gradient(150deg,rgba(250,252,255,0.9),rgba(231,238,246,0.82))] px-3 py-2.5 shadow-[-6px_-6px_14px_rgba(255,255,255,0.85),7px_7px_16px_rgba(23,43,77,0.12)] backdrop-blur-md sm:px-5">
           <Logo height={36} priority />
           <div className="flex items-center gap-2">
             <span className="neu-chip hidden !py-1.5 !text-[10.5px] uppercase tracking-[0.14em] sm:inline-flex">

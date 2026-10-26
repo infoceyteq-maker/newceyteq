@@ -74,7 +74,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
                   <Glyph size={16} />
                 </span>
               </div>
-              <p className="mt-3 font-display text-[28px] font-semibold leading-none text-navy-700">
+              <p className="stat-value mt-3 text-[28px]">
                 {card.value}
               </p>
               <p className="mt-1.5 truncate text-[11.5px] font-semibold text-navy-300">{card.sub}</p>
@@ -155,7 +155,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
                     <span
                       key={color}
                       title={color}
-                      className="h-6 w-6 rounded-lg border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_2px_6px_rgba(163,177,198,0.5)]"
+                      className="h-6 w-6 rounded-lg border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_2px_6px_rgba(23,43,77,0.25)]"
                       style={{ backgroundColor: color }}
                     />
                   ))

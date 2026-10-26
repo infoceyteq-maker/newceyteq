@@ -47,7 +47,7 @@ export default async function HomePage() {
 
           <div className="relative mx-auto max-w-3xl text-center animate-fade-up">
             <div className="neu-chip mx-auto !py-2.5">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-ceyteq-500 text-white shadow-glow">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-[linear-gradient(145deg,#0093cf,#0072ce)] text-white shadow-[0_0_14px_rgba(0,210,255,0.55)]">
                 <Icon.bolt size={12} />
               </span>
               <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-400">
@@ -94,12 +94,10 @@ export default async function HomePage() {
               return (
                 <div
                   key={stat.label}
-                  className="neu group rounded-2xl px-4 py-4 transition-transform hover:-translate-y-0.5"
+                  className="neu-3d group rounded-2xl px-4 py-4 transition-transform hover:-translate-y-1"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="font-display text-[24px] font-semibold leading-none text-navy-700">
-                      {stat.value}
-                    </p>
+                    <p className="stat-value text-[24px]">{stat.value}</p>
                     <span className="text-ceyteq-500/70 transition-colors group-hover:text-ceyteq-500">
                       <Glyph size={15} />
                     </span>

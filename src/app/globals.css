@@ -115,60 +115,63 @@
 @layer components {
   /* ---------------- raised card (extruded from the ash canvas) ------------- */
   .neu {
-    background-image: linear-gradient(145deg, #f4f8fc 0%, #e6ecf4 55%, #dde4ee 100%);
+    background-image: linear-gradient(145deg, #f8fbff 0%, #eef4fa 52%, #e6edf5 100%);
     box-shadow:
-      18px 18px 36px rgba(163, 177, 198, 0.55),
-      -14px -14px 32px rgba(255, 255, 255, 0.95),
-      inset 1px 1px 0 rgba(255, 255, 255, 0.9),
-      inset -1px -1px 0 rgba(163, 177, 198, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.55);
+      -8px -8px 18px rgba(255, 255, 255, 0.85),
+      10px 10px 22px rgba(23, 43, 77, 0.13),
+      3px 3px 8px rgba(23, 43, 77, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -2px 4px rgba(23, 43, 77, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
   .neu-raised {
-    background-image: linear-gradient(150deg, #f9fbfe 0%, #eef3f9 44%, #e0e7f0 100%);
+    background-image: linear-gradient(150deg, #fbfdff 0%, #eff5fb 44%, #e4ebf4 100%);
     box-shadow:
-      26px 26px 58px rgba(148, 163, 186, 0.5),
-      -20px -20px 50px rgba(255, 255, 255, 0.98),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 0 -1px 0 rgba(163, 177, 198, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+      -12px -12px 26px rgba(255, 255, 255, 0.9),
+      16px 16px 34px rgba(23, 43, 77, 0.15),
+      4px 4px 10px rgba(23, 43, 77, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.98),
+      inset 0 -2px 5px rgba(23, 43, 77, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.72);
   }
 
   /* Deeper extrusion used for hero panels and stat cards. */
   .neu-3d {
-    background-image: linear-gradient(150deg, #fbfdff 0%, #eef3fa 42%, #dbe3ee 100%);
+    background-image: linear-gradient(150deg, #fdfeff 0%, #f1f6fc 42%, #e3eaf3 100%);
     box-shadow:
-      30px 30px 64px rgba(140, 156, 181, 0.55),
-      -22px -22px 54px rgba(255, 255, 255, 1),
-      inset 1px 1px 0 rgba(255, 255, 255, 1),
-      inset -1px -1px 0 rgba(163, 177, 198, 0.25),
-      0 0 0 1px rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+      -14px -14px 30px rgba(255, 255, 255, 0.95),
+      20px 20px 42px rgba(23, 43, 77, 0.17),
+      5px 5px 14px rgba(23, 43, 77, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      inset 0 -3px 6px rgba(23, 43, 77, 0.06),
+      0 0 0 1px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.7);
     transform: translateZ(0);
   }
 
   /* ---------------- sunken well (inputs, tracks, empty states) ------------ */
   .neu-sunken {
-    background-image: linear-gradient(145deg, #d5dde8 0%, #e4eaf2 55%, #eef3f9 100%);
+    background-image: linear-gradient(145deg, #dde5ef 0%, #e8eef6 55%, #f2f7fc 100%);
     box-shadow:
-      inset 7px 7px 16px rgba(163, 177, 198, 0.62),
-      inset -7px -7px 16px rgba(255, 255, 255, 0.95),
-      0 1px 0 rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+      inset 6px 6px 12px rgba(23, 43, 77, 0.14),
+      inset -6px -6px 12px rgba(255, 255, 255, 0.95),
+      0 1px 0 rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.35);
   }
 
   .neu-inset {
     box-shadow:
-      inset 5px 5px 12px rgba(163, 177, 198, 0.6),
-      inset -5px -5px 12px rgba(255, 255, 255, 0.95);
+      inset 5px 5px 11px rgba(23, 43, 77, 0.13),
+      inset -5px -5px 11px rgba(255, 255, 255, 0.95);
   }
 
   /* ---------------- dark navy surface ------------------------------------- */
   .neu-dark {
     background-image: linear-gradient(150deg, #17405f 0%, #082b49 48%, #041a2e 100%);
     box-shadow:
-      22px 22px 48px rgba(120, 137, 163, 0.55),
-      -16px -16px 40px rgba(255, 255, 255, 0.9),
+      -14px -14px 32px rgba(255, 255, 255, 0.9),
+      18px 18px 40px rgba(23, 43, 77, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.22),
       inset 0 -8px 20px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(6, 28, 48, 0.95);
@@ -177,8 +180,8 @@
   .neu-blue {
     background-image: linear-gradient(150deg, #2a95f5 0%, #0072ce 48%, #005da9 100%);
     box-shadow:
-      16px 16px 34px rgba(0, 114, 206, 0.34),
-      -12px -12px 28px rgba(255, 255, 255, 0.9),
+      -10px -10px 24px rgba(255, 255, 255, 0.9),
+      12px 12px 26px rgba(0, 114, 206, 0.34),
       inset 0 1px 0 rgba(255, 255, 255, 0.45),
       inset 0 -6px 16px rgba(0, 60, 110, 0.38);
   }
@@ -188,8 +191,8 @@
     background-image: linear-gradient(150deg, #0b4f86 0%, #0072ce 46%, #00a8d6 100%);
     color: #fff;
     box-shadow:
-      18px 18px 38px rgba(0, 114, 206, 0.36),
-      -12px -12px 28px rgba(255, 255, 255, 0.9),
+      -12px -12px 26px rgba(255, 255, 255, 0.9),
+      14px 14px 30px rgba(0, 114, 206, 0.38),
       inset 0 1px 0 rgba(255, 255, 255, 0.5),
       inset 0 -8px 20px rgba(0, 62, 112, 0.45),
       0 0 22px rgba(0, 210, 255, 0.3);
@@ -199,12 +202,12 @@
   /* ---------------- inputs ------------------------------------------------ */
   .neu-input {
     @apply w-full rounded-2xl px-4 py-3.5 text-[15px] font-medium text-navy-700 outline-none transition-all duration-200;
-    background-image: linear-gradient(145deg, #d6dee9 0%, #e8eef6 100%);
+    background-image: linear-gradient(145deg, #dfe7f1 0%, #eaf0f8 100%);
     box-shadow:
-      inset 5px 5px 11px rgba(163, 177, 198, 0.62),
-      inset -5px -5px 11px rgba(255, 255, 255, 0.98),
-      0 1px 0 rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+      inset 5px 5px 10px rgba(23, 43, 77, 0.13),
+      inset -5px -5px 10px rgba(255, 255, 255, 0.98),
+      0 1px 0 rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
   .neu-input::placeholder {
@@ -213,16 +216,16 @@
 
   .neu-input:hover:not(:disabled):not(:focus) {
     box-shadow:
-      inset 5px 5px 12px rgba(155, 170, 193, 0.68),
-      inset -5px -5px 12px rgba(255, 255, 255, 1),
-      0 1px 0 rgba(255, 255, 255, 0.65);
+      inset 6px 6px 12px rgba(23, 43, 77, 0.16),
+      inset -6px -6px 12px rgba(255, 255, 255, 1),
+      0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   /* Focus ring glows radium blue. */
   .neu-input:focus {
     border-color: rgba(0, 210, 255, 0.55);
     box-shadow:
-      inset 4px 4px 10px rgba(163, 177, 198, 0.52),
+      inset 4px 4px 10px rgba(23, 43, 77, 0.14),
       inset -4px -4px 10px rgba(255, 255, 255, 0.95),
       0 0 0 3px rgba(0, 210, 255, 0.22),
       0 0 18px rgba(0, 210, 255, 0.25);
@@ -246,18 +249,18 @@
     background-image: linear-gradient(150deg, #fbfdff 0%, #edf2f9 52%, #dde5ef 100%);
     color: #10395c;
     box-shadow:
-      11px 11px 24px rgba(163, 177, 198, 0.6),
-      -9px -9px 20px rgba(255, 255, 255, 0.98),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-      inset 0 -1px 0 rgba(163, 177, 198, 0.25);
+      -8px -8px 18px rgba(255, 255, 255, 0.9),
+      9px 9px 20px rgba(23, 43, 77, 0.16),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
+      inset 0 -2px 4px rgba(23, 43, 77, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.7);
   }
 
   .neu-btn:hover {
     color: #0072ce;
     box-shadow:
-      14px 14px 30px rgba(163, 177, 198, 0.68),
-      -10px -10px 24px rgba(255, 255, 255, 1),
+      -10px -10px 22px rgba(255, 255, 255, 1),
+      11px 11px 24px rgba(23, 43, 77, 0.19),
       inset 0 1.5px 0 rgba(255, 255, 255, 1),
       0 0 0 1px rgba(0, 114, 206, 0.14);
     transform: translateY(-1.5px);
@@ -265,8 +268,8 @@
 
   .neu-btn:active {
     box-shadow:
-      inset 6px 6px 14px rgba(163, 177, 198, 0.68),
-      inset -6px -6px 14px rgba(255, 255, 255, 0.92);
+      inset 6px 6px 13px rgba(23, 43, 77, 0.2),
+      inset -6px -6px 13px rgba(255, 255, 255, 0.92);
     transform: translateY(1px) scale(0.995);
   }
 
@@ -280,8 +283,8 @@
     color: #fff;
     border: 1px solid rgba(0, 78, 140, 0.5);
     box-shadow:
-      15px 17px 34px rgba(0, 114, 206, 0.36),
       -10px -10px 24px rgba(255, 255, 255, 0.92),
+      13px 15px 30px rgba(0, 114, 206, 0.38),
       inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
       inset 0 -7px 18px rgba(0, 58, 108, 0.42);
     text-shadow: 0 1px 2px rgba(0, 40, 70, 0.35);
@@ -290,8 +293,8 @@
   .neu-btn-primary:hover {
     color: #fff;
     box-shadow:
-      17px 20px 42px rgba(0, 114, 206, 0.45),
       -11px -11px 26px rgba(255, 255, 255, 0.96),
+      15px 18px 38px rgba(0, 114, 206, 0.46),
       inset 0 1.5px 0 rgba(255, 255, 255, 0.6),
       inset 0 -7px 20px rgba(0, 58, 108, 0.48),
       0 0 20px rgba(0, 210, 255, 0.28);
@@ -308,8 +311,8 @@
     color: #fff;
     border: 1px solid rgba(6, 32, 54, 0.9);
     box-shadow:
-      14px 16px 34px rgba(118, 135, 160, 0.55),
       -10px -10px 24px rgba(255, 255, 255, 0.88),
+      13px 15px 30px rgba(23, 43, 77, 0.3),
       inset 0 1.5px 0 rgba(255, 255, 255, 0.24),
       inset 0 -7px 18px rgba(0, 0, 0, 0.48);
   }
@@ -317,8 +320,8 @@
   .neu-btn-dark:hover {
     color: #b9e2ff;
     box-shadow:
-      16px 20px 42px rgba(118, 135, 160, 0.6),
       -11px -11px 26px rgba(255, 255, 255, 0.92),
+      15px 18px 38px rgba(23, 43, 77, 0.34),
       inset 0 1.5px 0 rgba(255, 255, 255, 0.3),
       inset 0 -7px 20px rgba(0, 0, 0, 0.52),
       0 0 0 1px rgba(0, 210, 255, 0.4),
@@ -331,8 +334,8 @@
     color: #fff;
     border: 1px solid rgba(0, 170, 220, 0.45);
     box-shadow:
-      16px 18px 40px rgba(0, 114, 206, 0.4),
       -12px -12px 28px rgba(255, 255, 255, 0.9),
+      14px 16px 34px rgba(0, 114, 206, 0.42),
       inset 0 2px 0 rgba(255, 255, 255, 0.45),
       inset 0 -8px 20px rgba(0, 46, 86, 0.5),
       0 0 24px rgba(0, 210, 255, 0.35);
@@ -342,8 +345,8 @@
   .neu-btn-neon:hover {
     color: #ffffff;
     box-shadow:
-      18px 22px 46px rgba(0, 114, 206, 0.48),
       -13px -13px 30px rgba(255, 255, 255, 0.95),
+      16px 19px 40px rgba(0, 114, 206, 0.5),
       inset 0 2px 0 rgba(255, 255, 255, 0.55),
       inset 0 -8px 22px rgba(0, 46, 86, 0.55),
       0 0 34px rgba(0, 210, 255, 0.5);
@@ -366,8 +369,8 @@
     @apply text-ceyteq-500;
     background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
     box-shadow:
-      7px 7px 16px rgba(163, 177, 198, 0.5),
-      -6px -6px 14px rgba(255, 255, 255, 0.95);
+      -6px -6px 14px rgba(255, 255, 255, 0.95),
+      7px 7px 16px rgba(23, 43, 77, 0.14);
   }
 
   /* ---------------- pills, chips, badges ---------------------------------- */
@@ -376,17 +379,18 @@
     background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
     color: #2f4e70;
     box-shadow:
-      6px 6px 14px rgba(163, 177, 198, 0.55),
-      -5px -5px 12px rgba(255, 255, 255, 0.95),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      -5px -5px 12px rgba(255, 255, 255, 0.9),
+      6px 6px 13px rgba(23, 43, 77, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 2px rgba(23, 43, 77, 0.06);
   }
 
   .neu-chip[data-active="true"] {
     background-image: linear-gradient(150deg, #1280e6 0%, #0072ce 55%, #00a8d6 100%);
     color: #fff;
     box-shadow:
-      6px 6px 16px rgba(0, 114, 206, 0.4),
       -5px -5px 12px rgba(255, 255, 255, 0.92),
+      6px 6px 14px rgba(0, 114, 206, 0.42),
       inset 0 1px 0 rgba(255, 255, 255, 0.45),
       inset 0 -3px 8px rgba(0, 58, 108, 0.4),
       0 0 14px rgba(0, 210, 255, 0.3);
@@ -401,10 +405,10 @@
     @apply grid place-items-center rounded-[22px];
     background-image: linear-gradient(145deg, #fbfdff 0%, #eaf0f7 55%, #dfe7f0 100%);
     box-shadow:
-      10px 10px 22px rgba(163, 177, 198, 0.58),
-      -8px -8px 20px rgba(255, 255, 255, 0.98),
-      inset 1px 1px 0 rgba(255, 255, 255, 0.95),
-      inset -1px -1px 0 rgba(163, 177, 198, 0.2);
+      -7px -7px 16px rgba(255, 255, 255, 0.95),
+      8px 8px 18px rgba(23, 43, 77, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.98),
+      inset 0 -2px 4px rgba(23, 43, 77, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.7);
   }
 
@@ -412,8 +416,8 @@
     background-image: linear-gradient(150deg, #0072ce 0%, #0093cf 100%);
     color: #fff;
     box-shadow:
-      10px 10px 22px rgba(0, 114, 206, 0.45),
       -8px -8px 20px rgba(255, 255, 255, 0.95),
+      9px 9px 20px rgba(0, 114, 206, 0.45),
       inset 0 1px 0 rgba(255, 255, 255, 0.45),
       0 0 18px rgba(0, 210, 255, 0.35);
   }
@@ -445,26 +449,27 @@
     @apply relative flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all duration-200;
     background-image: linear-gradient(145deg, #f5f8fc 0%, #e4ebf4 100%);
     box-shadow:
-      8px 8px 18px rgba(163, 177, 198, 0.5),
       -7px -7px 16px rgba(255, 255, 255, 0.95),
-      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      8px 8px 17px rgba(23, 43, 77, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92),
+      inset 0 -2px 4px rgba(23, 43, 77, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.65);
   }
 
   .neu-check:hover:not([data-checked="true"]):not(:disabled) {
     transform: translateY(-1.5px);
     box-shadow:
-      10px 10px 22px rgba(163, 177, 198, 0.55),
-      -8px -8px 18px rgba(255, 255, 255, 1);
+      -8px -8px 18px rgba(255, 255, 255, 1),
+      10px 10px 22px rgba(23, 43, 77, 0.18);
   }
 
   .neu-check[data-checked="true"] {
     background-image: linear-gradient(145deg, #dfe6ef 0%, #d5dee9 100%);
     box-shadow:
-      inset 5px 5px 12px rgba(150, 165, 188, 0.65),
-      inset -5px -5px 12px rgba(255, 255, 255, 0.98),
-      0 0 0 2px rgba(0, 210, 255, 0.25),
-      0 0 16px rgba(0, 210, 255, 0.18);
+      inset 5px 5px 11px rgba(23, 43, 77, 0.2),
+      inset -5px -5px 11px rgba(255, 255, 255, 0.98),
+      0 0 0 2px rgba(0, 210, 255, 0.28),
+      0 0 16px rgba(0, 210, 255, 0.2);
     border-color: rgba(0, 210, 255, 0.35);
   }
 
@@ -492,16 +497,17 @@
     @apply text-navy-600;
     background-image: linear-gradient(145deg, #f4f8fc 0%, #e3eaf3 100%);
     box-shadow:
-      6px 6px 14px rgba(163, 177, 198, 0.45),
-      -5px -5px 12px rgba(255, 255, 255, 0.95);
+      -5px -5px 12px rgba(255, 255, 255, 0.95),
+      6px 6px 13px rgba(23, 43, 77, 0.14);
   }
   .nav-link[data-active="true"] {
     @apply text-white;
     background-image: linear-gradient(150deg, #16405f 0%, #082b49 55%, #061f35 100%);
     box-shadow:
-      12px 14px 28px rgba(122, 138, 163, 0.5),
       -8px -8px 20px rgba(255, 255, 255, 0.9),
+      10px 12px 24px rgba(23, 43, 77, 0.34),
       inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.35),
       0 0 18px rgba(0, 210, 255, 0.22);
   }
   .nav-link[data-active="true"]::before {
@@ -525,6 +531,17 @@
     border-radius: 999px;
     filter: blur(62px);
     pointer-events: none;
+  }
+
+  /* Metric digits: cobalt → radium gradient with a soft glow. */
+  .stat-value {
+    @apply font-display font-semibold leading-none tracking-[-0.02em];
+    background-image: linear-gradient(145deg, #0072ce 0%, #00a4e4 55%, #00d2ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85))
+      drop-shadow(0 4px 10px rgba(0, 114, 206, 0.25));
   }
 
   .text-gradient-blue {

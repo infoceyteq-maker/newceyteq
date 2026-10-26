@@ -78,7 +78,7 @@ export function ContactSection() {
         </div>
 
         {/* Enquiry form */}
-        <div className="relative overflow-hidden rounded-neu-lg border border-white/70 bg-[linear-gradient(150deg,#f9fbfe_0%,#eef3f9_45%,#dfe7f0_100%)] p-6 shadow-[26px_26px_58px_rgba(148,163,186,0.5),-20px_-20px_50px_rgba(255,255,255,0.98)] sm:p-8">
+        <div className="neu-3d relative overflow-hidden rounded-neu-lg p-6 sm:p-8">
           <div className="glow-blob -right-10 -top-12 h-40 w-40 bg-ceyteq-neon/25" />
           <div className="relative">
             <div className="flex items-center justify-between gap-3">

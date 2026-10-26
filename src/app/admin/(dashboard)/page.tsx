@@ -101,7 +101,7 @@ export default async function AdminOverviewPage() {
                   <Glyph size={16} />
                 </span>
               </div>
-              <p className="mt-3 font-display text-[30px] font-semibold leading-none text-navy-700">
+              <p className="stat-value mt-3 text-[30px]">
                 {card.value}
               </p>
               <p className="mt-1.5 truncate text-[11.5px] font-semibold text-navy-300">{card.sub}</p>

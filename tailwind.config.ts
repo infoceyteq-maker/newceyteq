@@ -51,17 +51,18 @@ const config: Config = {
         pill: "999px",
       },
       boxShadow: {
-        neu: "18px 18px 36px rgba(163,177,198,0.55), -14px -14px 32px rgba(255,255,255,0.95)",
-        "neu-sm": "10px 10px 22px rgba(163,177,198,0.5), -8px -8px 18px rgba(255,255,255,0.92)",
-        "neu-lg": "30px 30px 66px rgba(148,163,186,0.5), -22px -22px 54px rgba(255,255,255,0.98)",
-        "neu-inset":
-          "inset 6px 6px 14px rgba(163,177,198,0.62), inset -6px -6px 14px rgba(255,255,255,0.95)",
+        /* Light from the top-left: crisp white highlight + soft navy-tinted drop. */
+        neu: "-8px -8px 18px rgba(255,255,255,0.85), 10px 10px 22px rgba(23,43,77,0.13), inset 0 1px 0 rgba(255,255,255,0.95)",
+        "neu-sm": "-4px -4px 10px rgba(255,255,255,0.8), 4px 4px 10px rgba(0,0,0,0.1)",
+        "neu-md": "-6px -6px 14px rgba(255,255,255,0.85), 7px 7px 16px rgba(23,43,77,0.13)",
+        "neu-lg": "-14px -14px 30px rgba(255,255,255,0.95), 20px 20px 42px rgba(23,43,77,0.17)",
+        "neu-inset": "inset 5px 5px 10px rgba(23,43,77,0.13), inset -5px -5px 10px rgba(255,255,255,0.95)",
         "neu-inset-sm":
-          "inset 3px 3px 8px rgba(163,177,198,0.55), inset -3px -3px 8px rgba(255,255,255,0.95)",
+          "inset 3px 3px 7px rgba(23,43,77,0.12), inset -3px -3px 7px rgba(255,255,255,0.95)",
         "neu-pressed":
-          "inset 3px 3px 8px rgba(163,177,198,0.65), inset -3px -3px 8px rgba(255,255,255,0.9), 0 1px 0 rgba(255,255,255,0.6)",
+          "inset 4px 4px 10px rgba(23,43,77,0.18), inset -4px -4px 10px rgba(255,255,255,0.9), 0 1px 0 rgba(255,255,255,0.6)",
         "navy-neu":
-          "14px 14px 30px rgba(140,153,175,0.55), -12px -12px 28px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 10px rgba(0,0,0,0.35)",
+          "-10px -10px 24px rgba(255,255,255,0.9), 12px 12px 28px rgba(23,43,77,0.3), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 10px rgba(0,0,0,0.35)",
         glow: "0 0 0 1px rgba(0,114,206,0.16), 0 12px 32px rgba(0,114,206,0.3)",
         "glow-lg": "0 0 0 1px rgba(0,114,206,0.22), 0 20px 54px rgba(0,114,206,0.4)",
         neon: "0 0 0 1px rgba(0,210,255,0.4), 0 0 18px rgba(0,210,255,0.45), 0 12px 30px rgba(0,114,206,0.35)",
