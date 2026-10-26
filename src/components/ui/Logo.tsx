@@ -51,7 +51,7 @@ export function Logo({ href = "/", className, height = 40, priority, plate }: Lo
 export function LogoMark({ size = 40, className }: { size?: number; className?: string }) {
   return (
     <Image
-      src="/brand/ceyteq-mark.png"
+      src="/brand/ceyteq-mark.svg"
       alt=""
       width={size}
       height={size}

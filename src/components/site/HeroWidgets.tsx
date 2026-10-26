@@ -5,7 +5,41 @@ import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
-const DAYS = ["Wed", "Thu", "Fri"];
+const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function colomboParts() {
+  const formatter = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Colombo",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    weekday: "short",
+  });
+  const map: Record<string, string> = {};
+  for (const part of formatter.formatToParts(new Date())) {
+    if (part.type !== "literal") map[part.type] = part.value;
+  }
+  return map;
+}
+
+/** The three calendar days around today in Colombo time. */
+function calendarDays() {
+  const parts = colomboParts();
+  const today = new Date(`${parts.year}-${parts.month}-${parts.day}T12:00:00Z`);
+  return Array.from({ length: 3 }, (_, index) => {
+    const day = new Date(today);
+    day.setUTCDate(today.getUTCDate() - 1 + index);
+    return {
+      label: DOW[day.getUTCDay()],
+      number: day.getUTCDate(),
+      isToday: index === 1,
+    };
+  });
+}
 
 function useColomboTime() {
   const [now, setNow] = useState<{ hours: string; minutes: string; suffix: string; date: string; day: string } | null>(
@@ -14,27 +48,16 @@ function useColomboTime() {
 
   useEffect(() => {
     const tick = () => {
-      const formatter = new Intl.DateTimeFormat("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-        timeZone: "Asia/Colombo",
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        weekday: "short",
-      });
-      const parts = formatter.formatToParts(new Date());
-      const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
-      const hour24 = Number(get("hour"));
+      const parts = colomboParts();
+      const hour24 = Number(parts.hour);
       const suffix = hour24 >= 12 ? "pm" : "am";
       const displayHour = hour24 % 12 === 0 ? 12 : hour24 % 12;
       setNow({
         hours: String(displayHour).padStart(2, "0"),
-        minutes: get("minute"),
+        minutes: parts.minute,
         suffix,
-        date: `${get("year")}-${get("month")}-${get("day")}`,
-        day: get("weekday"),
+        date: `${parts.year}-${parts.month}-${parts.day}`,
+        day: parts.weekday,
       });
     };
     tick();
@@ -48,6 +71,7 @@ function useColomboTime() {
 export function HeroWidgets({ formCount, submissionCount }: { formCount: number; submissionCount: number }) {
   const now = useColomboTime();
   const [activeDay, setActiveDay] = useState(1);
+  const days = calendarDays();
   const [dock, setDock] = useState(0);
 
   const hours = now?.hours ?? "10";
@@ -111,9 +135,9 @@ export function HeroWidgets({ formCount, submissionCount }: { formCount: number;
         {/* Date card */}
         <div className="neu rounded-[26px] p-3.5">
           <div className="flex items-center justify-between gap-1.5">
-            {DAYS.map((day, index) => (
+            {days.map((day, index) => (
               <button
-                key={day}
+                key={`${day.label}-${day.number}`}
                 type="button"
                 onClick={() => setActiveDay(index)}
                 aria-pressed={activeDay === index}
@@ -130,16 +154,18 @@ export function HeroWidgets({ formCount, submissionCount }: { formCount: number;
                     activeDay === index ? "text-ceyteq-200" : "text-navy-300",
                   )}
                 >
-                  {day}
+                  {day.label}
                 </span>
                 <span className="font-display text-[15px] font-semibold leading-none">
-                  {6 + index}
+                  {day.number}
                 </span>
               </button>
             ))}
           </div>
           <p className="mt-2.5 flex items-center justify-between text-[10.5px] font-semibold text-navy-400">
-            <span className="tabular-nums">{date}</span>
+            <span className="tabular-nums">
+              {date.slice(0, 4)} {MONTHS[Number(date.slice(5, 7)) - 1] ?? ""} {date.slice(8, 10)}
+            </span>
             <span className="rounded-md bg-white/60 px-1.5 py-0.5 text-navy-300">Kam</span>
           </p>
         </div>

@@ -24,8 +24,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Ceyteq" }],
   icons: {
-    icon: [{ url: "/brand/ceyteq-mark.png", type: "image/png" }],
-    apple: [{ url: "/brand/ceyteq-mark.png" }],
+    icon: [
+      { url: "/brand/ceyteq-mark.svg", type: "image/svg+xml" },
+      { url: "/brand/ceyteq-mark.png", sizes: "256x256", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
     title: "Ceyteq Digital Race",

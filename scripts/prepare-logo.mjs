@@ -9,7 +9,10 @@
  *      inside the "Q" / rings is preserved),
  *   2. rebuild a per-pixel alpha channel with edge feathering,
  *   3. un-premultiply the colour that was mixed with white (kills white fringing),
- *   4. trim the empty margins, then export @1x/@2x PNGs (and a square favicon).
+ *   4. trim the empty margins, then export @1x/@2x PNGs.
+ *
+ * The square favicon/app icon is a hand-drawn SVG (`public/brand/ceyteq-mark.svg`)
+ * that mirrors the ring + circuit motif, rasterised here for older clients.
  *
  * Run with:  npm run logo
  */
@@ -112,17 +115,17 @@ const tw = trimmedMeta.info.width;
 const th = trimmedMeta.info.height;
 
 await base.clone().resize({ width: 900, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, "ceyteq-logo.png"));
-await base.clone().resize({ width: 1800, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, "ceyteq-logo@2x.png"));
+await base.clone().resize({ width: 1400, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, "ceyteq-logo@2x.png"));
 
-// Square icon: just the "C" ring mark (right hand side of the lockup).
-const iconCropWidth = Math.round(th * 1.02);
-const iconLeft = Math.max(0, tw - iconCropWidth);
-await base
-  .clone()
-  .extract({ left: iconLeft, top: 0, width: iconCropWidth, height: th })
-  .resize(512, 512, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+// Square icon: rendered from the crisp SVG mark (no bitmap cropping artefacts).
+await sharp(path.join(OUT_DIR, "ceyteq-mark.svg"), { density: 600 })
+  .resize(256, 256)
   .png({ compressionLevel: 9 })
   .toFile(path.join(OUT_DIR, "ceyteq-mark.png"));
+await sharp(path.join(OUT_DIR, "ceyteq-mark.svg"), { density: 600 })
+  .resize(180, 180)
+  .png({ compressionLevel: 9 })
+  .toFile(path.join(OUT_DIR, "apple-touch-icon.png"));
 
 // Small header wordmark (fast first paint, crisp on retina at 2x).
 await base.clone().resize({ width: 460, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(path.join(OUT_DIR, "ceyteq-logo-sm.png"));
