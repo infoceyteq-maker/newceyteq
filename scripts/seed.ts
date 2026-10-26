@@ -63,6 +63,8 @@ async function main() {
   if (existing) {
     console.log(`• admin ${email} already exists (left unchanged)`);
   } else {
+    /* With ADMIN_PASSWORD set, the same password drives both the master login
+       and this hashed fallback account. */
     const password = bootstrap.password ?? (generatedPassword = generatePassword());
     const admin = await createUser({
       email,
@@ -80,6 +82,13 @@ async function main() {
   }
 
   console.log(`• ${await countUsers()} administrator account(s)`);
+  if (bootstrap.password) {
+    console.log("• master login: ADMIN_PASSWORD (single administrator, email optional)");
+  } else {
+    console.log(
+      "! ADMIN_PASSWORD is not set — only the hashed database account can sign in until it is.",
+    );
+  }
 
   /* -------------------------------- form --------------------------------- */
   const existingForm = await getFormBySlug(ONBOARDING_TEMPLATE.slug);

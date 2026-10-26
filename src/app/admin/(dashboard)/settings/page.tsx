@@ -8,6 +8,7 @@ import { countUsers } from "@/lib/repos/users";
 import { formatDateTime, initials } from "@/lib/utils";
 import { TEMPLATES } from "@/lib/templates";
 import { roleLabel } from "@/lib/admin-modules";
+import { envAdminCredentials } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Settings" };
@@ -22,6 +23,10 @@ export default async function SettingsPage() {
   ]);
 
   const isRemote = db.driver === "node-postgres";
+  const masterLogin = envAdminCredentials() !== null;
+  const liveSync = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
   const database = isRemote
     ? `PostgreSQL · ${db.host ?? "remote"}`
     : "PGlite (embedded PostgreSQL)";
@@ -56,13 +61,24 @@ export default async function SettingsPage() {
           </h2>
           <dl className="mt-4 space-y-3 text-[12.5px]">
             {[
-              { label: "Password hashing", value: "scrypt · 64-byte key · per-user salt" },
+              {
+                label: "Administrator login",
+                value: masterLogin
+                  ? "Single master password (ADMIN_PASSWORD)"
+                  : "Database account only — set ADMIN_PASSWORD for master login",
+              },
+              {
+                label: "Password handling",
+                value: masterLogin
+                  ? "Constant-time SHA-256 compare · scrypt for database accounts"
+                  : "scrypt · 64-byte key · per-user salt",
+              },
               { label: "Session", value: "HMAC-SHA256 signed, HttpOnly, SameSite=Lax" },
               { label: "Session lifetime", value: "7 days" },
               { label: "Submission validation", value: "Zod schema generated from the form definition" },
               { label: "Abuse protection", value: "Honeypot + timing check + per-IP throttle" },
             ].map((item) => (
-              <div key={item.label} className="flex flex-col gap-0.5 border-t border-white/50 pt-2.5 first:border-0 first:pt-0">
+              <div key={item.label} className="flex flex-col gap-0.5 border-t border-white/40 pt-2.5 first:border-0 first:pt-0">
                 <dt className="font-bold uppercase tracking-[0.08em] text-navy-300 text-[10px]">
                   {item.label}
                 </dt>
@@ -80,14 +96,14 @@ export default async function SettingsPage() {
           <dl className="mt-4 space-y-3 text-[12.5px]">
             {[
               { label: "Provider", value: database },
-              { label: "ORM", value: "Prisma 6 · portable schema" },
+              { label: "Query layer", value: "postgres-js / PGlite · shared SQL schema" },
               { label: "Forms", value: String(formCount) },
               { label: "Sections / fields", value: "form_sections → form_fields" },
               { label: "Submissions", value: String(submissionCount) },
               { label: "Admin accounts", value: String(adminCount) },
               { label: "Engine", value: db.version?.split(" on ")[0] ?? "unknown" },
             ].map((item) => (
-              <div key={item.label} className="flex flex-col gap-0.5 border-t border-white/50 pt-2.5 first:border-0 first:pt-0">
+              <div key={item.label} className="flex flex-col gap-0.5 border-t border-white/40 pt-2.5 first:border-0 first:pt-0">
                 <dt className="text-[10px] font-bold uppercase tracking-[0.08em] text-navy-300">
                   {item.label}
                 </dt>
@@ -108,6 +124,24 @@ export default async function SettingsPage() {
             <code className="mt-2 block overflow-x-auto rounded-lg bg-navy-700/90 px-3 py-2 font-mono text-[10.5px] text-ceyteq-200">
               DATABASE_URL=postgresql://postgres.[ref]:[pw]@aws-0-[region].pooler.supabase.com:6543/postgres
             </code>
+          </div>
+
+          <div className="neu-well mt-3 rounded-xl p-3.5">
+            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-navy-300">
+              <span
+                className={
+                  liveSync
+                    ? "h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"
+                    : "h-1.5 w-1.5 rounded-full bg-navy-200"
+                }
+              />
+              Realtime sync · {liveSync ? "enabled" : "manual refresh"}
+            </p>
+            <p className="mt-1.5 text-[11.5px] leading-relaxed text-navy-400">
+              {liveSync
+                ? "The dashboard subscribes to the PII-free ceyteq_signals feed and re-renders the moment a client, lead, submission or form changes."
+                : "Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then run supabase/realtime.sql to switch on live dashboard refresh."}
+            </p>
           </div>
         </section>
 

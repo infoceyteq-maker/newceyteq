@@ -18,7 +18,7 @@ import {
   sanitizeUrl,
 } from "@/lib/sanitize";
 
-type PrismaField = {
+type FormFieldRecord = {
   id: string;
   key: string;
   label: string;
@@ -31,16 +31,16 @@ type PrismaField = {
   config: string;
 };
 
-type PrismaSection = {
+type FormSectionRecord = {
   id: string;
   title: string;
   description: string;
   icon: string;
   position: number;
-  fields: PrismaField[];
+  fields: FormFieldRecord[];
 };
 
-type PrismaForm = {
+type FormRecord = {
   id: string;
   slug: string;
   title: string;
@@ -52,7 +52,7 @@ type PrismaForm = {
   accent: string;
   createdAt: Date | string;
   updatedAt: Date | string;
-  sections: PrismaSection[];
+  sections: FormSectionRecord[];
 };
 
 function safeJson<T>(value: string, fallback: T): T {
@@ -107,7 +107,7 @@ export function normaliseFieldType(type: string): FieldType {
   return (allowed as string[]).includes(type) ? (type as FieldType) : "text";
 }
 
-export function fieldDTO(field: PrismaField): FormFieldDTO {
+export function fieldDTO(field: FormFieldRecord): FormFieldDTO {
   return {
     id: field.id,
     key: field.key,
@@ -122,7 +122,7 @@ export function fieldDTO(field: PrismaField): FormFieldDTO {
   };
 }
 
-export function sectionDTO(section: PrismaSection): FormSectionDTO {
+export function sectionDTO(section: FormSectionRecord): FormSectionDTO {
   return {
     id: section.id,
     title: section.title,
@@ -133,7 +133,7 @@ export function sectionDTO(section: PrismaSection): FormSectionDTO {
   };
 }
 
-export function formDTO(form: PrismaForm): FormDTO {
+export function formDTO(form: FormRecord): FormDTO {
   return {
     id: form.id,
     slug: form.slug,

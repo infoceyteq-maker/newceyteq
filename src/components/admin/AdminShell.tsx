@@ -259,6 +259,7 @@ export function AdminShell({
         <div className="neu flex items-center justify-between rounded-pill px-3 py-2.5">
           <Logo href="/admin" height={28} />
           <div className="flex items-center gap-2">
+            <LiveSignal compact />
             <Link
               href="/admin/leads"
               className="neu-btn relative h-9 w-9 !px-0"

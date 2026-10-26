@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Neumorphism",
     "Next.js",
     "Supabase",
-    "Prisma",
+    "Supabase",
   ],
   authors: [{ name: "Ceyteq" }],
   icons: {

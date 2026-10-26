@@ -52,13 +52,14 @@ header, contact section, form confirmation screen and footer.
 ```bash
 cp .env.example .env     # then fill AUTH_SECRET and ADMIN_PASSWORD
 npm install
-npm run db:seed          # creates the admin user + the onboarding form, nothing else
+npm run db:seed          # provisions the onboarding form (+ optional account), no demo data
 npm run dev              # http://localhost:3000
 ```
 
-Open the dashboard at **/admin** and sign in with the credentials you put in `.env`
-(`ADMIN_EMAIL` / `ADMIN_PASSWORD`). There is no built-in demo account: if you leave
-`ADMIN_PASSWORD` blank, `db:seed` generates a strong password and prints it once.
+Open the dashboard at **/admin** and sign in with the single administrator password you put in
+`.env` as `ADMIN_PASSWORD` — the email field is optional. There is no built-in demo account:
+`db:seed` only provisions the onboarding form and, if `ADMIN_PASSWORD` is blank, a hashed database
+fallback account whose generated password it prints once.
 
 The public onboarding form is live at **/form/restaurant-onboarding**.
 
@@ -114,15 +115,15 @@ leads            standalone pipeline: social / email / phone / website enquiries
    # or paste db/schema.sql into the Supabase SQL editor
    ```
 
-4. `npm run db:seed` to create the first admin, then `npm run dev`.
+4. `npm run db:seed` to provision the onboarding form (and the optional fallback account), then `npm run dev`.
 
 `src/lib/db/index.ts` picks the driver from `DATABASE_URL`: `postgres://…` uses the pooled
 `pg` client, anything else uses PGlite. Both expose the same `query/one/transaction` API with
 `$1` placeholders, and every statement in the codebase is valid PostgreSQL.
 
-> Prisma note: the data access layer is intentionally ORM-free (a thin typed repository over
-> `pg`). That keeps the app portable — the same SQL runs on Supabase, Neon, RDS or the embedded
-> PGlite, and there are no native engine binaries to fetch at build time.
+> The data access layer is intentionally ORM-free: a thin typed repository over `pg` / PGlite. The
+> same SQL runs on Supabase, Neon, RDS or the embedded database, and there are no native query-engine
+> binaries to fetch at build time.
 
 ---
 
@@ -135,7 +136,7 @@ src/lib/sanitize.ts       input sanitisers (text, email, tel, URL, identifiers, 
 src/lib/rate-limit.ts     Upstash Redis / in-memory sliding-window limiter
 src/lib/env.ts            validated environment + secure-configuration guard
 src/lib/http.ts           shared JSON parsing, error shapes and admin write guard
-src/lib/forms.ts          Prisma-free DTO mappers + Zod validation generated per field
+src/lib/forms.ts          DTO mappers + Zod validation generated per field
 src/lib/templates.ts      The production restaurant onboarding definition
 src/lib/repos/*.ts        Typed SQL repositories (forms, submissions, users)
 src/lib/services/*.ts     Business logic used by pages and route handlers
